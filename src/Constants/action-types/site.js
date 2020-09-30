@@ -1,0 +1,4 @@
+export default {
+  AUTH_LOGIN: 'EXPRESS_AUTH_LOGIN',
+  AUTH_LOGOUT: 'EXPRESS_AUTH_LOGOUT',
+}
