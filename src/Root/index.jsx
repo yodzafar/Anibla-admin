@@ -3,7 +3,6 @@ import {useSelector} from "react-redux";
 import App from '../Containers/App'
 import Auth from '../Containers/Auth'
 
-
 export default () => {
   const auth = useSelector(({auth}) => auth)
 
@@ -11,8 +10,8 @@ export default () => {
     <>
       {
         auth.token
-        ? <App />
-        :<Auth />
+          ? <App/>
+          : <Auth/>
       }
     </>
   );

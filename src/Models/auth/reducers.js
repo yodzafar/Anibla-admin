@@ -1,7 +1,8 @@
 import siteActionTypes from '../../Constants/action-types/site'
 
 const defaultState = {
-  token: localStorage.getItem('token')
+  token: localStorage.getItem('token'),
+  data: {}
 };
 
 const map = {
@@ -13,6 +14,9 @@ const map = {
   [siteActionTypes.AUTH_LOGOUT]: (state) => {
     localStorage.removeItem('token');
     return { ...state, token: '' };
+  },
+  [siteActionTypes.AUTH_ME]: (state, {data}) => {
+    return {...state, data}
   }
 };
 

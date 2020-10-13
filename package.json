@@ -12,6 +12,7 @@
 		"eslint-config-google": "^0.14.0",
 		"formik": "^2.1.5",
 		"history": "^4.10.1",
+		"jwt-decode": "^3.0.0",
 		"lodash": "^4.17.20",
 		"mdi-react": "^7.3.0",
 		"moment": "^2.27.0",

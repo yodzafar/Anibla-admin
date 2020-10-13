@@ -1,23 +1,54 @@
 import React from 'react'
 import Popover from "@material-ui/core/Popover";
+import {PopoverChildren, PopoverContainer, PopoverContent, PopoverContentItem} from "./style";
 
-export default ({id, anchorEl, handleClose, open}) => {
+export default ({ children, popoverData, itemId}) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Popover
-      id={id}
-      open={open}
-      anchorEl={anchorEl}
-      onClose={handleClose}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
-      }}
-    >
-<div>1111</div>
-    </Popover>
+    <PopoverContainer>
+      <PopoverChildren onClick={handleClick}>
+        {
+          children
+        }
+      </PopoverChildren>
+
+      <Popover
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <PopoverContent>
+          {
+            popoverData && popoverData.length > 0 && popoverData.map(item => (
+              <PopoverContentItem
+                key={item.id}
+                onClick={() => itemId ? item.onClick(itemId) : item.onClick()}
+                divider={item.divider}
+              >
+                {item.icon}
+                <span>{item.title}</span>
+              </PopoverContentItem>
+            ))
+          }
+        </PopoverContent>
+      </Popover>
+    </PopoverContainer>
   )
 }
