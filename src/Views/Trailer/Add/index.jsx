@@ -1,6 +1,5 @@
 import React from 'react'
 import BodyHeader from '../../../Components/BodyHeader'
-import {CategoryForm} from '../../../Components/Category'
 import {ContentContainer} from "../../../Components/GlobalStyles";
 
 export default () => {
@@ -8,7 +7,6 @@ export default () => {
     <>
       <BodyHeader/>
       <ContentContainer>
-        <CategoryForm />
       </ContentContainer>
     </>
   )

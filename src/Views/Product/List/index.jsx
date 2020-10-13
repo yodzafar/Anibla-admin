@@ -4,6 +4,7 @@ import Button from "../../../Components/FormElements/Button";
 import PlusIcon from "mdi-react/PlusIcon";
 import {ContentContainer} from "../../../Components/GlobalStyles";
 import React from "react";
+import {ROUTE_URL, URL_TITLE} from "../../../Constants/url";
 
 export default () => {
   const {push} = useHistory()
@@ -13,10 +14,12 @@ export default () => {
         <Button
           buttonstyle='light'
           variantstyle='rounded'
-          onClick={() => push('/stuff/add')}
+          onClick={() => push(ROUTE_URL.PRODUCT.ADD)}
         >
           <PlusIcon size={16}/>
-          Hodim qo'shish
+          {
+            URL_TITLE.PRODUCT.TITLE_ADD
+          }
         </Button>
       </ContentHeader>
       <ContentContainer>
