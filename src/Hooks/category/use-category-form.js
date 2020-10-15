@@ -2,11 +2,13 @@ import {useFormik} from "formik";
 import * as Yup from 'yup'
 import {useCallback, useEffect, useState} from "react";
 import category from "../../Service/category";
-import {useParams, useHistory} from 'react-router-dom'
+import {useDispatch} from "react-redux";
+import {getCategoryList} from "../../Models/category";
+import {hideModal} from "../../Models/site";
 
-export const useCategoryForm = () => {
-  const {editID} = useParams()
-  const {push} = useHistory()
+export const useCategoryForm = (props) => {
+  const {id} = props
+  const dispatch = useDispatch()
   const [error, setError] = useState({})
   const [initialValues, setInitialValues] = useState({
     nameuz: '',
@@ -29,11 +31,12 @@ export const useCategoryForm = () => {
         nameru,
       }
 
-      if (editID) {
-        category.updateCategory(editID, data)
+      if (id) {
+        category.updateCategory(id, data)
           .then(res => {
             if (res.success) {
-              push('/category')
+              dispatch(getCategoryList())
+              dispatch(hideModal())
             }
           }).finally(() => setSubmitting(false))
           .catch(e => {
@@ -44,6 +47,7 @@ export const useCategoryForm = () => {
           .then(res => {
             if (res.success) {
               resetForm()
+              dispatch(getCategoryList())
             }
           }).finally(() => setSubmitting(false))
           .catch(e => {
@@ -54,8 +58,8 @@ export const useCategoryForm = () => {
   })
 
   const getCategoryInfo = useCallback(() => {
-    if (editID) {
-      category.getCategory(editID)
+    if (id) {
+      category.getCategory(id)
         .then(res => {
           if (res.success) {
             setInitialValues({
@@ -67,7 +71,7 @@ export const useCategoryForm = () => {
         console.log(e);
       })
     }
-  }, [editID])
+  }, [id])
 
   useEffect(() => {
     const errData = Object.keys(formik.errors)

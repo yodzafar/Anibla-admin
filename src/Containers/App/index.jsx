@@ -4,6 +4,8 @@ import Navbar from "../../Components/Navbar";
 import Sidebar from "../../Components/Sidebar";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import routes from '../../Routes/index'
+import {SiteModal} from "../../Components/Modal";
+
 
 export default () => {
   return (
@@ -12,7 +14,7 @@ export default () => {
         <Navbar/>
         <Sidebar/>
         <AppContent>
-
+          <SiteModal />
           <Switch>
             {
               routes.map(route => (

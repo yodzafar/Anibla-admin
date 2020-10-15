@@ -1,4 +1,4 @@
-import siteActionTypes from '../../Constants/action-types/site'
+import {AUTH_ACTION_TYPES} from "../../Constants/action-types/auth";
 
 const defaultState = {
   token: localStorage.getItem('token'),
@@ -6,16 +6,16 @@ const defaultState = {
 };
 
 const map = {
-  [siteActionTypes.AUTH_LOGIN]: (state, { token }) => {
+  [AUTH_ACTION_TYPES.AUTH_LOGIN]: (state, { token }) => {
     localStorage.setItem('token', token);
     window.location.replace('/');
     return ({ ...state, token });
   },
-  [siteActionTypes.AUTH_LOGOUT]: (state) => {
+  [AUTH_ACTION_TYPES.AUTH_LOGOUT]: (state) => {
     localStorage.removeItem('token');
     return { ...state, token: '' };
   },
-  [siteActionTypes.AUTH_ME]: (state, {data}) => {
+  [AUTH_ACTION_TYPES.AUTH_ME]: (state, {data}) => {
     return {...state, data}
   }
 };

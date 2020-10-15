@@ -1,21 +1,29 @@
-import {useHistory} from "react-router-dom";
 import ContentHeader from "../../../Components/BodyHeader";
 import Button from "../../../Components/FormElements/Button";
 import PlusIcon from "mdi-react/PlusIcon";
 import {ContentContainer} from "../../../Components/GlobalStyles";
 import React from "react";
-import {ROUTE_URL, URL_TITLE} from "../../../Constants/url";
-import {GenreTable} from '../../../Components/Genre'
+import {URL_TITLE} from "../../../Constants/url";
+import {GenreForm, GenreTable} from '../../../Components/Genre'
+import {useDispatch} from "react-redux";
+import {showModal} from "../../../Models/site";
 
 export default () => {
-  const {push} = useHistory()
+  const dispatch = useDispatch()
+
+  const payload = {
+    open: true,
+    component: <GenreForm />,
+    props: null
+  }
+
   return (
     <>
       <ContentHeader>
         <Button
           buttonstyle='light'
           variantstyle='rounded'
-          onClick={() => push(ROUTE_URL.GENRE.ADD)}
+          onClick={() => dispatch(showModal(payload))}
         >
           <PlusIcon size={16}/>
           {URL_TITLE.GENRE.TITLE_ADD}

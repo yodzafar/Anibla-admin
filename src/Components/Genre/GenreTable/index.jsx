@@ -1,30 +1,37 @@
 import React from "react";
 import {ContentContainerInner, MoreIcon, TableLink} from "../../GlobalStyles";
 import Table from '../../Table'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import DeleteIcon from "mdi-react/DeleteIcon";
 import PencilIcon from "mdi-react/PencilIcon";
-import {useHistory} from 'react-router-dom'
 import Popover from '../../Popover'
 import moment from "moment";
 import {ROUTE_URL} from "../../../Constants/url";
 import {useGenreList} from "../../../Hooks/genre";
 import SettingsIcon from "mdi-react/SettingsIcon";
+import {showModal} from "../../../Models/site";
+import {GenreForm} from "../index";
 
 export default () => {
   const {removeItem} =  useGenreList()
-  const {push} = useHistory()
+  const dispatch = useDispatch()
   const genre = useSelector(({genre}) => genre)
+
+  const renderModal = (id) => ({
+    open: true,
+    component: <GenreForm id={id} />,
+    props: null
+  })
 
   const popoverData = [
     {
-      id: 1,
+      id: 'edit',
       title: "Tahrirlash",
       icon: <PencilIcon size={16}/>,
-      onClick: (id) => push(`/category/edit/${id}`)
+      onClick: (id) => dispatch(showModal(renderModal(id)))
     },
     {
-      id: 2,
+      id: 'delete',
       title: "O'chirish",
       icon: <DeleteIcon size={16}/>,
       onClick: (id) => removeItem(id)

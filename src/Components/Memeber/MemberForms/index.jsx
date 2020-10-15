@@ -1,41 +1,41 @@
 import React from 'react'
-import {NormalInput} from "../../FormElements/Inputs";
-import {useCategoryForm} from "../../../Hooks/category";
 import {ButtonWrapper, Grid, SectionForm} from "../../GlobalStyles";
+import {FileUploadInput, NormalInput} from "../../FormElements/Inputs";
+import {useMemberForm} from "../../../Hooks/member";
 import Button from "../../FormElements/Button";
 import {Form} from "../../Form";
 import {useDispatch} from "react-redux";
 import {hideModal} from "../../../Models/site";
 
-export default (props) => {
-  const {formik} = useCategoryForm(props)
+export default () => {
   const dispatch = useDispatch()
-
+  const {formik} = useMemberForm()
   return (
-    <Form title="Kategoriya qo'shish">
+    <Form
+    title="Ishtirokchi qo'shish">
       <SectionForm onSubmit={formik.handleSubmit}>
         <Grid>
           <NormalInput
-            value={formik.values.nameuz}
-            name='nameuz'
-            onChange={(e) => formik.setFieldValue('nameuz', e)}
-            label="Kategoriya nomi (uz)"
-            error={formik.touched.nameuz && formik.errors.nameuz}
+            label="Ishtirokchi familiya ismi sharifi"
+            name="name"
+            value={formik.values.name}
+            onChange={(e) => formik.setFieldValue("name", e)}
             onBlur={formik.handleBlur}
+            error={formik.touched.name && formik.errors.name}
           />
-          <NormalInput
-            value={formik.values.nameru}
-            name='nameru'
-            onChange={(e) => formik.setFieldValue('nameru', e)}
-            label="Kategoriya nomi (ru)"
-            error={formik.touched.nameru && formik.errors.nameru}
+          <FileUploadInput
+            label="Ishtirokchi rasmini yuklang"
+            value={formik.values.file}
+            name="file"
+            onChange={(e) => formik.setFieldValue('file', e)}
             onBlur={formik.handleBlur}
+            error={formik.errors['file'] && formik.errors['file']}
           />
         </Grid>
         <ButtonWrapper>
           <Button
             type="button"
-            buttonstyle="danger"
+            buttonstyle='danger'
             onClick={() => dispatch(hideModal())}
           >
             Bekor qilish
@@ -45,8 +45,8 @@ export default (props) => {
             buttonstyle='primary'
             disabled={
               formik.isSubmitting
-              || (formik.touched.nameru && !!formik.errors.nameru)
-              || (formik.touched.nameuz && !!formik.errors.nameuz)
+              || (formik.touched.name && !!formik.errors.name)
+              || (!!formik.errors.file)
             }
           >
             Saqlash

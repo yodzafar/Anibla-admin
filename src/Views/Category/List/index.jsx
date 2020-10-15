@@ -2,19 +2,25 @@ import React from 'react'
 import ContentHeader from "../../../Components/BodyHeader";
 import Button from "../../../Components/FormElements/Button";
 import PlusIcon from "mdi-react/PlusIcon";
-import {useHistory} from 'react-router-dom'
 import {ContentContainer} from "../../../Components/GlobalStyles";
-import {CategoryTable} from "../../../Components/Category";
+import {CategoryForm, CategoryTable} from "../../../Components/Category";
+import {useDispatch} from "react-redux";
+import {showModal} from "../../../Models/site";
 
 export default () => {
-  const {push} = useHistory()
+  const dispatch = useDispatch()
+  const payload = {
+    open: true,
+    component: <CategoryForm />,
+    props: null
+  }
   return (
     <>
       <ContentHeader>
         <Button
           buttonstyle='light'
           variantstyle='rounded'
-          onClick={() => push('/category/add')}
+          onClick={() => dispatch(showModal(payload))}
         >
           <PlusIcon size={16}/>
           Kategoriya qo'shish

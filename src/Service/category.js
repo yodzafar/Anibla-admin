@@ -1,6 +1,5 @@
 import axios, {execute} from "./index";
 
-
 export default {
   createCategory : (data) => execute(axios.post('/category', data)),
   getAllCategory: () => execute(axios.get('/category')),

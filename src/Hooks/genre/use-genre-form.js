@@ -1,12 +1,14 @@
 import {useFormik} from "formik";
 import {useCallback, useEffect, useState} from "react";
-import {useHistory, useParams} from "react-router-dom";
 import * as Yup from "yup";
 import genre from "../../Service/genre";
+import {useDispatch} from "react-redux";
+import {getGenreList} from "../../Models/genre";
+import {hideModal} from "../../Models/site";
 
-export const useGenreForm = () => {
-  const {editID} = useParams()
-  const {push} = useHistory()
+export const useGenreForm = (props) => {
+  const {id} = props
+  const dispatch = useDispatch()
   const [error, setError] = useState({})
   const [initialValues, setInitialValues] = useState({
     nameuz: '',
@@ -29,11 +31,13 @@ export const useGenreForm = () => {
         nameru,
       }
 
-      if (editID) {
-        genre.updateGenre(editID, data)
+      if (id) {
+        genre.updateGenre(id, data)
           .then(res => {
             if (res.success) {
-              push('/category')
+              dispatch(getGenreList())
+              dispatch(hideModal())
+              resetForm()
             }
           }).finally(() => setSubmitting(false))
           .catch(e => {
@@ -43,6 +47,7 @@ export const useGenreForm = () => {
         genre.createGenre(data)
           .then(res => {
             if (res.success) {
+              dispatch(getGenreList())
               resetForm()
             }
           }).finally(() => setSubmitting(false))
@@ -54,8 +59,8 @@ export const useGenreForm = () => {
   })
 
   const getGenreInfo = useCallback(() => {
-    if (editID) {
-      genre.getGenre(editID)
+    if (id) {
+      genre.getGenre(id)
         .then(res => {
           if (res.success) {
             setInitialValues({
@@ -67,7 +72,7 @@ export const useGenreForm = () => {
         console.log(e);
       })
     }
-  }, [editID])
+  }, [id])
 
   useEffect(() => {
     const errData = Object.keys(formik.errors)

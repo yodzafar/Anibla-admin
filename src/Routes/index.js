@@ -1,12 +1,10 @@
-import {CategoryList, CategoryAdd, CategoryEdit} from '../Views/Category'
-import Generic from '../Views/Generic'
-import {GenreAdd, GenreEdit, GenreList} from "../Views/Genre";
+import {CategoryList} from '../Views/Category'
+import {GenreList} from "../Views/Genre";
 import {URL_TITLE, ROUTE_URL} from "../Constants/url";
-import {StuffAdd, StuffEdit, StuffList} from "../Views/Stuff";
-import {TrailerAdd, TrailerEdit, TrailerList} from "../Views/Trailer";
-import {ProductAdd, ProductEdit, ProductList} from "../Views/Product";
+import {MemberList} from "../Views/Memeber";
+import {TrailerList} from "../Views/Trailer";
+import {ProductList} from "../Views/Product";
 
-import LayersOutlineIcon from 'mdi-react/LayersOutlineIcon'
 import FilmIcon from "mdi-react/FilmIcon";
 import ViewCarouselOutlineIcon from "mdi-react/ViewCarouselOutlineIcon";
 import FormatListBulletedSquareIcon from "mdi-react/FormatListBulletedSquareIcon";
@@ -21,22 +19,6 @@ const category = [
     icon: FormatListBulletedSquareIcon,
     component: CategoryList,
   },
-  {
-    id: 'categoryAdd',
-    title: URL_TITLE.CATEGORY.TITLE_ADD,
-    path: ROUTE_URL.CATEGORY.ADD,
-    icon: LayersOutlineIcon,
-    component: CategoryAdd,
-    hidden: true
-  },
-  {
-    id: 'categoryEdit',
-    title: URL_TITLE.CATEGORY.TITLE_EDIT,
-    path: `${ROUTE_URL.CATEGORY.EDIT}/:editID`,
-    icon: LayersOutlineIcon,
-    component: CategoryEdit,
-    hidden: true
-  },
 ]
 
 const genre = [
@@ -46,49 +28,17 @@ const genre = [
     path: ROUTE_URL.GENRE.LIST,
     icon: ViewCarouselOutlineIcon,
     component: GenreList,
-  },
-  {
-    id: 'genreAdd',
-    title: URL_TITLE.GENRE.TITLE_ADD,
-    path: ROUTE_URL.GENRE.ADD,
-    icon: LayersOutlineIcon,
-    component: GenreAdd,
-    hidden: true
-  },
-  {
-    id: 'genreEdit',
-    title: URL_TITLE.GENRE.TITLE_EDIT,
-    path: `${ROUTE_URL.GENRE.EDIT}/editID`,
-    icon: LayersOutlineIcon,
-    component: GenreEdit,
-    hidden: true
-  },
+  }
 ]
 
-const stuff = [
+const member = [
   {
     id: 'stuffList',
-    title: URL_TITLE.STUFF.TITLE_PLURAL,
-    path: ROUTE_URL.STUFF.LIST,
+    title: URL_TITLE.MEMBER.TITLE_PLURAL,
+    path: ROUTE_URL.MEMBER.LIST,
     icon: AccountGroupOutlineIcon,
-    component: StuffList,
-  },
-  {
-    id: 'stuffAdd',
-    title: URL_TITLE.STUFF.TITLE_ADD,
-    path: ROUTE_URL.STUFF.ADD,
-    icon: LayersOutlineIcon,
-    component: StuffAdd,
-    hidden: true
-  },
-  {
-    id: 'stuffEdit',
-    title: URL_TITLE.STUFF.TITLE_EDIT,
-    path: `${ROUTE_URL.STUFF.EDIT}/editID`,
-    icon: LayersOutlineIcon,
-    component: StuffEdit,
-    hidden: true
-  },
+    component: MemberList,
+  }
 ]
 
 const trailer = [
@@ -98,23 +48,7 @@ const trailer = [
     path: ROUTE_URL.TRAILER.LIST,
     icon: FilmstripBoxMultipleIcon,
     component: TrailerList,
-  },
-  {
-    id: 'trailerAdd',
-    title: URL_TITLE.TRAILER.TITLE_ADD,
-    path: ROUTE_URL.TRAILER.ADD,
-    icon: LayersOutlineIcon,
-    component: TrailerAdd,
-    hidden: true
-  },
-  {
-    id: 'trailerEdit',
-    title: URL_TITLE.TRAILER.TITLE_EDIT,
-    path: `${ROUTE_URL.TRAILER.EDIT}/editID`,
-    icon: LayersOutlineIcon,
-    component: TrailerEdit,
-    hidden: true
-  },
+  }
 ]
 
 const product = [
@@ -124,36 +58,20 @@ const product = [
     path: ROUTE_URL.PRODUCT.LIST,
     icon: FilmIcon,
     component: ProductList,
-  },
-  {
-    id: 'productAdd',
-    title: URL_TITLE.STUFF.TITLE_ADD,
-    path: ROUTE_URL.PRODUCT.ADD,
-    icon: LayersOutlineIcon,
-    component: ProductAdd,
-    hidden: true
-  },
-  {
-    id: 'productEdit',
-    title: URL_TITLE.PRODUCT.TITLE_EDIT,
-    path: `${ROUTE_URL.PRODUCT.EDIT}/editID`,
-    icon: LayersOutlineIcon,
-    component: ProductEdit,
-    hidden: true
-  },
+  }
 ]
 
 export default [
   ...category,
   ...genre,
   ...trailer,
-  ...stuff,
+  ...member,
   ...product,
-  {
-    id: 'generic',
-    title: 'Generic',
-    path: '/generic',
-    icon: LayersOutlineIcon,
-    component: Generic
-  }
+  // {
+  //   id: 'generic',
+  //   title: 'Generic',
+  //   path: '/generic',
+  //   icon: LayersOutlineIcon,
+  //   component: Generic
+  // }
 ]

@@ -53,3 +53,7 @@ body {
 a, a:hover {
   text-decoration: none;
 }
+
+.ReactModal__Overlay--after-open {
+  z-index: 10000 !important;
+}

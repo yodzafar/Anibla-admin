@@ -6,10 +6,11 @@ import FormControl from "@material-ui/core/FormControl";
 export const StyledInput = styled(OutlinedInput)`
   && {
     input {
-      padding: 13.5px 16px;
+      padding: 10px 16px;
       font-family: 'Nunito', sans-serif;
       color: #495057;
       font-size: 14px;
+      min-height: 24px;
     }
   }
 `

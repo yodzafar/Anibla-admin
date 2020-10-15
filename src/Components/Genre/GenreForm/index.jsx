@@ -1,67 +1,58 @@
 import React from 'react'
-import Tabs from '../../Tabs'
 import {NormalInput} from "../../FormElements/Inputs";
-import {ButtonWrapper, SectionForm} from "../../GlobalStyles";
+import {ButtonWrapper, Grid, SectionForm} from "../../GlobalStyles";
 import Button from "../../FormElements/Button";
 import {useGenreForm} from "../../../Hooks/genre";
+import {Form} from "../../Form";
+import {useDispatch} from "react-redux";
+import {hideModal} from "../../../Models/site";
 
-export default () => {
-const {formik, error} = useGenreForm()
-
-  const uzFormInput = (
-    <NormalInput
-      value={formik.values.nameuz}
-      name='nameuz'
-      onChange={(e) => formik.setFieldValue('nameuz', e)}
-      label="Kategoriya nomi (uz)"
-      error={formik.touched.nameuz && formik.errors.nameuz}
-      onBlur={formik.handleBlur}
-    />
-  )
-
-  const ruFormInput = (
-    <NormalInput
-      value={formik.values.nameru}
-      name='nameru'
-      onChange={(e) => formik.setFieldValue('nameru', e)}
-      label="Название категории (ру)"
-      error={formik.touched.nameru && formik.errors.nameru}
-      onBlur={formik.handleBlur}
-    />
-  )
-
-  const tabData = [
-    {
-      id: 'uz',
-      title: "O'zbek",
-      components: [uzFormInput],
-    },
-    {
-      id: 'ru',
-      title: "Русский",
-      components: [ruFormInput]
-    }
-  ]
+export default (props) => {
+  const dispatch = useDispatch()
+  const {formik} = useGenreForm(props)
 
   return (
-    <SectionForm onSubmit={formik.handleSubmit}>
-      <Tabs
-        data={tabData}
-        formError={error}
-      />
-      <ButtonWrapper>
-        <Button
-          type='submit'
-          buttonstyle='primary'
-          disabled={
-            formik.isSubmitting
-            || (formik.touched.nameru && !!formik.errors.nameru)
-            || (formik.touched.nameuz && !!formik.errors.nameuz)
-          }
-        >
-          Saqlash
-        </Button>
-      </ButtonWrapper>
-    </SectionForm>
+    <Form title="Janr qo'shish">
+      <SectionForm onSubmit={formik.handleSubmit}>
+        <Grid>
+          <NormalInput
+            value={formik.values.nameuz}
+            name='nameuz'
+            onChange={(e) => formik.setFieldValue('nameuz', e)}
+            label="Janr nomi (uz)"
+            error={formik.touched.nameuz && formik.errors.nameuz}
+            onBlur={formik.handleBlur}
+          />
+          <NormalInput
+            value={formik.values.nameru}
+            name='nameru'
+            onChange={(e) => formik.setFieldValue('nameru', e)}
+            label="Janr nomi (ru)"
+            error={formik.touched.nameru && formik.errors.nameru}
+            onBlur={formik.handleBlur}
+          />
+        </Grid>
+        <ButtonWrapper>
+          <Button
+            type="button"
+            buttonstyle="danger"
+            onClick={() => dispatch(hideModal())}
+          >
+            Bekor qilish
+          </Button>
+          <Button
+            type='submit'
+            buttonstyle='primary'
+            disabled={
+              formik.isSubmitting
+              || (formik.touched.nameru && !!formik.errors.nameru)
+              || (formik.touched.nameuz && !!formik.errors.nameuz)
+            }
+          >
+            Saqlash
+          </Button>
+        </ButtonWrapper>
+      </SectionForm>
+    </Form>
   )
 }

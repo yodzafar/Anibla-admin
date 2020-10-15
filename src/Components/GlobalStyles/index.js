@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import MoreVertIcon from "mdi-react/MoreVertIcon";
-import {Link} from "react-router-dom";
 
 export const ContentContainer = styled.div`
   padding: 24px;
@@ -21,8 +20,13 @@ export const ContentContainerInner = styled.div`
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
-  padding: 16px 0;
+  justify-content: center;
+  margin-top: 32px;
+  
+  button {
+    margin: 0 12px;
+    min-width: 120px;
+  }
 `
 
 export const MoreIcon = styled(MoreVertIcon)`
@@ -30,7 +34,7 @@ export const MoreIcon = styled(MoreVertIcon)`
   font-size: 18px;
 `
 
-export const TableLink = styled(Link)`
+export const TableLink = styled.div`
   display: flex;
   flex-direction: column;
   color: #333;
@@ -41,4 +45,10 @@ export const TableLink = styled(Link)`
 export const SectionForm = styled.form `
   display: flex;
   flex-direction: column;
+`
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: ${({perColumn}) => perColumn ? `repeat(${perColumn}, 1fr)` : '1fr' };
+  grid-gap: 24px
 `

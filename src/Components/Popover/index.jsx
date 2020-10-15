@@ -2,7 +2,7 @@ import React from 'react'
 import Popover from "@material-ui/core/Popover";
 import {PopoverChildren, PopoverContainer, PopoverContent, PopoverContentItem} from "./style";
 
-export default ({ children, popoverData, itemId}) => {
+export default ({children, popoverData, itemId}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -12,6 +12,11 @@ export default ({ children, popoverData, itemId}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleAction = (action) => {
+    setAnchorEl(null);
+    action()
+  }
 
   return (
     <PopoverContainer>
@@ -39,8 +44,9 @@ export default ({ children, popoverData, itemId}) => {
             popoverData && popoverData.length > 0 && popoverData.map(item => (
               <PopoverContentItem
                 key={item.id}
-                onClick={() => itemId ? item.onClick(itemId) : item.onClick()}
+                onClick={() => handleAction(() => itemId ? item.onClick(itemId) : item.onClick())}
                 divider={item.divider}
+                remove={item.id === 'delete'}
               >
                 {item.icon}
                 <span>{item.title}</span>

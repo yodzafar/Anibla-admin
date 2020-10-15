@@ -2,29 +2,36 @@ import React from "react";
 import {useCategoryList} from "../../../Hooks/category";
 import {ContentContainerInner, MoreIcon, TableLink} from "../../GlobalStyles";
 import Table from '../../Table'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import DeleteIcon from "mdi-react/DeleteIcon";
 import PencilIcon from "mdi-react/PencilIcon";
-import {useHistory} from 'react-router-dom'
 import Popover from '../../Popover'
 import moment from "moment";
 import {ROUTE_URL} from "../../../Constants/url";
 import SettingsIcon from "mdi-react/SettingsIcon";
+import {CategoryForm} from "../index";
+import {showModal} from "../../../Models/site";
 
 export default () => {
   const {removeItem} =  useCategoryList()
-  const {push} = useHistory()
   const category = useSelector(({category}) => category)
+  const dispatch = useDispatch()
+
+  const renderModal = (id) => ({
+    open: true,
+    component: <CategoryForm id={id} />,
+    props: null
+  })
 
   const popoverData = [
     {
-      id: 1,
+      id: 'edit',
       title: "Tahrirlash",
       icon: <PencilIcon size={16}/>,
-      onClick: (id) => push(`/category/edit/${id}`)
+      onClick: (id) => dispatch(showModal(renderModal(id)))
     },
     {
-      id: 2,
+      id: 'delete',
       title: "O'chirish",
       icon: <DeleteIcon size={16}/>,
       onClick: (id) => removeItem(id)
@@ -35,12 +42,12 @@ export default () => {
     {
       title: 'Kategoriya nomi(uz)',
       key: 'nameuz',
-      render: (nameuz, {_id}) => (<TableLink to={`${ROUTE_URL.CATEGORY.EDIT}/${_id}`}>{nameuz}</TableLink>)
+      render: (nameuz) => (<TableLink>{nameuz}</TableLink>)
     },
     {
       title: 'Kategoriya nomi(ru)',
       key: 'nameru',
-      render: (nameru, {_id}) => (<TableLink to={`${ROUTE_URL.CATEGORY.EDIT}/${_id}`}>{nameru}</TableLink>)
+      render: (nameru) => (<TableLink>{nameru}</TableLink>)
     },
     {
       title: 'Yaratilgan sana',

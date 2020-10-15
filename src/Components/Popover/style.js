@@ -4,7 +4,6 @@ export const PopoverContent = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 160px;
-  padding: 8px;
 `
 
 export const PopoverContainer = styled.div`
@@ -20,8 +19,7 @@ export const PopoverChildren = styled.div`
 
 export const PopoverContentItem = styled.div`
   cursor:pointer;
-  padding: 6px 16px;
-  line-height: 1.2;
+  padding: 12px;
   font-weight: 600;
   color: #7c8a96;
   white-space: nowrap;
@@ -37,7 +35,7 @@ export const PopoverContentItem = styled.div`
   }
   
   &:hover {
-    color: #16181b;
-    background-color: #f8f9fa;
+    color: ${({remove}) => remove ? '#fff' : 'var(--primary)'};
+    background: ${({remove}) => remove ? 'var(--danger)' : '#f8f9fa'} ;
   }
 `

@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from 'react'
 import {TabContainer, TabContent, TabContentItem, TabItem, TabList} from "./style";
 
-export default ({data, formError}) => {
+export default ({data, formError, innerOffset}) => {
   const [activeTab, setActiveTab] = useState(data[0].id)
 
   const handleActiveTab = (id) => {
@@ -24,7 +24,7 @@ export default ({data, formError}) => {
           ))
         }
       </TabList>
-      <TabContent>
+      <TabContent innerOffset={innerOffset}>
         {
           data.map(item => (
             <TabContentItem
