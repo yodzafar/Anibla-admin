@@ -5,6 +5,7 @@ import PlusIcon from "mdi-react/PlusIcon";
 import {ContentContainer} from "../../../Components/GlobalStyles";
 import React from "react";
 import {ROUTE_URL, URL_TITLE} from "../../../Constants/url";
+import {GenreTable} from '../../../Components/Genre'
 
 export default () => {
   const {push} = useHistory()
@@ -21,6 +22,7 @@ export default () => {
         </Button>
       </ContentHeader>
       <ContentContainer>
+        <GenreTable />
       </ContentContainer>
     </>
   )

@@ -10,7 +10,13 @@ export const StyledTableCell = styled(TableCell)`
       font-weight: 700;
       font-family: 'Nunito', sans-serif;
       font-size: 16px;
+      width: ${({width}) => width ? width : 'unset'};
    }
+`
+export const TheadInner = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
 `
 
 export const TableContainer = styled.div`

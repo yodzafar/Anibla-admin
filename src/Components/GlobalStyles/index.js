@@ -37,3 +37,8 @@ export const TableLink = styled(Link)`
   font-weight: 500;
   font-size: 15px;
 `
+
+export const SectionForm = styled.form `
+  display: flex;
+  flex-direction: column;
+`

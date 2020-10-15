@@ -1,6 +1,6 @@
 import React from 'react'
 import {Table, TableCell, TableBody, TableRow, TableHead} from "@material-ui/core";
-import {StyledTableCell, TableContainer, TableLoadingData} from "./style";
+import {StyledTableCell, TableContainer, TableLoadingData, TheadInner} from "./style";
 import Spinner from '../Spinner'
 import {EmptyData} from "../EmptyData";
 
@@ -12,8 +12,11 @@ export default ({columns, dataSource, loading}) => {
           <TableRow>
             {
               columns.map((column, idx) => (
-                <StyledTableCell key={idx}>
-                  {column.title}
+                <StyledTableCell key={idx} width={column.width}>
+                  <TheadInner>
+                    {column.icon && column.icon}
+                    {column.title}
+                  </TheadInner>
                 </StyledTableCell>
               ))
             }

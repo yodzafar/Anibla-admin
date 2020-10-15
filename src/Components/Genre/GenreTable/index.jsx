@@ -1,5 +1,4 @@
 import React from "react";
-import {useCategoryList} from "../../../Hooks/category";
 import {ContentContainerInner, MoreIcon, TableLink} from "../../GlobalStyles";
 import Table from '../../Table'
 import {useSelector} from "react-redux";
@@ -9,12 +8,13 @@ import {useHistory} from 'react-router-dom'
 import Popover from '../../Popover'
 import moment from "moment";
 import {ROUTE_URL} from "../../../Constants/url";
+import {useGenreList} from "../../../Hooks/genre";
 import SettingsIcon from "mdi-react/SettingsIcon";
 
 export default () => {
-  const {removeItem} =  useCategoryList()
+  const {removeItem} =  useGenreList()
   const {push} = useHistory()
-  const category = useSelector(({category}) => category)
+  const genre = useSelector(({genre}) => genre)
 
   const popoverData = [
     {
@@ -33,12 +33,12 @@ export default () => {
 
   const columns= [
     {
-      title: 'Kategoriya nomi(uz)',
+      title: 'Janr nomi(uz)',
       key: 'nameuz',
       render: (nameuz, {_id}) => (<TableLink to={`${ROUTE_URL.CATEGORY.EDIT}/${_id}`}>{nameuz}</TableLink>)
     },
     {
-      title: 'Kategoriya nomi(ru)',
+      title: 'Janr nomi(ru)',
       key: 'nameru',
       render: (nameru, {_id}) => (<TableLink to={`${ROUTE_URL.CATEGORY.EDIT}/${_id}`}>{nameru}</TableLink>)
     },
@@ -61,8 +61,8 @@ export default () => {
     <ContentContainerInner>
       <Table
         columns={columns}
-        dataSource={category.data}
-        loading={category.loading}
+        dataSource={genre.data}
+        loading={genre.loading}
       />
     </ContentContainerInner>
   )

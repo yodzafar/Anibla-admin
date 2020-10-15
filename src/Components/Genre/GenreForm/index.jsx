@@ -1,12 +1,12 @@
 import React from 'react'
 import Tabs from '../../Tabs'
 import {NormalInput} from "../../FormElements/Inputs";
-import {useCategoryForm} from "../../../Hooks/category";
 import {ButtonWrapper, SectionForm} from "../../GlobalStyles";
 import Button from "../../FormElements/Button";
+import {useGenreForm} from "../../../Hooks/genre";
 
 export default () => {
-  const {formik, error} = useCategoryForm()
+const {formik, error} = useGenreForm()
 
   const uzFormInput = (
     <NormalInput
@@ -55,8 +55,8 @@ export default () => {
           buttonstyle='primary'
           disabled={
             formik.isSubmitting
-          || (formik.touched.nameru && !!formik.errors.nameru)
-          || (formik.touched.nameuz && !!formik.errors.nameuz)
+            || (formik.touched.nameru && !!formik.errors.nameru)
+            || (formik.touched.nameuz && !!formik.errors.nameuz)
           }
         >
           Saqlash
