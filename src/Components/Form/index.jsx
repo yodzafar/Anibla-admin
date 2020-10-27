@@ -1,19 +1,21 @@
 import React from 'react'
-import {FormClose, FormHeading, FormTitle, FormWrapper} from "./style";
-import CloseIcon from "mdi-react/CloseIcon";
-import {useDispatch} from "react-redux";
-import {hideModal} from "../../Models/site";
+import CloseIcon from 'mdi-react/CloseIcon';
+import { useDispatch } from 'react-redux';
+import {
+  FormClose, FormHeading, FormTitle, FormWrapper
+} from './style';
+import { hideModal } from '../../Models/site';
 
-export const Form = ({title, children}) => {
+export const Form = ({ title, children, maxWidth }) => {
   const dispatch = useDispatch()
   return (
-    <FormWrapper>
+    <FormWrapper maxWidth={maxWidth}>
       <FormHeading>
         <FormTitle>
           {title}
         </FormTitle>
         <FormClose onClick={() => dispatch(hideModal())}>
-          <CloseIcon/>
+          <CloseIcon />
         </FormClose>
       </FormHeading>
       {

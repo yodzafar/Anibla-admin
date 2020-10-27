@@ -1,4 +1,4 @@
-import {generateTitle, generateUrl} from "../Helpers/url-helpers";
+import { generateTitle, generateUrl } from '../Helpers/url-helpers';
 
 export const BASIC_URLS = {
   CATEGORY: '/category',
@@ -6,7 +6,7 @@ export const BASIC_URLS = {
   GENERIC: '/generic',
   MEMBER: '/member',
   TRAILER: '/trailer',
-  PRODUCT: '/product'
+  FILM: '/film'
 }
 
 export const ROUTE_URL = {
@@ -15,7 +15,7 @@ export const ROUTE_URL = {
   GENERIC: generateUrl(BASIC_URLS.GENERIC),
   MEMBER: generateUrl(BASIC_URLS.MEMBER),
   TRAILER: generateUrl(BASIC_URLS.TRAILER),
-  PRODUCT: generateUrl(BASIC_URLS.PRODUCT),
+  FILM: generateUrl(BASIC_URLS.FILM)
 }
 
 export const URL_TITLE = {
@@ -24,5 +24,5 @@ export const URL_TITLE = {
   GENERIC: generateTitle('Umumiy'),
   MEMBER: generateTitle('Hodim'),
   TRAILER: generateTitle('Trailer'),
-  PRODUCT: generateTitle('Mahsulot'),
+  FILM: generateTitle('Film')
 }

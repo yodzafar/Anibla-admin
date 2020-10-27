@@ -3,12 +3,12 @@ module.exports = {
     browser: true,
     jasmine: true
   },
-  extends: ["eslint:recommended", "google"],
+  extends: ["eslint:recommended", "airbnb"],
   plugins: ['react'],
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/prefer-stateless-function': 'off',
-    indent: ['error', 'tab'],
+    indent: ['error', 2],
     'comma-dangle': ['error', 'never'],
     'no-shadow': 'off',
     'react/no-children-prop': 'off',
@@ -17,6 +17,7 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": "off",
     "no-underscore-dangle": 0,
     "react/prop-types": 0,
-    "semi": 0
+    "semi": 0,
+    "import/no-cycle": ["error", { "maxDepth": Infinity }]
   }
 };

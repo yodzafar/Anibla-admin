@@ -1,20 +1,20 @@
-import React from "react";
-import {useCategoryList} from "../../../Hooks/category";
-import {ContentContainerInner, MoreIcon, TableLink} from "../../GlobalStyles";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import DeleteIcon from 'mdi-react/DeleteIcon';
+import PencilIcon from 'mdi-react/PencilIcon';
+import moment from 'moment';
+import SettingsIcon from 'mdi-react/SettingsIcon';
+import { useCategoryList } from '../../../Hooks/category';
+import { ContentContainerInner, MoreIcon, TableLink } from '../../GlobalStyles';
 import Table from '../../Table'
-import {useDispatch, useSelector} from "react-redux";
-import DeleteIcon from "mdi-react/DeleteIcon";
-import PencilIcon from "mdi-react/PencilIcon";
 import Popover from '../../Popover'
-import moment from "moment";
-import {ROUTE_URL} from "../../../Constants/url";
-import SettingsIcon from "mdi-react/SettingsIcon";
-import {CategoryForm} from "../index";
-import {showModal} from "../../../Models/site";
+import { ROUTE_URL } from '../../../Constants/url';
+import { CategoryForm } from '../index';
+import { showModal } from '../../../Models/site';
 
 export default () => {
-  const {removeItem} =  useCategoryList()
-  const category = useSelector(({category}) => category)
+  const { removeItem } = useCategoryList()
+  const category = useSelector(({ category }) => category)
   const dispatch = useDispatch()
 
   const renderModal = (id) => ({
@@ -26,19 +26,19 @@ export default () => {
   const popoverData = [
     {
       id: 'edit',
-      title: "Tahrirlash",
-      icon: <PencilIcon size={16}/>,
+      title: 'Tahrirlash',
+      icon: <PencilIcon size={16} />,
       onClick: (id) => dispatch(showModal(renderModal(id)))
     },
     {
       id: 'delete',
       title: "O'chirish",
-      icon: <DeleteIcon size={16}/>,
+      icon: <DeleteIcon size={16} />,
       onClick: (id) => removeItem(id)
-    },
+    }
   ]
 
-  const columns= [
+  const columns = [
     {
       title: 'Kategoriya nomi(uz)',
       key: 'nameuz',
@@ -52,15 +52,21 @@ export default () => {
     {
       title: 'Yaratilgan sana',
       key: 'createdAt',
-      render: (createdAt, {_id}) => (<TableLink to={`${ROUTE_URL.CATEGORY.EDIT}/${_id}`}>
-        {moment(createdAt).format("YYYY-MM-DD HH:mm")}
-      </TableLink>)
+      render: (createdAt, { _id }) => (
+        <TableLink to={`${ROUTE_URL.CATEGORY.EDIT}/${_id}`}>
+          {moment(createdAt).format('YYYY-MM-DD HH:mm')}
+        </TableLink>
+      )
     },
     {
       icon: <SettingsIcon />,
       title: '',
-      render: (props, {_id}) => (<Popover popoverData={popoverData} itemId={_id}><MoreIcon /></Popover>),
-      width : '1%'
+      render: (props, { _id }) => (
+        <Popover popoverData={popoverData} itemId={_id}>
+          <MoreIcon />
+        </Popover>
+      ),
+      width: '1%'
     }
   ]
 

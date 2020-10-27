@@ -57,3 +57,14 @@ a, a:hover {
 .ReactModal__Overlay--after-open {
   z-index: 10000 !important;
 }
+
+.MuiInputLabel-root{
+  background-color: #fff !important;
+  padding: 2px 4px !important;
+  font-family: 'Nunito', sans-serif !important;
+  color: #7c8a96 !important;
+}
+
+.MuiDialog-paperScrollPaper {
+  overflow-x: hidden;
+}

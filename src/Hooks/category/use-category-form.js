@@ -1,13 +1,15 @@
-import {useFormik} from "formik";
+/* eslint-disable no-plusplus */
+/* eslint-disable new-cap */
+import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import {useCallback, useEffect, useState} from "react";
-import category from "../../Service/category";
-import {useDispatch} from "react-redux";
-import {getCategoryList} from "../../Models/category";
-import {hideModal} from "../../Models/site";
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import category from '../../Service/category';
+import { getCategoryList } from '../../Models/category';
+import { hideModal } from '../../Models/site';
 
 export const useCategoryForm = (props) => {
-  const {id} = props
+  const { id } = props
   const dispatch = useDispatch()
   const [error, setError] = useState({})
   const [initialValues, setInitialValues] = useState({
@@ -24,33 +26,33 @@ export const useCategoryForm = (props) => {
     initialValues,
     enableReinitialize: true,
     validationSchema,
-    onSubmit: ({nameuz, nameru}, {setSubmitting, resetForm}) => {
+    onSubmit: ({ nameuz, nameru }, { setSubmitting, resetForm }) => {
       setSubmitting(true)
       const data = {
         nameuz,
-        nameru,
+        nameru
       }
 
       if (id) {
         category.updateCategory(id, data)
-          .then(res => {
+          .then((res) => {
             if (res.success) {
               dispatch(getCategoryList())
               dispatch(hideModal())
             }
           }).finally(() => setSubmitting(false))
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
           })
       } else {
         category.createCategory(data)
-          .then(res => {
+          .then((res) => {
             if (res.success) {
               resetForm()
               dispatch(getCategoryList())
             }
           }).finally(() => setSubmitting(false))
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
           })
       }
@@ -60,16 +62,16 @@ export const useCategoryForm = (props) => {
   const getCategoryInfo = useCallback(() => {
     if (id) {
       category.getCategory(id)
-        .then(res => {
+        .then((res) => {
           if (res.success) {
             setInitialValues({
               nameuz: res.data.nameuz,
               nameru: res.data.nameru
             })
           }
-        }).catch(e => {
-        console.log(e);
-      })
+        }).catch((e) => {
+          console.log(e);
+        })
     }
   }, [id])
 

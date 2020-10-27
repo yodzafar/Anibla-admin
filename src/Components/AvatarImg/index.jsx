@@ -1,18 +1,26 @@
 import React from 'react'
-import Avatar from "@material-ui/core/Avatar";
 import Spinner from '../Spinner'
+import { StyledAvatar } from './style';
 
-export default ({imgUrl, name}) => {
-  return (
-    <>
-      {
-        (imgUrl || name)
-          ? <Avatar alt={name} src={imgUrl ? imgUrl : 'no-image'}/>
-          : <Avatar>
-          <Spinner />
-          </Avatar>
-      }
-    </>
+export default ({ imgUrl, name, size }) => (
+  <>
+    {
+      (imgUrl || name)
+        ? (
+          <StyledAvatar
+            size={size}
+            alt={name}
+            src={imgUrl}
+          />
+        )
+        : (
+          <StyledAvatar
+            size={size}
+          >
+            <Spinner />
+          </StyledAvatar>
+        )
+    }
+  </>
 
-  )
-}
+)

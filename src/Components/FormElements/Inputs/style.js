@@ -1,12 +1,17 @@
-import styled from "styled-components";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import {InputLabel} from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
+import styled from 'styled-components';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import {
+  Chip,
+  InputLabel,
+  MenuItem,
+  Select
+} from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
 
 export const StyledInput = styled(OutlinedInput)`
   && {
     input {
-      padding: 10px 16px;
+      padding: 13px 16px;
       font-family: 'Nunito', sans-serif;
       color: #495057;
       font-size: 14px;
@@ -17,7 +22,7 @@ export const StyledInput = styled(OutlinedInput)`
 
 export const StyledLabel = styled(InputLabel)`
   && {
-      transform: translate(14px, 12px) scale(1);
+      transform: translate(14px, 15px) scale(1);
       background-color: #fff;
       padding: 2px 4px;
       font-family: 'Nunito', sans-serif;
@@ -27,4 +32,51 @@ export const StyledLabel = styled(InputLabel)`
 
 export const StyledFormControl = styled(FormControl)`
   width: 100%;
+`
+
+export const StyledSelect = styled(Select)`
+  &&{
+    .MuiOutlinedInput-input{
+      padding: 13px 16px;
+      height: 24px;
+    }
+  }
+`;
+
+export const OptionLoading = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100px;
+
+  img {
+    max-width: 50px;
+    height: auto;
+  }
+`;
+
+export const StyledOptionItem = styled(MenuItem)`
+  && {
+    font-size: 14px;
+    font-family: "Nunito", sans-serif;
+    font-weight: 500;
+    
+    &:hover {
+      color: var(--primary);
+    }
+  }
+`
+
+export const MultipleSelectedWrap = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const StyledChip = styled(Chip)`
+  && {
+    height: 25px;
+    margin: 0 4px 2px 0
+  }
 `

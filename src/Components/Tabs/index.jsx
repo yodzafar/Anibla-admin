@@ -1,7 +1,11 @@
-import React, {Fragment, useState} from 'react'
-import {TabContainer, TabContent, TabContentItem, TabItem, TabList} from "./style";
+import React, { Fragment, useState } from 'react'
+import {
+  TabContainer, TabContent, TabContentItem, TabItem, TabList
+} from './style';
 
-export default ({data, formError, innerOffset}) => {
+export default ({
+  data, formError, innerOffset, children
+}) => {
   const [activeTab, setActiveTab] = useState(data[0].id)
 
   const handleActiveTab = (id) => {
@@ -12,12 +16,12 @@ export default ({data, formError, innerOffset}) => {
     <TabContainer>
       <TabList>
         {
-          data.map(item => (
+          data.map((item) => (
             <TabItem
               key={item.id}
               onClick={() => handleActiveTab(item.id)}
               active={activeTab === item.id}
-              formError={formError[item.id]}
+              formError={formError && formError[item.id]}
             >
               {item.title}
             </TabItem>
@@ -26,14 +30,14 @@ export default ({data, formError, innerOffset}) => {
       </TabList>
       <TabContent innerOffset={innerOffset}>
         {
-          data.map(item => (
+          data.map((item) => (
             <TabContentItem
               active={activeTab === item.id}
               key={item.id}
             >
               {
                 item.components.map((component, idx) => (
-                  <Fragment key={idx}>
+                  <Fragment key={`${idx + 1}`}>
                     {component}
                   </Fragment>
                 ))
@@ -42,6 +46,9 @@ export default ({data, formError, innerOffset}) => {
             </TabContentItem>
           ))
         }
+        <TabContentItem active>
+          {children}
+        </TabContentItem>
       </TabContent>
     </TabContainer>
   )

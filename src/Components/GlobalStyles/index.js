@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import MoreVertIcon from "mdi-react/MoreVertIcon";
+import styled from 'styled-components';
+import MoreVertIcon from 'mdi-react/MoreVertIcon';
 
 export const ContentContainer = styled.div`
   padding: 24px;
@@ -42,13 +42,13 @@ export const TableLink = styled.div`
   font-size: 15px;
 `
 
-export const SectionForm = styled.form `
+export const SectionForm = styled.form`
   display: flex;
   flex-direction: column;
 `
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: ${({perColumn}) => perColumn ? `repeat(${perColumn}, 1fr)` : '1fr' };
-  grid-gap: 24px
+  grid-template-columns: ${({ perColumn }) => (perColumn ? `repeat(${perColumn}, 1fr)` : '1fr')};
+  grid-gap: 16px
 `

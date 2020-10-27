@@ -1,15 +1,15 @@
 import React from 'react'
-import {NormalInput} from "../../FormElements/Inputs";
-import {ButtonWrapper, Grid, SectionForm} from "../../GlobalStyles";
-import Button from "../../FormElements/Button";
-import {useGenreForm} from "../../../Hooks/genre";
-import {Form} from "../../Form";
-import {useDispatch} from "react-redux";
-import {hideModal} from "../../../Models/site";
+import { useDispatch } from 'react-redux';
+import { NormalInput } from '../../FormElements/Inputs';
+import { ButtonWrapper, Grid, SectionForm } from '../../GlobalStyles';
+import Button from '../../FormElements/Button';
+import { useGenreForm } from '../../../Hooks/genre';
+import { Form } from '../../Form';
+import { hideModal } from '../../../Models/site';
 
 export default (props) => {
   const dispatch = useDispatch()
-  const {formik} = useGenreForm(props)
+  const { formik } = useGenreForm(props)
 
   return (
     <Form title="Janr qo'shish">
@@ -17,7 +17,7 @@ export default (props) => {
         <Grid>
           <NormalInput
             value={formik.values.nameuz}
-            name='nameuz'
+            name="nameuz"
             onChange={(e) => formik.setFieldValue('nameuz', e)}
             label="Janr nomi (uz)"
             error={formik.touched.nameuz && formik.errors.nameuz}
@@ -25,7 +25,7 @@ export default (props) => {
           />
           <NormalInput
             value={formik.values.nameru}
-            name='nameru'
+            name="nameru"
             onChange={(e) => formik.setFieldValue('nameru', e)}
             label="Janr nomi (ru)"
             error={formik.touched.nameru && formik.errors.nameru}
@@ -41,8 +41,8 @@ export default (props) => {
             Bekor qilish
           </Button>
           <Button
-            type='submit'
-            buttonstyle='primary'
+            type="submit"
+            buttonstyle="primary"
             disabled={
               formik.isSubmitting
               || (formik.touched.nameru && !!formik.errors.nameru)

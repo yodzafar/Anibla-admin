@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router';
-import {authReducer} from "./auth";
-import {categoryReducer} from "./category";
-import {genreReducer} from './genre'
-import {memberReducer} from "./member";
-import {siteReducer} from "./site";
-
+import { authReducer } from './auth';
+import { categoryReducer } from './category';
+import { genreReducer } from './genre'
+import { memberReducer } from './member';
+import { siteReducer } from './site';
+import { productReducer } from './product';
 
 export default (history) => combineReducers({
   router: connectRouter(history),
@@ -13,5 +13,6 @@ export default (history) => combineReducers({
   category: categoryReducer,
   genre: genreReducer,
   member: memberReducer,
-  site: siteReducer
+  site: siteReducer,
+  product: productReducer
 })

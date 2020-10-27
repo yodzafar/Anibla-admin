@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_SERVICE_URL || '/api';
@@ -6,7 +7,9 @@ const Axios = {
   _instance: null,
   get instance() {
     if (!this._instance) {
-      this._instance = axios.create({ baseURL });
+      this._instance = axios.create({
+        baseURL
+      });
     }
     return this._instance;
   }
@@ -16,7 +19,8 @@ Axios.instance.interceptors.response.use(
   (res) => res,
   (error) => {
     if (error.response.status === 401) {
-      window.location.replace('/logout');
+      window.location.replace('/sign-in');
+      localStorage.removeItem('token')
     }
     return Promise.reject(error);
   }
