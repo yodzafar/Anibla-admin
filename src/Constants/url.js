@@ -6,7 +6,8 @@ export const BASIC_URLS = {
   GENERIC: '/generic',
   MEMBER: '/member',
   TRAILER: '/trailer',
-  FILM: '/film'
+  FILM: '/film',
+  SERIAL: '/serial'
 }
 
 export const ROUTE_URL = {
@@ -15,7 +16,8 @@ export const ROUTE_URL = {
   GENERIC: generateUrl(BASIC_URLS.GENERIC),
   MEMBER: generateUrl(BASIC_URLS.MEMBER),
   TRAILER: generateUrl(BASIC_URLS.TRAILER),
-  FILM: generateUrl(BASIC_URLS.FILM)
+  FILM: generateUrl(BASIC_URLS.FILM),
+  SERIAL: generateUrl(BASIC_URLS.SERIAL)
 }
 
 export const URL_TITLE = {
@@ -24,5 +26,6 @@ export const URL_TITLE = {
   GENERIC: generateTitle('Umumiy'),
   MEMBER: generateTitle('Hodim'),
   TRAILER: generateTitle('Trailer'),
-  FILM: generateTitle('Film')
+  FILM: generateTitle('Film'),
+  SERIAL: generateTitle('Serial')
 }

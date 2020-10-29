@@ -5,14 +5,39 @@ import {
   useCallback, useEffect, useMemo, useState
 } from 'react';
 import * as Yup from 'yup'
+import { useDispatch } from 'react-redux';
 import genre from '../../Service/genre'
 import member from '../../Service/member'
 import category from '../../Service/category'
 import product from '../../Service/product'
+import { getProductList } from '../../Models/product';
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const useProductForm = ({ type }) => {
+const statusOptions = [
+  {
+    id: '1',
+    name: "Saytda ko'rsatish"
+  },
+  {
+    id: '0',
+    name: "Saytda ko'rsatmaslik"
+  }
+]
+
+const priceOptions = [
+  {
+    id: 'free',
+    name: "To'lovsiz"
+  },
+  {
+    id: 'selling',
+    name: "To'lovli"
+  }
+]
+
+export const useProductForm = ({ type, id }) => {
+  const dispatch = useDispatch()
   const [error, setError] = useState({})
   const [genreOptions, setGenreOptions] = useState([])
   const [genreLoading, setGenreLoading] = useState(false)
@@ -32,8 +57,9 @@ export const useProductForm = ({ type }) => {
     year: '',
     country: '',
     janr: [],
-    status: true,
-    type
+    status: '1',
+    type,
+    price: 'free'
   });
 
   const validationSchema = new Yup.object().shape({
@@ -48,8 +74,9 @@ export const useProductForm = ({ type }) => {
     translator: Yup.array().required("Maydon to'ldirilishi shart"),
     images: Yup.array().required("Maydon to'ldirilishi shart"),
     category: Yup.string().required("Maydon to'ldirilishi shart"),
-    status: Yup.boolean(),
-    type: Yup.string().required("Maydon to'ldirilishi shart")
+    status: Yup.string().required("Maydon to'ldirilishi shart"),
+    type: Yup.string().required("Maydon to'ldirilishi shart"),
+    price: Yup.string().required("Maydon to'ldirilishi shart")
   })
 
   const formik = useFormik({
@@ -71,19 +98,25 @@ export const useProductForm = ({ type }) => {
               data.append(`${keys[i]}[]`, arr[j])
             }
           }
+        } else if (keys[i] === 'status') {
+          data.append(keys[i], !!Number(values[keys[i]]))
         } else {
           data.append(keys[i], values[keys[i]])
         }
       }
 
-      product.createProduct(data)
-        .then((res) => {
-          console.log(res);
-        }).finally(() => setSubmitting(true))
-        .catch((e) => {
-          console.log(e);
-          setSubmitting(false)
-        })
+      if (!id) {
+        product.createProduct(data)
+          .then((res) => {
+            if (res.success) {
+              dispatch(getProductList({ type }))
+            }
+          }).finally(() => setSubmitting(false))
+          .catch((e) => {
+            console.log(e);
+            setSubmitting(false)
+          })
+      }
     }
   });
 
@@ -162,6 +195,18 @@ export const useProductForm = ({ type }) => {
     setError(tmp);
   }, [formik.errors, formik.touched])
 
+  const getProduct = useCallback(() => {
+    if (id) {
+      product.getProduct(id)
+        .then((res) => {
+          const { data } = res
+          console.log(data);
+        }).catch((e) => {
+          console.log(e);
+        })
+    }
+  }, [id])
+
   const submitDisabled = () => formik.isSubmitting
     || (formik.touched.nameru && !!formik.errors.nameru)
     || (formik.touched.nameuz && !!formik.errors.nameuz)
@@ -173,6 +218,12 @@ export const useProductForm = ({ type }) => {
     || (formik.touched.janr && !!formik.errors.janr)
     || (formik.touched.translator && !!formik.errors.translator)
     || (formik.touched.images && !!formik.errors.images)
+    || (formik.touched.status && !!formik.errors.status)
+    || (formik.touched.price && !!formik.errors.price)
+
+  useEffect(() => {
+    getProduct()
+  }, [getProduct])
 
   return {
     formik,
@@ -183,6 +234,8 @@ export const useProductForm = ({ type }) => {
     memberLoading,
     categoryOptions,
     categoryLoading,
-    submitDisabled
+    submitDisabled,
+    statusOptions,
+    priceOptions
   }
 }

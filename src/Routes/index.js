@@ -3,12 +3,14 @@ import ViewCarouselOutlineIcon from 'mdi-react/ViewCarouselOutlineIcon';
 import FormatListBulletedSquareIcon from 'mdi-react/FormatListBulletedSquareIcon';
 import AccountGroupOutlineIcon from 'mdi-react/AccountGroupOutlineIcon';
 import FilmstripBoxMultipleIcon from 'mdi-react/FilmstripBoxMultipleIcon';
+import FilmstripBoxIcon from 'mdi-react/FilmstripBoxIcon'
 import { CategoryList } from '../Views/Category'
 import { GenreList } from '../Views/Genre';
 import { URL_TITLE, ROUTE_URL } from '../Constants/url';
 import { MemberList } from '../Views/Memeber';
 import { TrailerList } from '../Views/Trailer';
 import { FilmList } from '../Views/Film';
+import { SerialList } from '../Views/Serial';
 
 const category = [
   {
@@ -55,17 +57,28 @@ const film = [
     id: 'filmList',
     title: URL_TITLE.FILM.TITLE_PLURAL,
     path: ROUTE_URL.FILM.LIST,
-    icon: FilmIcon,
+    icon: FilmstripBoxIcon,
     component: FilmList
+  }
+]
+
+const serial = [
+  {
+    id: 'serialList',
+    title: URL_TITLE.SERIAL.TITLE_PLURAL,
+    path: ROUTE_URL.SERIAL.LIST,
+    icon: FilmIcon,
+    component: SerialList
   }
 ]
 
 export default [
   ...category,
   ...genre,
-  ...trailer,
   ...member,
-  ...film
+  ...trailer,
+  ...film,
+  ...serial
   // {
   //   id: 'generic',
   //   title: 'Generic',

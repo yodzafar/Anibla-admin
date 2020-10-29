@@ -11,6 +11,7 @@ import Popover from '../../Popover'
 import { ROUTE_URL } from '../../../Constants/url';
 import { CategoryForm } from '../index';
 import { showModal } from '../../../Models/site';
+import { ConfirmBody } from '../../ConfirmModalBody';
 
 export default () => {
   const { removeItem } = useCategoryList()
@@ -21,6 +22,12 @@ export default () => {
     open: true,
     component: <CategoryForm id={id} />,
     props: null
+  })
+
+  const renderConfirmModal = (id) => ({
+    open: true,
+    component: <ConfirmBody maxWidth="sm" onAction={() => removeItem(id)} />,
+    props: { maxWidth: 'sm' }
   })
 
   const popoverData = [
@@ -34,7 +41,7 @@ export default () => {
       id: 'delete',
       title: "O'chirish",
       icon: <DeleteIcon size={16} />,
-      onClick: (id) => removeItem(id)
+      onClick: (id) => dispatch(showModal(renderConfirmModal(id)))
     }
   ]
 

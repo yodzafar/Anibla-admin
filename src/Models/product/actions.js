@@ -1,16 +1,18 @@
 import product from '../../Service/product'
 import { PRODUCT_ACTION_TYPES } from '../../Constants/action-types/product'
 
-export const getProductList = () => (dispatch) => {
+export const getProductList = (params) => (dispatch) => {
   dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: true })
-  product.getAllProduct()
+  product.getAllProduct(params)
     .then((res) => {
       if (res.success) {
         const data = res.data.map((item) => ({
           nameuz: item.name.uz,
           nameru: item.name.ru,
           category: item.category.nameuz,
-          key: item._id
+          image: item.image,
+          key: item._id,
+          _id: item._id
         }))
 
         dispatch(

@@ -20,7 +20,10 @@ export default (props) => {
     categoryOptions,
     categoryLoading,
     submitDisabled,
-    maxWidth
+    statusOptions,
+    priceOptions,
+    maxWidth,
+    type
   } = props
   const dispatch = useDispatch()
 
@@ -42,14 +45,19 @@ export default (props) => {
       <SectionForm onSubmit={formik.handleSubmit}>
         <Tabs data={tabData} formError={error}>
           <Grid perColumn={2} style={{ marginTop: 16 }}>
-            <NormalInput
-              name="video"
-              label="Video havolani kiriting"
-              value={formik.values.video}
-              onChange={(e) => formik.setFieldValue('video', e)}
-              onBlur={formik.handleBlur}
-              error={formik.touched.video && formik.errors.video}
-            />
+            {
+              type !== 'serial'
+              && (
+                <NormalInput
+                  name="video"
+                  label="Video havolani kiriting"
+                  value={formik.values.video}
+                  onChange={(e) => formik.setFieldValue('video', e)}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.video && formik.errors.video}
+                />
+              )
+            }
             <NormalInput
               name="year"
               label="Mahsulot ishlab chiqarilgan sana"
@@ -97,6 +105,24 @@ export default (props) => {
               onBlur={formik.handleBlur}
               multiple
               error={formik.touched.translator && formik.errors.translator}
+            />
+            <SelectInput
+              name="price"
+              label="To'lov turi"
+              options={priceOptions}
+              value={formik.values.price}
+              onChange={(e) => formik.setFieldValue('price', e)}
+              onBlur={formik.handleBlur}
+              error={formik.touched.price && formik.errors.price}
+            />
+            <SelectInput
+              name="status"
+              label="Status"
+              options={statusOptions}
+              value={formik.values.status}
+              onChange={(e) => formik.setFieldValue('status', e)}
+              onBlur={formik.handleBlur}
+              error={formik.touched.status && formik.errors.status}
             />
           </Grid>
           <div style={{ marginTop: 16 }}>

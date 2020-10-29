@@ -1,19 +1,9 @@
 import styled from 'styled-components';
-
-const getFormWidth = ({ maxWidth }) => {
-  switch (maxWidth) {
-  case 'sm':
-    return 600;
-  case 'md':
-    return 960;
-  default:
-    return 600;
-  }
-}
+import { getWidth } from '../../utils/cssUtils';
 
 export const FormWrapper = styled.div`
   padding: 24px;
-  width: calc(${getFormWidth}px - 64px);
+  width: calc(${getWidth}px - 64px);
 `
 
 export const FormHeading = styled.div`

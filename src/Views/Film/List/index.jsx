@@ -12,7 +12,7 @@ export default () => {
   const dispatch = useDispatch()
   const payload = {
     open: true,
-    component: <FilmForm maxWidth="md" />,
+    component: <FilmForm maxWidth="md" type="film" />,
     props: { maxWidth: 'md' }
   }
   return (

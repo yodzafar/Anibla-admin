@@ -1,5 +1,7 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router, Switch, Route, Redirect
+} from 'react-router-dom'
 import { AppContainer, AppContent } from './style';
 import Navbar from '../../Components/Navbar';
 import Sidebar from '../../Components/Sidebar';
@@ -19,6 +21,7 @@ export default () => (
               <Route key={route.id} exact path={route.path} component={route.component} />
             ))
           }
+          <Redirect from="*" to="/" />
         </Switch>
       </AppContent>
     </AppContainer>

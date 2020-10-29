@@ -1,25 +1,26 @@
 import React from 'react'
-import {ButtonWrapper, Grid, SectionForm} from "../../GlobalStyles";
-import {FileUploadInput, NormalInput} from "../../FormElements/Inputs";
-import {useMemberForm} from "../../../Hooks/member";
-import Button from "../../FormElements/Button";
-import {Form} from "../../Form";
-import {useDispatch} from "react-redux";
-import {hideModal} from "../../../Models/site";
+import { useDispatch } from 'react-redux';
+import { ButtonWrapper, Grid, SectionForm } from '../../GlobalStyles';
+import { FileUploadInput, NormalInput } from '../../FormElements/Inputs';
+import { useMemberForm } from '../../../Hooks/member';
+import Button from '../../FormElements/Button';
+import { Form } from '../../Form';
+import { hideModal } from '../../../Models/site';
 
 export default () => {
   const dispatch = useDispatch()
-  const {formik} = useMemberForm()
+  const { formik } = useMemberForm()
   return (
     <Form
-    title="Ishtirokchi qo'shish">
+      title="Ishtirokchi qo'shish"
+    >
       <SectionForm onSubmit={formik.handleSubmit}>
         <Grid>
           <NormalInput
             label="Ishtirokchi familiya ismi sharifi"
             name="name"
             value={formik.values.name}
-            onChange={(e) => formik.setFieldValue("name", e)}
+            onChange={(e) => formik.setFieldValue('name', e)}
             onBlur={formik.handleBlur}
             error={formik.touched.name && formik.errors.name}
           />
@@ -29,20 +30,20 @@ export default () => {
             name="file"
             onChange={(e) => formik.setFieldValue('file', e)}
             onBlur={formik.handleBlur}
-            error={formik.errors['file'] && formik.errors['file']}
+            error={formik.errors.file && formik.errors.file}
           />
         </Grid>
         <ButtonWrapper>
           <Button
             type="button"
-            buttonstyle='danger'
+            buttonstyle="danger"
             onClick={() => dispatch(hideModal())}
           >
             Bekor qilish
           </Button>
           <Button
-            type='submit'
-            buttonstyle='primary'
+            type="submit"
+            buttonstyle="primary"
             disabled={
               formik.isSubmitting
               || (formik.touched.name && !!formik.errors.name)

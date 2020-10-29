@@ -7,18 +7,22 @@ import { ContentContainerInner, MoreIcon, TableLink } from '../../GlobalStyles';
 import Table from '../../Table'
 import Popover from '../../Popover'
 import { showModal } from '../../../Models/site';
+import { ConfirmBody } from '../../ConfirmModalBody';
+import Avatar from '../../AvatarImg'
 
 const nameType = {
   film: {
     name: 'Film nomi'
   },
-  Serial: {
+  serial: {
     name: 'Serial nomi'
   },
-  Treyler: {
+  treyler: {
     name: 'Treyler nomi'
   }
 }
+
+const baseUrl = process.env.REACT_APP_BASE_URL
 
 export default (props) => {
   const dispatch = useDispatch()
@@ -27,13 +31,20 @@ export default (props) => {
     data,
     loading,
     Form,
-    type
+    type,
+    formMaxWidth
   } = props
 
   const renderModal = (id) => ({
     open: true,
-    component: <Form id={id} />,
-    props: null
+    component: <Form id={id} maxWidth={formMaxWidth} type={type} />,
+    props: { maxWidth: formMaxWidth }
+  })
+
+  const renderConfirmModal = (id) => ({
+    open: true,
+    component: <ConfirmBody maxWidth="sm" onAction={() => removeItem(id)} />,
+    props: { maxWidth: 'sm' }
   })
 
   const popoverData = [
@@ -47,11 +58,21 @@ export default (props) => {
       id: 'delete',
       title: "O'chirish",
       icon: <DeleteIcon size={16} />,
-      onClick: (id) => removeItem(id)
+      onClick: (id) => dispatch(showModal(renderConfirmModal(id)))
     }
   ]
 
   const columns = [
+    {
+      title: 'Rasm',
+      key: 'image',
+      render: (image, { nameuz }) => (
+        <TableLink>
+          <Avatar imgUrl={`${baseUrl}/${image}`} name={nameuz} />
+        </TableLink>
+      ),
+      width: '1%'
+    },
     {
       title: `${nameType[type].name} (uz)`,
       key: 'nameuz',
@@ -67,16 +88,16 @@ export default (props) => {
       key: 'category',
       render: (category) => (<TableLink>{category}</TableLink>)
     },
-    // {
-    //   icon: <SettingsIcon />,
-    //   title: '',
-    //   render: (props, { _id }) => (
-    //     <Popover popoverData={popoverData} itemId={_id}>
-    //       <MoreIcon />
-    //     </Popover>
-    //   ),
-    //   width: '1%'
-    // }
+    {
+      icon: <SettingsIcon />,
+      title: '',
+      render: (props, { _id }) => (
+        <Popover popoverData={popoverData} itemId={_id}>
+          <MoreIcon />
+        </Popover>
+      ),
+      width: '1%'
+    }
   ]
 
   return (
