@@ -1,10 +1,12 @@
-import styled, {css} from "styled-components";
-import {Button} from "@material-ui/core";
-import {BUTTON, getBorderRadius, getButtonBackground, getButtonColor, getButtonStyle} from "./style-helper";
+import styled, { css } from 'styled-components';
+import { Button } from '@material-ui/core';
+import {
+ BUTTON, getBorderRadius, getButtonBackground, getButtonColor, getButtonStyle
+} from './style-helper';
 
 const common = css`
   font-weight: 700;
-  padding: 8px 14px;
+  padding: 11px 22px;
   text-transform: unset;
   font-size: 15px;
   font-family: 'Nunito', sans-serif;
@@ -26,7 +28,7 @@ const primary = css`
 const success = css`
   color: ${getButtonColor};
   background-color: ${getButtonBackground};
-  border-color: ${({buttonstyle}) => getButtonBackground({buttonstyle})};
+  border-color: ${({ buttonstyle }) => getButtonBackground({ buttonstyle })};
  
  &:hover {
    color: #fff;
@@ -38,7 +40,7 @@ const success = css`
 const secondary = css`
   color: ${getButtonColor};
   background-color: ${getButtonBackground};
-  border-color: ${({buttonstyle}) => getButtonBackground({buttonstyle})};
+  border-color: ${({ buttonstyle }) => getButtonBackground({ buttonstyle })};
   
   &:hover {
     color: #fff;
@@ -50,7 +52,7 @@ const secondary = css`
 const info = css`
   color: ${getButtonColor};
   background-color: ${getButtonBackground};
-  border-color: ${({buttonstyle}) => getButtonBackground({buttonstyle})};
+  border-color: ${({ buttonstyle }) => getButtonBackground({ buttonstyle })};
   
   &:hover {
     color: #fff;
@@ -62,7 +64,7 @@ const info = css`
 const warning = css`
   color: ${getButtonColor};
   background-color: ${getButtonBackground};
-  border-color: ${({buttonstyle}) => getButtonBackground({buttonstyle})};
+  border-color: ${({ buttonstyle }) => getButtonBackground({ buttonstyle })};
   
   &:hover {
     color: #fff;
@@ -74,7 +76,7 @@ const warning = css`
 const danger = css`
   color: ${getButtonColor};
   background-color: ${getButtonBackground};
-  border-color: ${({buttonstyle}) => getButtonBackground({buttonstyle})};
+  border-color: ${({ buttonstyle }) => getButtonBackground({ buttonstyle })};
   
   &:hover {
    color: #fff;
@@ -86,7 +88,7 @@ const danger = css`
 const light = css`
   color: ${getButtonColor};
   background-color: #eff2f7;
-  border-color: ${({buttonstyle}) => getButtonBackground({buttonstyle})};
+  border-color: ${({ buttonstyle }) => getButtonBackground({ buttonstyle })};
   
   &:hover {
     color: #212529;
@@ -98,7 +100,7 @@ const light = css`
 const dark = css`
   color: ${getButtonColor};
   background-color: ${getButtonBackground};
-  border-color: ${({buttonstyle}) => getButtonBackground({buttonstyle})};
+  border-color: ${({ buttonstyle }) => getButtonBackground({ buttonstyle })};
   
   &:hover {
     color: #fff;

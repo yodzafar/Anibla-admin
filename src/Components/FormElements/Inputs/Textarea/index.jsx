@@ -9,7 +9,7 @@ export default ({
     label={label || ''}
     multiline
     rows={rows || 4}
-    defaultValue={value}
+    value={value}
     onChange={(e) => onChange(e.target.value)}
     {...props}
     variant="outlined"

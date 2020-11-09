@@ -4,7 +4,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ImageUploading from 'react-images-uploading';
 import CloudUploadOutlineIcon from 'mdi-react/CloudUploadOutlineIcon'
 import TrashCanOutlineIcon from 'mdi-react/TrashCanOutlineIcon'
@@ -18,10 +18,10 @@ import {
   ImageWrapper
 } from './style';
 
-export default ({ value, onChange }) => {
+export default ({ onChange, value }) => {
   const [images, setImages] = useState([]);
   const maxNumber = 12;
-  const handleChange = (imageList, addUpdateIndex) => {
+  const handleChange = (imageList) => {
     const data = []
     for (let i = 0; i < imageList.length; i++) {
       data.push(imageList[i].file)
@@ -29,6 +29,23 @@ export default ({ value, onChange }) => {
     onChange(data)
     setImages(imageList);
   };
+
+  useEffect(() => {
+    if (value && value.length > 0) {
+      const tmp = []
+      for (let i = 0; i < value.length; i++) {
+        if (typeof value[i] === 'string') {
+          tmp.push({ data_url: value[i] })
+        }
+      }
+
+      if (tmp.length > 0) {
+        setImages(tmp)
+      }
+    } else {
+      setImages([])
+    }
+  }, [value])
 
   return (
     <ImageUploading
@@ -41,40 +58,39 @@ export default ({ value, onChange }) => {
       {({
         imageList,
         onImageUpload,
-        // onImageRemoveAll,
         onImageUpdate,
         onImageRemove,
         isDragging,
         dragProps
       }) => (
-        <>
-          <ImageUploadWrapper
-            onClick={onImageUpload}
-            isDragging={isDragging}
-            {...dragProps}
-          >
-            <ImageUploadInner>
-              <CloudUploadOutlineIcon size={48} />
-              <ImageUploadText>
-                Rasmni belgilangan sohaga joylang yoki ushbu sohaga bosing tugmasini bosing
-              </ImageUploadText>
-            </ImageUploadInner>
-          </ImageUploadWrapper>
-          <ImageWrapper>
-            {imageList.map((image, idx) => (
-              <ImageItem
-                key={`${idx + 1}`}
-                imgUrl={image.data_url}
-              >
-                <ImageItemAction>
-                  <div onClick={() => onImageUpdate(idx)}><CursorMoveIcon size={18} /></div>
-                  <div onClick={() => onImageRemove(idx)}><TrashCanOutlineIcon size={18} /></div>
-                </ImageItemAction>
-              </ImageItem>
-            ))}
-          </ImageWrapper>
-        </>
-      )}
+          <>
+            <ImageUploadWrapper
+              onClick={onImageUpload}
+              isDragging={isDragging}
+              {...dragProps}
+            >
+              <ImageUploadInner>
+                <CloudUploadOutlineIcon size={48} />
+                <ImageUploadText>
+                  Rasmni belgilangan sohaga joylang yoki ushbu sohaga bosing tugmasini bosing
+                </ImageUploadText>
+              </ImageUploadInner>
+            </ImageUploadWrapper>
+            <ImageWrapper>
+              {imageList.map((image, idx) => (
+                <ImageItem
+                  key={`${idx + 1}`}
+                  imgUrl={image.data_url}
+                >
+                  <ImageItemAction>
+                    <div onClick={() => onImageUpdate(idx)}><CursorMoveIcon size={18} /></div>
+                    <div onClick={() => onImageRemove(idx)}><TrashCanOutlineIcon size={18} /></div>
+                  </ImageItemAction>
+                </ImageItem>
+              ))}
+            </ImageWrapper>
+          </>
+        )}
     </ImageUploading>
   );
 }

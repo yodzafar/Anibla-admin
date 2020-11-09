@@ -3,12 +3,14 @@ import { useDispatch } from 'react-redux';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import PencilIcon from 'mdi-react/PencilIcon';
 import SettingsIcon from 'mdi-react/SettingsIcon';
+import { useHistory } from 'react-router-dom';
 import { ContentContainerInner, MoreIcon, TableLink } from '../../GlobalStyles';
 import Table from '../../Table'
 import Popover from '../../Popover'
 import { showModal } from '../../../Models/site';
 import { ConfirmBody } from '../../ConfirmModalBody';
 import Avatar from '../../AvatarImg'
+import { ROUTE_URL } from '../../../Constants/url';
 
 const nameType = {
   film: {
@@ -25,6 +27,7 @@ const nameType = {
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export default (props) => {
+  const { push } = useHistory()
   const dispatch = useDispatch()
   const {
     removeItem,
@@ -66,8 +69,11 @@ export default (props) => {
     {
       title: 'Rasm',
       key: 'image',
-      render: (image, { nameuz }) => (
-        <TableLink>
+      render: (image, { nameuz, _id }) => (
+        <TableLink
+          link={type === 'serial'}
+          onClick={() => type === 'serial' && push(`${ROUTE_URL.SEASON.LIST}/${_id}`)}
+        >
           <Avatar imgUrl={`${baseUrl}/${image}`} name={nameuz} />
         </TableLink>
       ),
@@ -76,17 +82,38 @@ export default (props) => {
     {
       title: `${nameType[type].name} (uz)`,
       key: 'nameuz',
-      render: (nameuz) => (<TableLink>{nameuz}</TableLink>)
+      render: (nameuz, { _id }) => (
+        <TableLink
+          link={type === 'serial'}
+          onClick={() => type === 'serial' && push(`${ROUTE_URL.SEASON.LIST}/${_id}`)}
+        >
+          {nameuz}
+        </TableLink>
+      )
     },
     {
       title: `${nameType[type].name} (ru)`,
       key: 'nameru',
-      render: (nameru) => (<TableLink>{nameru}</TableLink>)
+      render: (nameru, { _id }) => (
+        <TableLink
+          link={type === 'serial'}
+          onClick={() => type === 'serial' && push(`${ROUTE_URL.SEASON.LIST}/${_id}`)}
+        >
+          {nameru}
+        </TableLink>
+      )
     },
     {
       title: 'Kategoriya',
       key: 'category',
-      render: (category) => (<TableLink>{category}</TableLink>)
+      render: (category, { _id }) => (
+        <TableLink
+          link={type === 'serial'}
+          onClick={() => type === 'serial' && push(`${ROUTE_URL.SEASON.LIST}/${_id}`)}
+        >
+          {category}
+        </TableLink>
+      )
     },
     {
       icon: <SettingsIcon />,

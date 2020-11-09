@@ -58,7 +58,7 @@ a, a:hover {
   z-index: 10000 !important;
 }
 
-.MuiInputLabel-root{
+.MuiInputLabel-outlined.MuiInputLabel-shrink{
   background-color: #fff !important;
   padding: 2px 4px !important;
   font-family: 'Nunito', sans-serif !important;

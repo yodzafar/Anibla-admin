@@ -1,22 +1,20 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { getProductList } from '../../Models/product'
+import { getProductInfo } from '../../Models/product'
 import { hideModal } from '../../Models/site'
 import product from '../../Service/product'
 
-export const useProductList = ({ type }) => {
+export const useSeasonList = ({ filmId }) => {
   const dispatch = useDispatch()
 
   const getList = useCallback(() => {
-    dispatch(getProductList({ type }))
-  }, [dispatch, type])
-
-  useEffect(() => {
-    getList()
-  }, [getList])
+    if (filmId) {
+      dispatch(getProductInfo(filmId))
+    }
+  }, [dispatch, filmId])
 
   const removeItem = useCallback((id) => {
-    product.removeProduct(id)
+    product.removeSeason(id)
       .then((res) => {
         if (res.success) {
           getList()
@@ -26,6 +24,10 @@ export const useProductList = ({ type }) => {
         console.log(e);
       })
   }, [getList, dispatch])
+
+  useEffect(() => {
+    getList()
+  }, [getList])
 
   return { removeItem }
 }

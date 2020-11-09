@@ -11,6 +11,8 @@ import member from '../../Service/member'
 import category from '../../Service/category'
 import product from '../../Service/product'
 import { getProductList } from '../../Models/product';
+import { BASE_URL } from '../../Constants/url'
+import { hideModal } from '../../Models/site';
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
@@ -45,7 +47,7 @@ export const useProductForm = ({ type, id }) => {
   const [memberLoading, setMemberLoading] = useState(false)
   const [categoryOptions, setCategoryOptions] = useState([])
   const [categoryLoading, setCategoryLoading] = useState(false)
-  const [initialValues] = useState({
+  const [initialValues, setInitialValues] = useState({
     nameuz: '',
     nameru: '',
     descriptionuz: '',
@@ -67,7 +69,7 @@ export const useProductForm = ({ type, id }) => {
     nameru: Yup.string().required("Maydon to'ldirilishi shart"),
     descriptionuz: Yup.string().required("Maydon to'ldirilishi shart"),
     descriptionru: Yup.string().required("Maydon to'ldirilishi shart"),
-    video: Yup.string().required("Maydon to'ldirilishi shart"),
+    video: Yup.string(),
     year: Yup.string().required("Maydon to'ldirilishi shart"),
     country: Yup.string().required("Maydon to'ldirilishi shart"),
     janr: Yup.array().required("Maydon to'ldirilishi shart"),
@@ -83,37 +85,81 @@ export const useProductForm = ({ type, id }) => {
     initialValues,
     enableReinitialize: true,
     validationSchema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: (values, { setSubmitting, resetForm }) => {
       setSubmitting(true)
-      const data = new FormData()
-      const keys = Object.keys(values)
-
-      for (let i = 0; i < keys.length; i++) {
-        if (Array.isArray(values[keys[i]])) {
-          const arr = values[keys[i]]
-          for (let j = 0; j < arr.length; j++) {
-            if (keys[i] === 'images') {
-              data.append(keys[i], arr[j])
-            } else {
-              data.append(`${keys[i]}[]`, arr[j])
-            }
-          }
-        } else if (keys[i] === 'status') {
-          data.append(keys[i], !!Number(values[keys[i]]))
-        } else {
-          data.append(keys[i], values[keys[i]])
-        }
-      }
 
       if (!id) {
+        const data = new FormData()
+        const { janr, translator, images } = values
+
+        data.append('nameuz', values.nameuz)
+        data.append('nameru', values.nameru)
+        data.append('descriptionuz', values.descriptionuz)
+        data.append('descriptionru', values.descriptionru)
+        data.append('year', values.year)
+        data.append('country', values.country)
+        data.append('category', values.category)
+        data.append('status', !!Number(values.status))
+        data.append('type', values.type)
+        data.append('price', values.price)
+
+        if (type !== 'serial') {
+          data.append('video', values.video)
+        }
+
+        if (!id) {
+          for (let i = 0; i < images.length; i++) {
+            data.append('images', images[i])
+          }
+        }
+
+        for (let i = 0; i < janr.length; i++) {
+          data.append('janr[]', janr[i])
+        }
+
+        for (let i = 0; i < translator.length; i++) {
+          data.append('translator[]', translator[i])
+        }
         product.createProduct(data)
           .then((res) => {
             if (res.success) {
               dispatch(getProductList({ type }))
+              resetForm()
             }
           }).finally(() => setSubmitting(false))
-          .catch((e) => {
-            console.log(e);
+          .catch(() => {
+            setSubmitting(false)
+          })
+      } else {
+        const data = {
+          nameuz: values.nameuz,
+          nameru: values.nameru,
+          descriptionuz: values.descriptionuz,
+          descriptionru: values.descriptionru,
+          category: values.category,
+          translator: values.translator,
+          year: values.year,
+          country: values.country,
+          janr: values.janr,
+          status: !!Number(values.status),
+          type: values.type,
+          price: values.price
+        }
+
+        if (type !== 'serial') {
+          data.video = values.video
+        }
+
+        product.updateProduct({ id, data })
+          .then((res) => {
+            if (res.success) {
+              dispatch(getProductList({ type }))
+              resetForm()
+              dispatch(hideModal())
+            }
+          })
+          .finally(() => setSubmitting(false))
+          .catch(() => {
             setSubmitting(false)
           })
       }
@@ -131,8 +177,7 @@ export const useProductForm = ({ type, id }) => {
         setGenreOptions(data)
       })
       .finally(() => setGenreLoading(false))
-      .catch((e) => {
-        console.log(e)
+      .catch(() => {
         setGenreLoading(false)
       })
   }, [])
@@ -149,8 +194,7 @@ export const useProductForm = ({ type, id }) => {
         setMemberOptions(data)
       })
       .finally(() => setMemberLoading(false))
-      .catch((e) => {
-        console.log(e)
+      .catch(() => {
         setMemberLoading(false)
       })
   }, [])
@@ -166,8 +210,7 @@ export const useProductForm = ({ type, id }) => {
         setCategoryOptions(data)
       })
       .finally(() => setCategoryLoading(false))
-      .catch((e) => {
-        console.log(e)
+      .catch(() => {
         setCategoryLoading(false)
       })
   }, [])
@@ -200,12 +243,26 @@ export const useProductForm = ({ type, id }) => {
       product.getProduct(id)
         .then((res) => {
           const { data } = res
-          console.log(data);
-        }).catch((e) => {
-          console.log(e);
+          setInitialValues({
+            nameuz: data.name.uz,
+            nameru: data.name.ru,
+            descriptionuz: data.description.uz,
+            descriptionru: data.description.ru,
+            year: data.info.year,
+            country: data.info.country,
+            status: data.status === 'true' ? '1' : '0',
+            video: data.video ? data.video : '',
+            janr: data.info.janr.map((item) => item._id),
+            translator: data.translator.map((item) => item._id),
+            category: data.category._id,
+            images: [data.image, ...data.screens].map((item) => `${BASE_URL}/${item}`),
+            price: data.price,
+            type
+          })
+        }).catch(() => {
         })
     }
-  }, [id])
+  }, [id, type])
 
   const submitDisabled = () => formik.isSubmitting
     || (formik.touched.nameru && !!formik.errors.nameru)
@@ -220,6 +277,7 @@ export const useProductForm = ({ type, id }) => {
     || (formik.touched.images && !!formik.errors.images)
     || (formik.touched.status && !!formik.errors.status)
     || (formik.touched.price && !!formik.errors.price)
+    || (formik.touched.type && !!formik.errors.type)
 
   useEffect(() => {
     getProduct()

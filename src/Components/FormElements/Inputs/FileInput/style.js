@@ -26,8 +26,8 @@ export const StyledFileUploadButton = styled(Button)`
 export const ShowUploadedImg = styled.div`
   padding: 4px;
   position: absolute;
-  top: 10px;
-  right: 145px;
+  top: 12px;
+  right: 160px;
   z-index: 3;
   display: flex;
   align-items: center;

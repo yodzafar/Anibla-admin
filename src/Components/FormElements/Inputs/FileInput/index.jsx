@@ -1,12 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react'
-import {FileInputWrapper, ShowUploadedImg, StyledFileInput, StyledFileUploadButton} from "./style";
-import {StyledFormControl, StyledLabel} from "../style";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import EyeIcon from "mdi-react/EyeIcon";
+import React, { useEffect, useRef, useState } from 'react'
+import FormHelperText from '@material-ui/core/FormHelperText';
+import EyeIcon from 'mdi-react/EyeIcon';
 import Lightbox from 'react-image-lightbox';
+import { StyledFormControl, StyledLabel } from '../style';
+import {
+  FileInputWrapper, ShowUploadedImg, StyledFileInput, StyledFileUploadButton
+} from './style';
 import 'react-image-lightbox/style.css';
 
-export default ({error, label, value, onChange, onBlur}) => {
+export default ({
+  error, label, value, onChange, onBlur
+}) => {
   const [fileName, setFileName] = useState('')
   const [imgUrl, setImgUrl] = useState(null)
   const [open, setOpen] = useState(false)
@@ -19,21 +23,30 @@ export default ({error, label, value, onChange, onBlur}) => {
   }
 
   useEffect(() => {
-    if(value) {
-      setFileName(value.name)
-      setImgUrl(URL.createObjectURL(value))
+    if (value) {
+      if (typeof value === 'string' && value.match(/\w+(.)\w+$/)[0]) {
+        setImgUrl(value)
+        setFileName(value.match(/\w+(.)\w+$/)[0])
+      } else {
+        setFileName(value.name)
+        setImgUrl(URL.createObjectURL(value))
+      }
+    } else {
+      setImgUrl(false)
+      setFileName('')
     }
   }, [value])
 
   return (
     <>
-      <StyledFormControl error={!!error} variant={"outlined"}>
-        <StyledLabel>{label}</StyledLabel>
+      <StyledFormControl error={!!error} variant="outlined">
+        <StyledLabel bg="0">{label}</StyledLabel>
         <FileInputWrapper>
           <StyledFileInput
             type="text"
             value={fileName}
             readOnly
+            disabled
           />
           {
             imgUrl
@@ -41,7 +54,7 @@ export default ({error, label, value, onChange, onBlur}) => {
               <ShowUploadedImg
                 onClick={() => setOpen(true)}
               >
-                <EyeIcon size={18}/>
+                <EyeIcon size={18} />
               </ShowUploadedImg>
             )
           }
@@ -55,7 +68,7 @@ export default ({error, label, value, onChange, onBlur}) => {
         <FormHelperText>{error}</FormHelperText>
       </StyledFormControl>
       <input
-        style={{display: 'none'}}
+        style={{ display: 'none' }}
         ref={fileUploadInput}
         readOnly
         type="file"

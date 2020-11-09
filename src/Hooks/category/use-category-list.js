@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCategoryList } from '../../Models/category';
+import { hideModal } from '../../Models/site';
 import category from '../../Service/category';
 
 export const useCategoryList = () => {
@@ -15,11 +16,12 @@ export const useCategoryList = () => {
       .then((res) => {
         if (res.success) {
           getList()
+          dispatch(hideModal())
         }
       }).catch((e) => {
         console.log(e);
       })
-  }, [getList])
+  }, [getList, dispatch])
 
   useEffect(() => {
     getList()

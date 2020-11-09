@@ -1,2 +1,2 @@
 export { default as productReducer } from './reducers'
-export { getProductList } from './actions'
+export { getProductList, getProductInfo } from './actions'

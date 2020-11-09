@@ -1,7 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { ButtonWrapper, Grid, SectionForm } from '../../GlobalStyles';
-import { RuFormInput, UzFormInput } from './MultilangFormInput';
+import {
+  ButtonWrapper, DisabledContainer, Grid, SectionForm
+} from '../../GlobalStyles';
+import { RuFormInput, UzFormInput } from '../../MultilangFormInput';
 import Tabs from '../../Tabs'
 import { Form } from '../../Form';
 import { NormalInput, SelectInput } from '../../FormElements/Inputs';
@@ -23,7 +25,8 @@ export default (props) => {
     statusOptions,
     priceOptions,
     maxWidth,
-    type
+    type,
+    id
   } = props
   const dispatch = useDispatch()
 
@@ -125,12 +128,16 @@ export default (props) => {
               error={formik.touched.status && formik.errors.status}
             />
           </Grid>
-          <div style={{ marginTop: 16 }}>
-            <ImageUpload
-              value={formik.values.images}
-              onChange={(e) => formik.setFieldValue('images', e)}
-            />
-          </div>
+          {
+            !id && (
+              <DisabledContainer disabled={!!id} style={{ marginTop: 16 }}>
+                <ImageUpload
+                  value={formik.values.images}
+                  onChange={(e) => formik.setFieldValue('images', e)}
+                />
+              </DisabledContainer>
+            )
+          }
           <ButtonWrapper>
             <Button
               type="button"

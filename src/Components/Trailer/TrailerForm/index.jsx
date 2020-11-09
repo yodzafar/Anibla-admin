@@ -11,6 +11,7 @@ export default ({ id, maxWidth, type }) => {
       {...productHook}
       maxWidth={maxWidth}
       type={type}
+      id={id}
     />
   )
 }

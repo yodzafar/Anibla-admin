@@ -27,3 +27,21 @@ export const getProductList = (params) => (dispatch) => {
       console.log(e);
     })
 }
+
+export const getProductInfo = (id, seasonId) => (dispatch) => {
+  dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: true })
+  product.getProduct(id)
+    .then((res) => {
+      if (res.success) {
+        dispatch(
+          {
+            type: PRODUCT_ACTION_TYPES.PRODUCT_INFO,
+            data: { filmData: res.data, seasonId }
+          }
+        )
+      }
+    }).finally(() => dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: false }))
+    .catch((e) => {
+      console.log(e);
+    })
+}

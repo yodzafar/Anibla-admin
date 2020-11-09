@@ -8,7 +8,9 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/prefer-stateless-function': 'off',
-    indent: ['error', 2],
+    indent: 'off',
+    'react/jsx-indent': 'off',
+    'react/jsx-indent-props': 'off',
     'comma-dangle': ['error', 'never'],
     'no-shadow': 'off',
     'react/no-children-prop': 'off',

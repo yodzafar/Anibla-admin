@@ -9,7 +9,7 @@ import { hideModal } from '../../../Models/site';
 
 export default () => {
   const dispatch = useDispatch()
-  const { formik } = useMemberForm()
+  const { formik, clear } = useMemberForm()
   return (
     <Form
       title="Ishtirokchi qo'shish"
@@ -31,6 +31,7 @@ export default () => {
             onChange={(e) => formik.setFieldValue('file', e)}
             onBlur={formik.handleBlur}
             error={formik.errors.file && formik.errors.file}
+            clear={clear}
           />
         </Grid>
         <ButtonWrapper>

@@ -1,6 +1,6 @@
 export const generateTitle = (title) => {
   return {
-    TITLE:title,
+    TITLE: title,
     TITLE_PLURAL: `${title}lar`,
     TITLE_ADD: `${title} qo'shish`,
     TITLE_EDIT: `${title} tahrirlash`

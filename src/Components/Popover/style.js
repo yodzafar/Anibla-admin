@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const PopoverContent = styled.div`
   display: flex;
@@ -14,8 +14,8 @@ export const PopoverContainer = styled.div`
 export const PopoverChildren = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `
-
 
 export const PopoverContentItem = styled.div`
   cursor:pointer;
@@ -24,8 +24,8 @@ export const PopoverContentItem = styled.div`
   color: #7c8a96;
   white-space: nowrap;
   transition: .2s ease;
-  border-top: ${({divider}) => divider ? '1px solid #eff2f7' : 0};
-  margin-top: ${({divider}) => divider ? '6px' : 0};
+  border-top: ${({ divider }) => (divider ? '1px solid #eff2f7' : 0)};
+  margin-top: ${({ divider }) => (divider ? '6px' : 0)};
   display: flex;
   align-items: center;
   
@@ -35,7 +35,7 @@ export const PopoverContentItem = styled.div`
   }
   
   &:hover {
-    color: ${({remove}) => remove ? '#fff' : 'var(--primary)'};
-    background: ${({remove}) => remove ? 'var(--danger)' : '#f8f9fa'} ;
+    color: ${({ remove }) => (remove ? '#fff' : 'var(--primary)')};
+    background: ${({ remove }) => (remove ? 'var(--danger)' : '#f8f9fa')} ;
   }
 `

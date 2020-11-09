@@ -40,6 +40,8 @@ export const TableLink = styled.div`
   color: #333;
   font-weight: 500;
   font-size: 15px;
+  padding: 16px;
+  cursor: ${({ link }) => (link ? 'pointer' : 'unset')};
 `
 
 export const SectionForm = styled.form`
@@ -50,5 +52,26 @@ export const SectionForm = styled.form`
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: ${({ perColumn }) => (perColumn ? `repeat(${perColumn}, 1fr)` : '1fr')};
-  grid-gap: 16px
+  grid-gap: 16px;
+`
+export const GridItem = styled.div`
+  ${(props) => props.gridColumn && `grid-column: ${props.gridColumn}`};
+  display: flex;
+  flex-direction: column;
+`
+
+export const DisabledContainer = styled.div`
+  position: relative;
+
+  &::before {
+    content: '';
+    display: ${({ disabled }) => (disabled ? 'block' : 'none')};
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, .4);
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 20;
+  }
 `

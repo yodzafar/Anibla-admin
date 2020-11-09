@@ -23,7 +23,7 @@ export const StyledInput = styled(OutlinedInput)`
 export const StyledLabel = styled(InputLabel)`
   && {
       transform: translate(14px, 15px) scale(1);
-      background-color: #fff;
+      background-color: ${({ bg }) => (bg === '0' ? 'unset' : '#fff')};
       padding: 2px 4px;
       font-family: 'Nunito', sans-serif;
       color: #7c8a96;
@@ -31,7 +31,13 @@ export const StyledLabel = styled(InputLabel)`
 `
 
 export const StyledFormControl = styled(FormControl)`
-  width: 100%;
+  && {
+    width: 100%;
+    
+    .MuiInputBase-root.Mui-disabled{
+      background-color: #e4e1e1;
+    }
+  }
 `
 
 export const StyledSelect = styled(Select)`

@@ -1,7 +1,8 @@
-import {useCallback, useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {getGenreList} from "../../Models/genre";
-import genre from "../../Service/genre";
+import { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getGenreList } from '../../Models/genre';
+import { hideModal } from '../../Models/site';
+import genre from '../../Service/genre';
 
 export const useGenreList = () => {
   const dispatch = useDispatch()
@@ -13,17 +14,18 @@ export const useGenreList = () => {
   const removeItem = useCallback((id) => {
     genre.removeGenre(id)
       .then((res) => {
-        if(res.success) {
+        if (res.success) {
           getList()
+          dispatch(hideModal())
         }
       }).catch((e) => {
       console.log(e);
     })
-  }, [getList])
+  }, [getList, dispatch])
 
   useEffect(() => {
     getList()
   }, [getList])
 
-  return {removeItem}
+  return { removeItem }
 }

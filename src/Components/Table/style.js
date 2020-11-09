@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import {TableCell} from "@material-ui/core";
+import styled from 'styled-components';
+import { TableCell } from '@material-ui/core';
 
 export const StyledTableCell = styled(TableCell)`
    &&{
@@ -10,7 +10,7 @@ export const StyledTableCell = styled(TableCell)`
       font-weight: 700;
       font-family: 'Nunito', sans-serif;
       font-size: 16px;
-      width: ${({width}) => width ? width : 'unset'};
+      width: ${({ width }) => (width || 'unset')};
    }
 `
 export const TheadInner = styled.div`
@@ -23,6 +23,10 @@ export const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+
+  tbody td {
+    padding: 0;
+  }
 `
 
 export const TableLoadingData = styled.div`

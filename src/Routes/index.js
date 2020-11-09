@@ -10,7 +10,7 @@ import { URL_TITLE, ROUTE_URL } from '../Constants/url';
 import { MemberList } from '../Views/Memeber';
 import { TrailerList } from '../Views/Trailer';
 import { FilmList } from '../Views/Film';
-import { SerialList } from '../Views/Serial';
+import { SeasonList, SerialList, SeriyaList } from '../Views/Serial';
 
 const category = [
   {
@@ -69,6 +69,22 @@ const serial = [
     path: ROUTE_URL.SERIAL.LIST,
     icon: FilmIcon,
     component: SerialList
+  },
+  {
+    id: 'seasonList',
+    title: URL_TITLE.SEASON.TITLE_PLURAL,
+    path: `${ROUTE_URL.SEASON.LIST}/:filmId`,
+    icon: FilmIcon,
+    component: SeasonList,
+    hidden: true
+  },
+  {
+    id: 'seriyaList',
+    title: URL_TITLE.SERIYA.TITLE_PLURAL,
+    path: `${ROUTE_URL.SEASON.LIST}/:filmId/seriya/:seasonId`,
+    icon: FilmIcon,
+    component: SeriyaList,
+    hidden: true
   }
 ]
 

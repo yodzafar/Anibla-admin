@@ -7,7 +7,9 @@ export const BASIC_URLS = {
   MEMBER: '/member',
   TRAILER: '/trailer',
   FILM: '/film',
-  SERIAL: '/serial'
+  SERIAL: '/serial',
+  SEASON: '/serial/season',
+  SERIYA: '/serial/season/seriya'
 }
 
 export const ROUTE_URL = {
@@ -17,7 +19,9 @@ export const ROUTE_URL = {
   MEMBER: generateUrl(BASIC_URLS.MEMBER),
   TRAILER: generateUrl(BASIC_URLS.TRAILER),
   FILM: generateUrl(BASIC_URLS.FILM),
-  SERIAL: generateUrl(BASIC_URLS.SERIAL)
+  SERIAL: generateUrl(BASIC_URLS.SERIAL),
+  SEASON: generateUrl(BASIC_URLS.SEASON),
+  SERIYA: generateUrl(BASIC_URLS.SERIYA)
 }
 
 export const URL_TITLE = {
@@ -27,5 +31,9 @@ export const URL_TITLE = {
   MEMBER: generateTitle('Hodim'),
   TRAILER: generateTitle('Trailer'),
   FILM: generateTitle('Film'),
-  SERIAL: generateTitle('Serial')
+  SERIAL: generateTitle('Serial'),
+  SEASON: generateTitle('Fasl'),
+  SERIYA: generateTitle('Seriya')
 }
+
+export const BASE_URL = process.env.REACT_APP_BASE_URL

@@ -1,7 +1,8 @@
-import {useDispatch} from "react-redux";
-import {useCallback, useEffect} from "react";
-import {getMemberList} from "../../Models/member";
-import member from "../../Service/member";
+import { useDispatch } from 'react-redux';
+import { useCallback, useEffect } from 'react';
+import { getMemberList } from '../../Models/member';
+import member from '../../Service/member';
+import { hideModal } from '../../Models/site';
 
 export const useMemberList = () => {
   const dispatch = useDispatch()
@@ -13,17 +14,18 @@ export const useMemberList = () => {
   const removeItem = useCallback((id) => {
     member.removeMember(id)
       .then((res) => {
-        if(res.success) {
+        if (res.success) {
           getList()
+          dispatch(hideModal())
         }
       }).catch((e) => {
       console.log(e);
     })
-  }, [getList])
+  }, [getList, dispatch])
 
   useEffect(() => {
     getList()
   }, [getList])
 
-  return {removeItem, getList}
+  return { removeItem, getList }
 }
