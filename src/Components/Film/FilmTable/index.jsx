@@ -5,7 +5,7 @@ import { ProductTable } from '../../Product'
 import FilmForm from '../FilmForm'
 
 export default () => {
-  const { removeItem } = useProductList({ type: 'film' })
+  const { removeItem, addToSlider } = useProductList({ type: 'film' })
   const product = useSelector(({ product }) => product)
   return (
     <ProductTable
@@ -15,6 +15,7 @@ export default () => {
       Form={FilmForm}
       formMaxWidth="md"
       removeItem={removeItem}
+      addToSlider={addToSlider}
     />
   )
 }

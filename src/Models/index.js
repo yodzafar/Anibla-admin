@@ -4,8 +4,11 @@ import { authReducer } from './auth';
 import { categoryReducer } from './category';
 import { genreReducer } from './genre'
 import { memberReducer } from './member';
-import { siteReducer } from './site';
+import { appReducer } from './app';
 import { productReducer } from './product';
+import {sliderReducer} from "./slider";
+import {newsReducer} from "./news";
+import {annotationReducer} from "./annotation";
 
 export default (history) => combineReducers({
   router: connectRouter(history),
@@ -13,6 +16,9 @@ export default (history) => combineReducers({
   category: categoryReducer,
   genre: genreReducer,
   member: memberReducer,
-  site: siteReducer,
-  product: productReducer
+  app: appReducer,
+  product: productReducer,
+  slider: sliderReducer,
+  news: newsReducer,
+  annotation: annotationReducer
 })

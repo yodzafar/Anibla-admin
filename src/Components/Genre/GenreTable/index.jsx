@@ -9,7 +9,7 @@ import Table from '../../Table'
 import Popover from '../../Popover'
 import { ROUTE_URL } from '../../../Constants/url';
 import { useGenreList } from '../../../Hooks/genre';
-import { showModal } from '../../../Models/site';
+import { showModal } from '../../../Models/app';
 import { GenreForm } from '../index';
 import { ConfirmBody } from '../../ConfirmModalBody';
 

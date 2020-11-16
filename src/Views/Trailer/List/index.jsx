@@ -6,7 +6,7 @@ import Button from '../../../Components/FormElements/Button';
 import { ContentContainer } from '../../../Components/GlobalStyles';
 import { URL_TITLE } from '../../../Constants/url';
 import { TrailerForm } from '../../../Components/Trailer';
-import { showModal } from '../../../Models/site';
+import { showModal } from '../../../Models/app';
 import TrailerTable from '../../../Components/Trailer/TrailerTable';
 
 export default () => {

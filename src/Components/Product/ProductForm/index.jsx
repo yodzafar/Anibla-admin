@@ -9,7 +9,8 @@ import { Form } from '../../Form';
 import { NormalInput, SelectInput } from '../../FormElements/Inputs';
 import ImageUpload from '../../ImageIpload'
 import Button from '../../FormElements/Button';
-import { hideModal } from '../../../Models/site';
+import { hideModal } from '../../../Models/app';
+import {URL_TITLE} from "../../../Constants/url";
 
 export default (props) => {
   const {
@@ -43,8 +44,19 @@ export default (props) => {
     }
   ]
 
+  const getTitle = () => {
+    switch (type) {
+      case 'treyler':
+        return URL_TITLE.TRAILER.TITLE
+      case 'serial':
+        return  URL_TITLE.SERIAL.TITLE
+      default:
+        return URL_TITLE.FILM.TITLE
+    }
+  }
+
   return (
-    <Form title="Mahsulot qo'shish" maxWidth={maxWidth}>
+    <Form title={`${getTitle()} qo'shish`} maxWidth={maxWidth}>
       <SectionForm onSubmit={formik.handleSubmit}>
         <Tabs data={tabData} formError={error}>
           <Grid perColumn={2} style={{ marginTop: 16 }}>

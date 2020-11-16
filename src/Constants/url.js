@@ -1,39 +1,48 @@
 import { generateTitle, generateUrl } from '../Helpers/url-helpers';
 
 export const BASIC_URLS = {
-  CATEGORY: '/category',
-  GENRE: '/genre',
-  GENERIC: '/generic',
-  MEMBER: '/member',
-  TRAILER: '/trailer',
   FILM: '/film',
+  NEWS: '/news',
+  GENRE: '/genre',
   SERIAL: '/serial',
+  SLIDER: '/slider',
+  MEMBER: '/member',
+  GENERIC: '/generic',
+  TRAILER: '/trailer',
+  CATEGORY: '/category',
   SEASON: '/serial/season',
-  SERIYA: '/serial/season/seriya'
+  ANNOTATION: '/annotation',
+  SERIYA: '/serial/season/series',
 }
 
 export const ROUTE_URL = {
-  CATEGORY: generateUrl(BASIC_URLS.CATEGORY),
-  GENRE: generateUrl(BASIC_URLS.GENRE),
-  GENERIC: generateUrl(BASIC_URLS.GENERIC),
-  MEMBER: generateUrl(BASIC_URLS.MEMBER),
-  TRAILER: generateUrl(BASIC_URLS.TRAILER),
+  NEWS: generateUrl(BASIC_URLS.NEWS),
   FILM: generateUrl(BASIC_URLS.FILM),
+  GENRE: generateUrl(BASIC_URLS.GENRE),
+  MEMBER: generateUrl(BASIC_URLS.MEMBER),
   SERIAL: generateUrl(BASIC_URLS.SERIAL),
   SEASON: generateUrl(BASIC_URLS.SEASON),
-  SERIYA: generateUrl(BASIC_URLS.SERIYA)
+  SERIYA: generateUrl(BASIC_URLS.SERIYA),
+  SLIDER: generateUrl(BASIC_URLS.SLIDER),
+  GENERIC: generateUrl(BASIC_URLS.GENERIC),
+  TRAILER: generateUrl(BASIC_URLS.TRAILER),
+  CATEGORY: generateUrl(BASIC_URLS.CATEGORY),
+  ANNOTATION: generateUrl(BASIC_URLS.ANNOTATION)
 }
 
 export const URL_TITLE = {
-  CATEGORY: generateTitle('Kategoriya'),
-  GENRE: generateTitle('Janr'),
-  GENERIC: generateTitle('Umumiy'),
-  MEMBER: generateTitle('Hodim'),
-  TRAILER: generateTitle('Trailer'),
   FILM: generateTitle('Film'),
-  SERIAL: generateTitle('Serial'),
+  GENRE: generateTitle('Janr'),
   SEASON: generateTitle('Fasl'),
-  SERIYA: generateTitle('Seriya')
+  MEMBER: generateTitle('Hodim'),
+  SERIAL: generateTitle('Serial'),
+  SERIYA: generateTitle('Seriya'),
+  SLIDER: generateTitle('Slider'),
+  GENERIC: generateTitle('Umumiy'),
+  TRAILER: generateTitle('Trailer'),
+  NEWS: generateTitle('Yangiliklar'),
+  CATEGORY: generateTitle('Kategoriya'),
+  ANNOTATION: generateTitle('Annotatsiyalar')
 }
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL

@@ -5,7 +5,7 @@ import { ButtonWrapper, Grid, SectionForm } from '../../GlobalStyles';
 import Button from '../../FormElements/Button';
 import { useGenreForm } from '../../../Hooks/genre';
 import { Form } from '../../Form';
-import { hideModal } from '../../../Models/site';
+import { hideModal } from '../../../Models/app';
 
 export default (props) => {
   const dispatch = useDispatch()

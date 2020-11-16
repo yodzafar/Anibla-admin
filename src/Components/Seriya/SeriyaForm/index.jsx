@@ -6,7 +6,7 @@ import {
 } from '../../GlobalStyles'
 import { NormalInput } from '../../FormElements/Inputs'
 import Button from '../../FormElements/Button'
-import { hideModal } from '../../../Models/site'
+import { hideModal } from '../../../Models/app'
 import { RuFormInput, UzFormInput } from '../../MultilangFormInput'
 import { Form } from '../../Form'
 import Tabs from '../../Tabs'

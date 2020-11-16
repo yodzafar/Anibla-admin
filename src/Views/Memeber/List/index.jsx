@@ -6,7 +6,7 @@ import Button from '../../../Components/FormElements/Button';
 import { ContentContainer } from '../../../Components/GlobalStyles';
 import { URL_TITLE } from '../../../Constants/url';
 import { MemberForm, MemberTable } from '../../../Components/Member'
-import { showModal } from '../../../Models/site';
+import { showModal } from '../../../Models/app';
 
 export default () => {
   const dispatch = useDispatch()
@@ -26,7 +26,7 @@ export default () => {
         >
           <PlusIcon size={16} />
           {
-            URL_TITLE.MEMBER.TITLE_ADD
+            URL_TITLE.NEWS.TITLE_ADD
           }
         </Button>
       </ContentHeader>

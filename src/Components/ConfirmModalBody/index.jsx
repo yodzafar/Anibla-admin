@@ -3,7 +3,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import InformationCircleOutlineIcon from 'mdi-react/InformationCircleOutlineIcon'
-import { hideModal } from '../../Models/site'
+import { hideModal } from '../../Models/app'
 import Button from '../FormElements/Button'
 import { ButtonWrapper } from '../GlobalStyles'
 import { ConfirmContainer, ConfirmContentBody } from './style'

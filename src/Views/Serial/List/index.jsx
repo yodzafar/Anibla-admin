@@ -5,7 +5,7 @@ import ContentHeader from '../../../Components/BodyHeader'
 import { ContentContainer } from '../../../Components/GlobalStyles'
 import { SerialForm, SerialTable } from '../../../Components/Serial'
 import { URL_TITLE } from '../../../Constants/url'
-import { showModal } from '../../../Models/site'
+import { showModal } from '../../../Models/app'
 import Button from '../../../Components/FormElements/Button'
 
 export default () => {

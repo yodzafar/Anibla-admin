@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import member from '../../Service/member';
 import { getMemberList } from '../../Models/member';
 import { imageExtValidate } from '../../utils/ext-validate';
+import {showSnackbar} from "../../Models/app/actions";
+import {URL_TITLE} from "../../Constants/url";
 
 export const useMemberForm = () => {
   const dispatch = useDispatch()
@@ -13,7 +15,6 @@ export const useMemberForm = () => {
     name: '',
     file: null
   })
-  const [clear, setClear] = useState(false)
 
   const validationSchema = new Yup.object().shape({
     name: Yup.string().required('Maydon to\'ldirilshi shart'),
@@ -38,17 +39,24 @@ export const useMemberForm = () => {
       member.createMember(formData)
         .then((res) => {
           if (res.success) {
-            setClear(true)
+            const payload = {
+              open: true,
+              variant: 'success',
+              message: `${URL_TITLE.MEMBER.TITLE} muvaffaqiyatli qo'shildi`
+            }
+            dispatch(showSnackbar(payload))
             dispatch(getMemberList())
             resetForm()
           }
         })
-        .finally(() => {
-          setSubmitting(false)
-          setClear(false)
-        })
-        .catch((e) => {
-          console.log(e.response);
+        .finally(() => setSubmitting(false))
+        .catch(() => {
+          const payload = {
+            open: true,
+            variant: 'error',
+            message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
+          }
+          dispatch(showSnackbar(payload))
           setSubmitting(false)
         })
     }
@@ -56,6 +64,5 @@ export const useMemberForm = () => {
 
   return {
     formik,
-    clear
   }
 }

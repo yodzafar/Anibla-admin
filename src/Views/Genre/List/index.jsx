@@ -6,7 +6,7 @@ import React from "react";
 import {URL_TITLE} from "../../../Constants/url";
 import {GenreForm, GenreTable} from '../../../Components/Genre'
 import {useDispatch} from "react-redux";
-import {showModal} from "../../../Models/site";
+import {showModal} from "../../../Models/app";
 
 export default () => {
   const dispatch = useDispatch()

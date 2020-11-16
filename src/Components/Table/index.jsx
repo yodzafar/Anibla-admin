@@ -36,7 +36,7 @@ export default ({ columns, dataSource, loading }) => (
                     columns.map((column, idx) => (
                       <TableCell key={`${idx + 1}`}>
                         {
-                          column.render(item[column.key] ? item[column.key] : '---', item)
+                          column.render(item[column.key] !== undefined ? item[column.key] : '---', item)
                         }
                       </TableCell>
                     ))

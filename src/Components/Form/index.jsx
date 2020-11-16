@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import {
   FormClose, FormHeading, FormTitle, FormWrapper
 } from './style';
-import { hideModal } from '../../Models/site';
+import { hideModal } from '../../Models/app';
 
 export const Form = ({ title, children, maxWidth }) => {
   const dispatch = useDispatch()

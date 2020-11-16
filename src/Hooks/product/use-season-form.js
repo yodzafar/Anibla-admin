@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import { getProductInfo } from '../../Models/product'
 import product from '../../Service/product'
 import { BASE_URL } from '../../Constants/url'
-import { hideModal } from '../../Models/site'
+import { hideModal } from '../../Models/app'
 import { imageExtValidate } from '../../utils/ext-validate'
 
 export const useSeasonForm = ({ filmId, id }) => {

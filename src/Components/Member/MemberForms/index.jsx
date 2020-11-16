@@ -5,7 +5,7 @@ import { FileUploadInput, NormalInput } from '../../FormElements/Inputs';
 import { useMemberForm } from '../../../Hooks/member';
 import Button from '../../FormElements/Button';
 import { Form } from '../../Form';
-import { hideModal } from '../../../Models/site';
+import { hideModal } from '../../../Models/app';
 
 export default () => {
   const dispatch = useDispatch()

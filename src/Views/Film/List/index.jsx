@@ -6,7 +6,7 @@ import Button from '../../../Components/FormElements/Button';
 import { ContentContainer } from '../../../Components/GlobalStyles';
 import { URL_TITLE } from '../../../Constants/url';
 import { FilmForm, FilmTable } from '../../../Components/Film';
-import { showModal } from '../../../Models/site';
+import { showModal } from '../../../Models/app';
 
 export default () => {
   const dispatch = useDispatch()

@@ -5,7 +5,7 @@ import ContentHeader from '../../../Components/BodyHeader';
 import Button from '../../../Components/FormElements/Button';
 import { ContentContainer } from '../../../Components/GlobalStyles';
 import { CategoryForm, CategoryTable } from '../../../Components/Category';
-import { showModal } from '../../../Models/site';
+import { showModal } from '../../../Models/app';
 import { URL_TITLE } from '../../../Constants/url';
 
 export default () => {

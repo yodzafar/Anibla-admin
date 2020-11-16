@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getProductInfo } from '../../Models/product'
-import { hideModal } from '../../Models/site'
+import { hideModal } from '../../Models/app'
 import product from '../../Service/product'
 
 export const useSeasonList = ({ filmId }) => {

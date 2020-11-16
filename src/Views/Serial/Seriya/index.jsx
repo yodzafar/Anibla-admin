@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import ContentHeader from '../../../Components/BodyHeader'
 import { ContentContainer } from '../../../Components/GlobalStyles'
 import { URL_TITLE } from '../../../Constants/url'
-import { showModal } from '../../../Models/site'
+import { showModal } from '../../../Models/app'
 import Button from '../../../Components/FormElements/Button'
 import { SeriyaForm, SeriyaTable } from '../../../Components/Seriya'
 

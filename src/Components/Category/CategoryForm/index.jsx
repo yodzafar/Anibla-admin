@@ -5,7 +5,7 @@ import { useCategoryForm } from '../../../Hooks/category';
 import { ButtonWrapper, Grid, SectionForm } from '../../GlobalStyles';
 import Button from '../../FormElements/Button';
 import { Form } from '../../Form';
-import { hideModal } from '../../../Models/site';
+import { hideModal } from '../../../Models/app';
 
 export default (props) => {
   const { formik } = useCategoryForm(props)

@@ -9,7 +9,7 @@ import Table from '../../Table';
 import { useMemberList } from '../../../Hooks/member';
 import Avatar from '../../AvatarImg'
 import { ConfirmBody } from '../../ConfirmModalBody';
-import { showModal } from '../../../Models/site';
+import { showModal } from '../../../Models/app';
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 

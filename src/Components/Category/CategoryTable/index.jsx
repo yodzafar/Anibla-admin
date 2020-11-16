@@ -10,7 +10,7 @@ import Table from '../../Table'
 import Popover from '../../Popover'
 import { ROUTE_URL } from '../../../Constants/url';
 import { CategoryForm } from '../index';
-import { showModal } from '../../../Models/site';
+import { showModal } from '../../../Models/app';
 import { ConfirmBody } from '../../ConfirmModalBody';
 
 export default () => {

@@ -1,11 +1,10 @@
-/* eslint-disable react/destructuring-assignment */
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
-import { hideModal } from '../../Models/site';
+import { hideModal } from '../../Models/app';
 
-export const SiteModal = () => {
-  const modal = useSelector(({ site }) => site.modal)
+export const AppModal = () => {
+  const modal = useSelector(({ app }) => app.modal)
   const dispatch = useDispatch()
   const { props, open, component } = modal
 

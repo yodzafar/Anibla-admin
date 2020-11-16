@@ -1,0 +1,1 @@
+export {default as SliderTable} from './SliderTabel'

@@ -6,7 +6,8 @@ import { AppContainer, AppContent } from './style';
 import Navbar from '../../Components/Navbar';
 import Sidebar from '../../Components/Sidebar';
 import routes from '../../Routes/index'
-import { SiteModal } from '../../Components/Modal';
+import { AppModal } from '../../Components/Modal';
+import {AppSnackBar} from "../../Components/Snackbar";
 
 export default () => (
   <Router>
@@ -14,7 +15,8 @@ export default () => (
       <Navbar />
       <Sidebar />
       <AppContent>
-        <SiteModal />
+        <AppSnackBar />
+        <AppModal />
         <Switch>
           {
             routes.map((route) => (

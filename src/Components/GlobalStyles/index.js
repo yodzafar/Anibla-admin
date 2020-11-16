@@ -35,10 +35,8 @@ export const MoreIcon = styled(MoreVertIcon)`
 `
 
 export const TableLink = styled.div`
-  display: flex;
-  flex-direction: column;
   color: #333;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 15px;
   padding: 16px;
   cursor: ${({ link }) => (link ? 'pointer' : 'unset')};
@@ -74,4 +72,16 @@ export const DisabledContainer = styled.div`
     right: 0;
     z-index: 20;
   }
+`
+
+export const StatusBadge = styled.span`
+  display: inline-block;
+  padding: 4px 8px;
+  line-height: 1.2;
+  color: #fff;
+  background-color: ${({status}) => status ? 'var(--success)' : 'var(--danger)'};
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 3px;
+  text-transform: lowercase;
 `
