@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable new-cap */
 import { useFormik } from 'formik'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,6 +7,8 @@ import product from '../../Service/product'
 import { BASE_URL } from '../../Constants/url'
 import { hideModal } from '../../Models/app'
 import { imageExtValidate } from '../../utils/ext-validate'
+import {imgObgj, readFileAsDataURL} from "../../utils/imageSize";
+import {showSnackbar} from "../../Models/app/actions";
 
 export const useSeasonForm = ({ filmId, id }) => {
     const dispatch = useDispatch()
@@ -37,7 +37,18 @@ export const useSeasonForm = ({ filmId, id }) => {
             .test('fileType', 'Faqat jpeg yoki png turdagi rasmlarni yuklang', (file) => (
                 file && typeof file === 'string'
                     ? imageExtValidate(file)
-                    : (file.type === 'image/jpeg' || file.type === 'image/png')))
+                    : file && (file.type === 'image/jpeg' || file.type === 'image/png')))
+            .test('fileSize', "Muqova rasmi width/height 0.7dan katta 0.8 kichik bo'lishi talab etiladi",
+                async (file) => {
+                    if (file && typeof file !== "string") {
+                        const base64Url = await readFileAsDataURL(file)
+                        const image = await imgObgj(base64Url)
+                        return (image.naturalWidth / image.naturalHeight) >= 0.7
+                            && (image.naturalWidth / image.naturalHeight) <= 0.8
+                    }
+                    return true
+                }).required("Maydon to'ldirilishi shart")
+
     })
 
     const formik = useFormik({
@@ -61,11 +72,23 @@ export const useSeasonForm = ({ filmId, id }) => {
                     .then((res) => {
                         if (res.success) {
                             resetForm()
+                            const payload = {
+                                open: true,
+                                variant: 'success',
+                                message: `Seriya muvaffaqiyatli qo'shildi`
+                            }
+                            dispatch(showSnackbar(payload))
                             dispatch(getProductInfo(filmId))
                         }
                     }).finally(() => setSubmitting(false))
                     .catch(() => {
                         setSubmitting(false)
+                        const payload = {
+                            open: true,
+                            variant: 'error',
+                            message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
+                        }
+                        dispatch(showSnackbar(payload))
                     })
             } else {
                 const data = {
@@ -81,12 +104,24 @@ export const useSeasonForm = ({ filmId, id }) => {
                     .then((res) => {
                         if (res.success) {
                             resetForm()
+                            const payload = {
+                                open: true,
+                                variant: 'success',
+                                message: `Seriya muvaffaqiyatli tahrirlandi`
+                            }
+                            dispatch(showSnackbar(payload))
                             dispatch(getProductInfo(filmId))
                             dispatch(hideModal())
                         }
                     })
                     .finally(() => setSubmitting(false))
                     .catch(() => {
+                        const payload = {
+                            open: true,
+                            variant: 'error',
+                            message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
+                        }
+                        dispatch(showSnackbar(payload))
                         setSubmitting(false)
                     })
             }

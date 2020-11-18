@@ -12,6 +12,8 @@ import {getProductList} from '../../Models/product';
 import {BASE_URL, URL_TITLE} from '../../Constants/url'
 import {hideModal} from '../../Models/app';
 import {showSnackbar} from "../../Models/app/actions";
+import {imgObgj, readFileAsDataURL} from "../../utils/imageSize";
+import {imageExtValidate} from "../../utils/ext-validate";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
@@ -37,9 +39,12 @@ const priceOptions = [
     }
 ]
 
+
 export const useProductForm = ({type, id}) => {
     const dispatch = useDispatch()
     const [error, setError] = useState({})
+    const [step, setStep] = useState(1)
+    const [allowNextStep, setAllowNextStep] = useState(false)
     const [genreOptions, setGenreOptions] = useState([])
     const [genreLoading, setGenreLoading] = useState(false)
     const [memberOptions, setMemberOptions] = useState([])
@@ -54,7 +59,9 @@ export const useProductForm = ({type, id}) => {
         video: '',
         category: '',
         translator: [],
-        images: [],
+        cover: undefined,
+        sliderImg: undefined,
+        screens: [],
         year: '',
         country: '',
         janr: [],
@@ -68,70 +75,66 @@ export const useProductForm = ({type, id}) => {
         nameru: Yup.string().required("Maydon to'ldirilishi shart"),
         descriptionuz: Yup.string().required("Maydon to'ldirilishi shart"),
         descriptionru: Yup.string().required("Maydon to'ldirilishi shart"),
-        video: Yup.string(),
+        video: Yup.string().test('url_test', 'URL xato kiritilgan', (video) => {
+            const regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+            const without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+            return (regex.test(video) || without_regex.test(video))
+        }),
         year: Yup.string().required("Maydon to'ldirilishi shart"),
         country: Yup.string().required("Maydon to'ldirilishi shart"),
         janr: Yup.array().required("Maydon to'ldirilishi shart"),
         translator: Yup.array().required("Maydon to'ldirilishi shart"),
-        images: Yup.mixed().required("Maydon to'ldirilishi shart"),
-            // .test('fileType', 'Faqat jpeg/jpg turdagi rasmlarni yuklang', (files) => {
-            //     let isTrue = true
-            //
-            //     for (let i = 0; i < files.length; i++) {
-            //         if (files[i].type !== 'image/jpeg') {
-            //             isTrue = false
-            //             break
-            //         }
-            //     }
-            //     return isTrue
-            // })
-            // .test('firstFileSize', 'Birinchi rasm o\'lchamlari w/h nisbati 0.8 bo\'lishi kerak misol uchun 400x500',
-            //     (arr) => {
-            //         let width = 0
-            //         let height = 0
-            //         const reader = new FileReader();
-            //         reader.readAsDataURL(arr[0])
-            //         reader.onload = (e) => {
-            //             const image = new Image();
-            //             image.src = e.target.result;
-            //             width = image.naturalWidth
-            //             height = image.naturalHeight
-            //         }
-            //
-            //         return true
-            //     })
-            // .test('otherFileSize', 'Qolgan rasmlarning o\'lchami 1920x780', (arr) => {
-            //     const files = arr.slice(1)
-            //     let isTrue = true
-            //
-            //     for (let i = 0; i < files.length; i++) {
-            //         const reader = new FileReader();
-            //         reader.readAsDataURL(files[i])
-            //         let width = 0
-            //         let height = 0
-            //         reader.onload = (e) => {
-            //             const image = new Image()
-            //             image.src = e.target.result
-            //             width = image.naturalWidth
-            //             height = image.naturalHeight
-            //         }
-            //
-            //         if (width !== 1440 && height !== 720) {
-            //             isTrue = false
-            //             break
-            //         }
-            //     }
-            //
-            //     return isTrue
-            // }),
+        screens: Yup.array().required("Maydon to'ldirilishi shart")
+            .test('fileType', 'Faqat jpeg yoki png turdagi rasmlarni yuklang', (files) => {
+                let isMatch = true
+                for (let i = 0; i < files.length; i++) {
+                    if (typeof files[i] === 'string') {
+                        break
+                    }
+                    if (files[i].type !== 'image/jpeg' && files[i].type !== 'image/png') {
+                        isMatch = false
+                        break
+                    }
+                }
+
+                return files && isMatch
+            }),
+        sliderImg: Yup.mixed()
+            .test('fileType', 'Faqat jpeg yoki png turdagi rasmlarni yuklang', (file) => (
+                file && typeof file === 'string'
+                    ? imageExtValidate(file)
+                    : file && (file.type === 'image/jpeg' || file.type === 'image/png')))
+            .test('sliderImageSize', "Slider rasmi o'lchami 1440x600 talab etiladi", async (file) => {
+                if (file && typeof file !== 'string') {
+                    const base64Url = await readFileAsDataURL(file)
+                    const image = await imgObgj(base64Url)
+                    return image.naturalWidth === 1400 && image.naturalHeight === 600
+                }
+                return true
+            }).required("Maydon to'ldirilishi shart"),
+        cover: Yup.mixed()
+            .test('fileType', 'Faqat jpeg yoki png turdagi rasmlarni yuklang', (file) => (
+                file && typeof file === 'string'
+                    ? imageExtValidate(file)
+                    : file && (file.type === 'image/jpeg' || file.type === 'image/png')))
+            .test('coverImageSize', "Muqova rasmi width/height 0.7dan katta 0.8 kichik bo'lishi talab etiladi",
+                async (file) => {
+                    if (file && typeof file !== "string") {
+                        const base64Url = await readFileAsDataURL(file)
+                        const image = await imgObgj(base64Url)
+                        return (image.naturalWidth / image.naturalHeight) >= 0.7
+                            && (image.naturalWidth / image.naturalHeight) <= 0.8
+                    }
+                    return true
+                }).required("Maydon to'ldirilishi shart"),
         category: Yup.string().required("Maydon to'ldirilishi shart"),
         status: Yup.string().required("Maydon to'ldirilishi shart"),
         type: Yup.string().required("Maydon to'ldirilishi shart"),
         price: Yup.string().required("Maydon to'ldirilishi shart")
     })
 
-    const getAlertTitle = () => {
-        switch (type) {
+    const getTitle = (kinoType) => {
+        switch (kinoType) {
             case 'treyler':
                 return URL_TITLE.TRAILER.TITLE
             case 'serial':
@@ -147,10 +150,10 @@ export const useProductForm = ({type, id}) => {
         validationSchema,
         onSubmit: (values, {setSubmitting, resetForm}) => {
             setSubmitting(true)
-
             if (!id) {
                 const data = new FormData()
-                const {janr, translator, images} = values
+                const {janr, translator, cover, sliderImg, screens} = values
+                const images = [cover, sliderImg, ...screens]
 
                 data.append('nameuz', values.nameuz)
                 data.append('nameru', values.nameru)
@@ -186,11 +189,12 @@ export const useProductForm = ({type, id}) => {
                             const payload = {
                                 open: true,
                                 variant: 'success',
-                                message: `${getAlertTitle()} muvaffaqiyatli qo'shildi`
+                                message: `${getTitle()} muvaffaqiyatli qo'shildi`
                             }
                             dispatch(showSnackbar(payload))
                             dispatch(getProductList({type}))
                             resetForm()
+                            setStep(1)
                         }
                     }).finally(() => setSubmitting(false))
                     .catch(() => {
@@ -218,6 +222,7 @@ export const useProductForm = ({type, id}) => {
                     price: values.price
                 }
 
+
                 if (type !== 'serial') {
                     data.video = values.video
                 }
@@ -228,11 +233,12 @@ export const useProductForm = ({type, id}) => {
                             const payload = {
                                 open: true,
                                 variant: 'success',
-                                message: `${getAlertTitle()} muvaffaqiyatli tahrirlandi`
+                                message: `${getTitle(type)} muvaffaqiyatli tahrirlandi`
                             }
                             dispatch(showSnackbar(payload))
                             dispatch(getProductList({type}))
                             resetForm()
+                            setStep(1)
                             dispatch(hideModal())
                         }
                     })
@@ -299,28 +305,39 @@ export const useProductForm = ({type, id}) => {
             })
     }, [])
 
+    const nextStep = useCallback(() => {
+        if (!id) {
+            setStep(2)
+        }
+    }, [id])
+
     const getProduct = useCallback(() => {
         if (id) {
             product.getProduct(id)
                 .then((res) => {
                     const {data} = res
-                    setInitialValues({
+
+                    const values = {
                         nameuz: data.name.uz,
                         nameru: data.name.ru,
                         descriptionuz: data.description.uz,
                         descriptionru: data.description.ru,
-                        year: data.info.year,
-                        country: data.info.country,
+                        year: data.year,
+                        country: data.country,
                         status: data.status === 'true' ? '1' : '0',
                         video: data.video ? data.video : '',
-                        janr: data.info.janr.map((item) => item._id),
-                        translator: data.translator.map((item) => item._id),
+                        janr: data.janr,
+                        translator: data.translator.map(item => item._id),
                         category: data.category._id,
-                        images: [data.image, ...data.screens].map((item) => `${BASE_URL}/${item}`),
+                        cover: data.image,
+                        sliderImg: data.screens.length > 0 && `${BASE_URL}/${data.screens[0]}`,
+                        screens: data.screens.slice(1).map((item) => `${BASE_URL}/${item}`),
                         price: data.price,
                         type
-                    })
-                }).catch(() => {
+                    }
+                    setInitialValues(values)
+                }).catch((e) => {
+                console.log(e);
             })
         }
     }, [id, type])
@@ -335,7 +352,9 @@ export const useProductForm = ({type, id}) => {
         || (formik.touched.year && !!formik.errors.year)
         || (formik.touched.janr && !!formik.errors.janr)
         || (formik.touched.translator && !!formik.errors.translator)
-        || (formik.touched.images && !!formik.errors.images)
+        || (!!formik.errors.cover)
+        || (!!formik.errors.sliderImg)
+        || (!!formik.errors.screens)
         || (formik.touched.status && !!formik.errors.status)
         || (formik.touched.price && !!formik.errors.price)
         || (formik.touched.type && !!formik.errors.type)
@@ -363,11 +382,31 @@ export const useProductForm = ({type, id}) => {
         setError(tmp);
     }, [formik.errors, formik.touched])
 
-    console.log(formik.errors.images);
 
     useEffect(() => {
         getProduct()
     }, [getProduct])
+
+    useEffect(() => {
+        const status =
+            formik &&
+            (
+                formik.values.nameuz.trim().length === 0
+                || formik.values.nameru.trim().length === 0
+                || formik.values.descriptionuz.trim().length === 0
+                || formik.values.descriptionru.trim().length === 0
+                || formik.values.category.trim().length === 0
+                || formik.values.year.trim().length === 0
+                || formik.values.country.trim().length === 0
+                || formik.values.status.trim().length === 0
+                || formik.values.type.trim().length === 0
+                || formik.values.price.trim().length === 0
+                || formik.values.janr.length === 0
+                || formik.values.translator.length === 0
+            )
+        setAllowNextStep(status)
+    }, [formik])
+
 
     return {
         formik,
@@ -380,6 +419,10 @@ export const useProductForm = ({type, id}) => {
         categoryLoading,
         submitDisabled,
         statusOptions,
-        priceOptions
+        priceOptions,
+        nextStep,
+        step,
+        allowNextStep,
+        getTitle
     }
 }

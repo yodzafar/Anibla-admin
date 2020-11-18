@@ -30,7 +30,7 @@ export default () => {
             name="file"
             onChange={(e) => formik.setFieldValue('file', e)}
             onBlur={formik.handleBlur}
-            error={formik.errors.file && formik.errors.file}
+            error={formik.touched.file && formik.errors.file}
             clear={clear}
           />
         </Grid>

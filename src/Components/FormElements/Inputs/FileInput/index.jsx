@@ -1,25 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormHelperText from '@material-ui/core/FormHelperText';
 import EyeIcon from 'mdi-react/EyeIcon';
 import Lightbox from 'react-image-lightbox';
 import { StyledFormControl, StyledLabel } from '../style';
 import {
-  FileInputWrapper, ShowUploadedImg, StyledFileInput, StyledFileUploadButton
+  FileInputWrapper, ShowUploadedImg, StyledCommonFileInput, StyledFileInput
 } from './style';
 import 'react-image-lightbox/style.css';
 
 export default ({
-  error, label, value, onChange, onBlur
+  error, label, value, onChange, onBlur, name
 }) => {
   const [fileName, setFileName] = useState('')
   const [imgUrl, setImgUrl] = useState(null)
   const [open, setOpen] = useState(false)
-  const fileUploadInput = useRef(null)
 
   const handleChange = (e) => {
     const file = e.target.files[0]
     onChange(file)
-    fileUploadInput.current.blur()
   }
 
   useEffect(() => {
@@ -58,23 +56,17 @@ export default ({
               </ShowUploadedImg>
             )
           }
-          <StyledFileUploadButton
-            onClick={() => fileUploadInput.current.click()}
-            buttonstyle="primary"
-          >
-            Faylni tanlash
-          </StyledFileUploadButton>
+
+          <StyledCommonFileInput
+              name={name}
+              readOnly
+              type="file"
+              onChange={handleChange}
+              onBlur={onBlur}
+          />
         </FileInputWrapper>
         <FormHelperText>{error}</FormHelperText>
       </StyledFormControl>
-      <input
-        style={{ display: 'none' }}
-        ref={fileUploadInput}
-        readOnly
-        type="file"
-        onChange={handleChange}
-        onBlur={onBlur}
-      />
       {
         imgUrl && open
         && (

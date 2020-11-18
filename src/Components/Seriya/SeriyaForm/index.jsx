@@ -4,7 +4,7 @@ import { useSeriyaForm } from '../../../Hooks/product'
 import {
     SectionForm, Grid, ButtonWrapper, DisabledContainer
 } from '../../GlobalStyles'
-import { NormalInput } from '../../FormElements/Inputs'
+import {FileUploadInput, NormalInput} from '../../FormElements/Inputs'
 import Button from '../../FormElements/Button'
 import { hideModal } from '../../../Models/app'
 import { RuFormInput, UzFormInput } from '../../MultilangFormInput'
@@ -56,10 +56,22 @@ export default ({
                     {
                         !id && (
                             <DisabledContainer disabled={!!id} style={{ marginTop: 16 }}>
-                                <ImageUpload
-                                    value={formik.values.images}
-                                    onChange={(e) => formik.setFieldValue('images', e)}
-                                />
+                                <Grid>
+                                    <FileUploadInput
+                                        label="Muqova rasmini yuklang"
+                                        value={formik.values.cover}
+                                        name="cover"
+                                        onChange={(e) => formik.setFieldValue('cover', e)}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.cover && formik.errors.cover}
+                                    />
+                                    <ImageUpload
+                                        name='screens'
+                                        value={formik.values.images}
+                                        onChange={(e) => formik.setFieldValue('screens', e)}
+                                        error={formik.errors.screens}
+                                    />
+                                </Grid>
                             </DisabledContainer>
                         )
                     }

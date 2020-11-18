@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback } from 'react'
 import { CircularProgress, FormHelperText } from '@material-ui/core'
 import {
@@ -23,7 +21,7 @@ export default ({
     return (
       <div>
         {
-          data.name
+          data &&  data.name
         }
       </div>
     )

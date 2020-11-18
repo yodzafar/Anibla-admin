@@ -18,11 +18,12 @@ export const useMemberForm = () => {
 
   const validationSchema = new Yup.object().shape({
     name: Yup.string().required('Maydon to\'ldirilshi shart'),
-    file: Yup.mixed().required('Maydon to\'ldirilshi shart')
+    file: Yup.mixed()
       .test('fileType', 'Faqat jpeg yoki png turdagi rasmlarni yuklang', (file) => (
         file && typeof file === 'string'
             ? imageExtValidate(file)
-            : (file.type === 'image/jpeg' || file.type === 'image/png')))
+            : file && (file.type === 'image/jpeg' || file.type === 'image/png')))
+        .required('Maydon to\'ldirilshi shart')
   })
 
   const formik = useFormik({

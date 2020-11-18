@@ -4,12 +4,13 @@ import { useSeasonForm } from '../../../Hooks/product'
 import {
     SectionForm, Grid, ButtonWrapper, GridItem
 } from '../../GlobalStyles'
-import { FileUploadInput, NormalInput } from '../../FormElements/Inputs'
+import {FileUploadInput, NormalInput, SelectInput} from '../../FormElements/Inputs'
 import Button from '../../FormElements/Button'
 import { hideModal } from '../../../Models/app'
 import { RuFormInput, UzFormInput } from '../../MultilangFormInput'
 import { Form } from '../../Form'
 import Tabs from '../../Tabs'
+import {yearOptions} from "../../../utils/yearUtils";
 
 export default ({ maxWidth, filmId, id }) => {
     const { formik, error, submitDisabled } = useSeasonForm({ filmId, id })
@@ -33,9 +34,11 @@ export default ({ maxWidth, filmId, id }) => {
             <SectionForm onSubmit={formik.handleSubmit}>
                 <Tabs data={tabData} formError={error}>
                     <Grid perColumn={2} style={{ marginTop: 16 }}>
-                        <NormalInput
+                        <SelectInput
                             name="year"
-                            label="Sezon ishlab chiqarilgan sana"
+                            label="Sezon ishlab chiqarilgan yil"
+                            loading={false}
+                            options={yearOptions()}
                             value={formik.values.year}
                             onChange={(e) => formik.setFieldValue('year', e)}
                             onBlur={formik.handleBlur}
@@ -43,6 +46,7 @@ export default ({ maxWidth, filmId, id }) => {
                         />
                         <NormalInput
                             name="num"
+                            type='number'
                             label="Seriyalar soni"
                             value={formik.values.num}
                             onChange={(e) => formik.setFieldValue('num', e)}

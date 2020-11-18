@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const ImageUploadWrapper = styled.div`
   min-height: 70px;
-  border: 2px dashed ${({ isDraging }) => (isDraging ? 'var(--danger)' : '#8E8E93')};
+  border: 2px dashed ${({ error }) => (error ? 'var(--danger)' : '#8E8E93')};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,6 +10,10 @@ export const ImageUploadWrapper = styled.div`
   padding: 24px;
   cursor: pointer;
   margin-bottom: 16px;
+`
+
+export const DangerText = styled.div`
+  color: var(--danger)
 `
 
 export const ImageUploadInner = styled.div`

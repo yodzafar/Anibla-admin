@@ -7,6 +7,7 @@ import FilmForm from '../FilmForm'
 export default () => {
   const { removeItem, addToSlider } = useProductList({ type: 'film' })
   const product = useSelector(({ product }) => product)
+
   return (
     <ProductTable
       data={product.data}

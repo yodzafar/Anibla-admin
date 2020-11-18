@@ -34,3 +34,32 @@ export const ShowUploadedImg = styled.div`
   color: #7c8a96;
   cursor: pointer;
 `
+
+export const StyledCommonFileInput = styled.input.attrs({type: 'file'})`
+      width: 147px;
+      overflow: hidden;
+      outline: none;
+      
+       &::-webkit-file-upload-button {
+        visibility: hidden;
+      }
+  
+    &::before {
+      content: 'Rasm yuklash';
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 700;
+      width: 102px;
+      height: 28px;
+      padding: 11px 22px;
+      text-transform: unset;
+      font-size: 15px;
+      font-family: 'Nunito',sans-serif;
+      color: #fff;
+      background-color: var(--primary);
+      border-color: var(--primary);
+      border-radius: 0 6px 6px 0;
+    }
+  
+`
