@@ -45,3 +45,27 @@ export const getProductInfo = (id, seasonId) => (dispatch) => {
       console.log(e);
     })
 }
+
+export const addSeason = (data) => ({
+    type: PRODUCT_ACTION_TYPES.ADD_SEASON,
+    data
+})
+
+export const updateSeason = (id, data) => ({
+    type: PRODUCT_ACTION_TYPES.UPDATE_SEASON,
+    payload: {
+        id, data
+    },
+})
+
+export const addSeriya = (data) => ({
+    type: PRODUCT_ACTION_TYPES.ADD_SERIYA,
+    data
+})
+
+export const updateSeriya = (id, data) => ({
+    type: PRODUCT_ACTION_TYPES.UPDATE_SERIYA,
+    payload: {
+        id, data
+    },
+})

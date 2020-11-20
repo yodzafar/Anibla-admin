@@ -1,18 +1,18 @@
-import { useFormik } from 'formik'
-import { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {useFormik} from 'formik'
+import {useCallback, useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import * as Yup from 'yup'
-import { getProductInfo } from '../../Models/product'
+import {addSeason, updateSeason} from '../../Models/product'
 import product from '../../Service/product'
-import { BASE_URL } from '../../Constants/url'
-import { hideModal } from '../../Models/app'
-import { imageExtValidate } from '../../utils/ext-validate'
+import {BASE_URL} from '../../Constants/url'
+import {hideModal} from '../../Models/app'
+import {imageExtValidate} from '../../utils/ext-validate'
 import {imgObgj, readFileAsDataURL} from "../../utils/imageSize";
 import {showSnackbar} from "../../Models/app/actions";
 
-export const useSeasonForm = ({ filmId, id }) => {
+export const useSeasonForm = ({filmId, id}) => {
     const dispatch = useDispatch()
-    const productInfo = useSelector(({ product }) => product.productInfo)
+    const productInfo = useSelector(({product}) => product.productInfo)
     const [error, setError] = useState({})
     const [initialValues, setInitialValues] = useState({
         kinoId: filmId,
@@ -22,7 +22,8 @@ export const useSeasonForm = ({ filmId, id }) => {
         descriptionru: '',
         year: '',
         num: '',
-        image: null
+        cover: null,
+        screens: [],
     })
 
     const validationSchema = new Yup.object().shape({
@@ -33,7 +34,22 @@ export const useSeasonForm = ({ filmId, id }) => {
         kinoId: Yup.string().required('Maydon to\'ldirilshi shart'),
         year: Yup.string().required('Maydon to\'ldirilshi shart'),
         num: Yup.string().required('Maydon to\'ldirilshi shart'),
-        image: Yup.mixed()
+        screens: Yup.array().required("Maydon to'ldirilishi shart")
+            .test('fileType', 'Faqat jpeg yoki png turdagi rasmlarni yuklang', (files) => {
+                let isMatch = true
+                for (let i = 0; i < files.length; i++) {
+                    if (typeof files[i] === 'string') {
+                        break
+                    }
+                    if (files[i].type !== 'image/jpeg' && files[i].type !== 'image/png') {
+                        isMatch = false
+                        break
+                    }
+                }
+
+                return files && isMatch
+            }),
+        cover: Yup.mixed()
             .test('fileType', 'Faqat jpeg yoki png turdagi rasmlarni yuklang', (file) => (
                 file && typeof file === 'string'
                     ? imageExtValidate(file)
@@ -51,14 +67,25 @@ export const useSeasonForm = ({ filmId, id }) => {
 
     })
 
+    const update = useCallback((id, data) => {
+        product.updateSeason({id, data})
+            .then(res => {
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    }, [])
+
     const formik = useFormik({
         initialValues,
         validationSchema,
         enableReinitialize: true,
-        onSubmit: (values, { setSubmitting, resetForm }) => {
+        onSubmit: (values, {setSubmitting, resetForm}) => {
             setSubmitting(true)
 
             if (!id) {
+                const {cover, screens} = values
+                const images = [cover, ...screens]
                 const data = new FormData()
                 data.append('nameuz', values.nameuz)
                 data.append('nameru', values.nameru)
@@ -67,7 +94,13 @@ export const useSeasonForm = ({ filmId, id }) => {
                 data.append('kinoId', values.kinoId)
                 data.append('num', values.num)
                 data.append('year', values.year)
-                data.append('image', values.image)
+
+                if (!id) {
+                    for (let i = 0; i < images.length; i++) {
+                        data.append('images', images[i])
+                    }
+                }
+
                 product.createSeason(data)
                     .then((res) => {
                         if (res.success) {
@@ -77,8 +110,18 @@ export const useSeasonForm = ({ filmId, id }) => {
                                 variant: 'success',
                                 message: `Seriya muvaffaqiyatli qo'shildi`
                             }
+                            const updateData = {
+                                nameuz: res.data.name.uz,
+                                nameru: res.data.name.ru,
+                                descriptionuz: res.data.description.uz,
+                                descriptionru: res.data.description.ru,
+                                kinoId: values.kinoId,
+                                num: res.data.num,
+                                year: res.data.year
+                            }
+                            update(res.data._id, updateData)
                             dispatch(showSnackbar(payload))
-                            dispatch(getProductInfo(filmId))
+                            dispatch(addSeason(res.data))
                         }
                     }).finally(() => setSubmitting(false))
                     .catch(() => {
@@ -94,13 +137,13 @@ export const useSeasonForm = ({ filmId, id }) => {
                 const data = {
                     nameuz: values.nameuz,
                     nameru: values.nameru,
-                    descriptionuz: values.descriptionuz,
-                    descriptionru: values.descriptionru,
+                    descriptionuz: values.description.uz,
+                    descriptionru: values.description.ru,
                     kinoId: values.kinoId,
                     num: values.num,
                     year: values.year
                 }
-                product.updateSeason({ id, data })
+                product.updateSeason({id, data})
                     .then((res) => {
                         if (res.success) {
                             resetForm()
@@ -109,8 +152,8 @@ export const useSeasonForm = ({ filmId, id }) => {
                                 variant: 'success',
                                 message: `Seriya muvaffaqiyatli tahrirlandi`
                             }
+                            dispatch(updateSeason(id, res.data))
                             dispatch(showSnackbar(payload))
-                            dispatch(getProductInfo(filmId))
                             dispatch(hideModal())
                         }
                     })
@@ -134,7 +177,8 @@ export const useSeasonForm = ({ filmId, id }) => {
         || (formik.touched.descriptionru && !!formik.errors.descriptionru)
         || (formik.touched.descriptionuz && !!formik.errors.descriptionuz)
         || (formik.touched.year && !!formik.errors.year)
-        || (formik.touched.image && !!formik.errors.image)
+        || (formik.touched.cover && !!formik.errors.cover)
+        || (!!formik.errors.screens)
         || (formik.touched.num && !!formik.errors.num)
 
     useEffect(() => {
@@ -165,7 +209,8 @@ export const useSeasonForm = ({ filmId, id }) => {
                 descriptionru: season.description.ru,
                 year: season.year,
                 num: season.num,
-                image: `${BASE_URL}/${season.image}`
+                cover: season.screens.length > 0 && `${BASE_URL}/${season.screens[0]}`,
+                screens: season.screens.slice(1).map((item) => `${BASE_URL}/${item}`),
             })
         }
     }, [id, productInfo, filmId])

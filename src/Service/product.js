@@ -12,9 +12,7 @@ export default {
   updateSeason: ({ id, data }) => execute(axios.put(`/season/season/${id}`, data)),
   getSeason: (id) => execute(axios.get(`/season/season/${id}`)),
   removeSeason: (id) => execute(axios.delete(`/season/season/${id}`)),
-  createSeriya: (data) => execute(axios.post('/season/add-seriya', data, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  })),
+  createSeriya: (data) => execute(axios.post('/season/add-seriya', data)),
   updateSeriya: ({ id, data }) => execute(axios.put(`/season/seriya/${id}`, data)),
   removeSeriya: (id) => execute(axios.delete(`/season/seriya/${id}`))
 }

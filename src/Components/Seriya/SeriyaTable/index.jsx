@@ -3,19 +3,15 @@ import SettingsIcon from 'mdi-react/SettingsIcon'
 import {useDispatch, useSelector} from 'react-redux'
 import PencilIcon from 'mdi-react/PencilIcon'
 import DeleteIcon from 'mdi-react/DeleteIcon'
-import {useHistory} from 'react-router-dom'
-import {BASE_URL, ROUTE_URL} from '../../../Constants/url'
 import {ContentContainerInner, MoreIcon, TableLink} from '../../GlobalStyles'
 import Table from '../../Table'
 import Popover from '../../Popover'
 import {ConfirmBody} from '../../ConfirmModalBody'
 import {showModal} from '../../../Models/app'
-import AvatarImg from '../../AvatarImg'
 import {useSeriyaList} from '../../../Hooks/product'
 import SeriyaForm from '../SeriyaForm'
 
 export default ({filmId, seasonId}) => {
-    const {push} = useHistory()
     const {removeItem} = useSeriyaList({filmId, seasonId})
     const product = useSelector(({product}) => product)
     const dispatch = useDispatch()
@@ -48,32 +44,19 @@ export default ({filmId, seasonId}) => {
 
     const columns = [
         {
-            title: 'Rasm',
-            key: 'image',
-            render: (image, {nameuz, _id}) => (
-                <TableLink link onClick={() => push(`${ROUTE_URL.SEASON.LIST}/${filmId}/seriya/${_id}`)}>
-                    <AvatarImg imgUrl={`${BASE_URL}/${image}`} name={nameuz}/>
-                </TableLink>
-            ),
-            width: '1%'
-        },
-        {
             title: 'Seriya nomi(uz)',
             key: 'nameuz',
-            render: (nameuz, {_id}) => (<TableLink link
-                                                   onClick={() => push(`${ROUTE_URL.SEASON.LIST}/${filmId}/seriya/${_id}`)}>{nameuz}</TableLink>)
+            render: (nameuz, {_id}) => (<TableLink>{nameuz}</TableLink>)
         },
         {
             title: 'Seriya nomi(ru)',
             key: 'nameru',
-            render: (nameru, {_id}) => (<TableLink link
-                                                   onClick={() => push(`${ROUTE_URL.SEASON.LIST}/${filmId}/seriya/${_id}`)}>{nameru}</TableLink>)
+            render: (nameru, {_id}) => (<TableLink>{nameru}</TableLink>)
         },
         {
             title: 'Davomiyligi',
             key: 'length',
-            render: (num, {_id}) => (<TableLink link
-                                                onClick={() => push(`${ROUTE_URL.SEASON.LIST}/${filmId}/seriya/${_id}`)}>{num}</TableLink>)
+            render: (num, {_id}) => (<TableLink>{num}</TableLink>)
         },
         {
             icon: <SettingsIcon/>,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid} from "../../GlobalStyles";
+import {Grid} from "../../GlobalStyles";
 import {NormalInput, SelectInput} from "../../FormElements/Inputs";
 import {yearOptions} from "../../../utils/yearUtils";
 import Tabs from "../../Tabs";
@@ -39,16 +39,34 @@ export default (
             {
                 type !== 'serial'
                 && (
-                    <NormalInput
-                        name="video"
-                        label="Video havolani kiriting"
-                        value={formik.values.video}
-                        onChange={(e) => formik.setFieldValue('video', e)}
-                        onBlur={formik.handleBlur}
-                        error={formik.touched.video && formik.errors.video}
-                    />
+                    <>
+                        <NormalInput
+                            name="video"
+                            label="Video havolani kiriting"
+                            value={formik.values.video}
+                            onChange={(e) => formik.setFieldValue('video', e)}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.video && formik.errors.video}
+                        />
+                        <NormalInput
+                            name="length"
+                            label={`Video davomiyligi`}
+                            value={formik.values.length}
+                            onChange={(e) => formik.setFieldValue('length', e)}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.length && formik.errors.length}
+                        />
+                    </>
                 )
             }
+            <NormalInput
+                name="rejissor"
+                label='Rejissorni kiriting'
+                value={formik.values.rejissor}
+                onChange={(e) => formik.setFieldValue('rejissor', e)}
+                onBlur={formik.handleBlur}
+                error={formik.touched.rejissor && formik.errors.rejissor}
+            />
             <NormalInput
                 name="country"
                 label={`${getTitle(type)} ishlab chiqarilgan mamlakat`}
@@ -56,6 +74,14 @@ export default (
                 onChange={(e) => formik.setFieldValue('country', e)}
                 onBlur={formik.handleBlur}
                 error={formik.touched.country && formik.errors.country}
+            />
+            <NormalInput
+                name="studia"
+                label="Studiyani kiriting"
+                value={formik.values.studia}
+                onChange={(e) => formik.setFieldValue('studia', e)}
+                onBlur={formik.handleBlur}
+                error={formik.touched.studia && formik.errors.studia}
             />
             <SelectInput
                 name="year"
@@ -90,7 +116,7 @@ export default (
             />
             <SelectInput
                 name="translator"
-                label="Ishtirokchini tanlang"
+                label="Ovoz beruvchini tanlang"
                 loading={memberLoading}
                 options={memberOptions}
                 value={formik.values.translator}
@@ -98,6 +124,28 @@ export default (
                 onBlur={formik.handleBlur}
                 multiple
                 error={formik.touched.translator && formik.errors.translator}
+            />
+            <SelectInput
+                name="tarjimon"
+                label="Tarjimonni tanlang"
+                loading={memberLoading}
+                options={memberOptions}
+                value={formik.values.tarjimon}
+                onChange={(e) => formik.setFieldValue('tarjimon', e)}
+                onBlur={formik.handleBlur}
+                multiple
+                error={formik.touched.tarjimon && formik.errors.tarjimon}
+            />
+            <SelectInput
+                name="tayming"
+                label="Tayming tanlang"
+                loading={memberLoading}
+                options={memberOptions}
+                value={formik.values.tayming}
+                onChange={(e) => formik.setFieldValue('tayming', e)}
+                onBlur={formik.handleBlur}
+                multiple
+                error={formik.touched.tayming && formik.errors.tayming}
             />
             <SelectInput
                 name="price"

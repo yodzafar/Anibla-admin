@@ -66,7 +66,13 @@ export const useAnnotationList = () => {
                 }
             })
             .catch(() => {
-
+                const payload = {
+                    open: true,
+                    variant: 'error',
+                    message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
+                }
+                dispatch(showSnackbar(payload))
+                dispatch(hideModal())
             })
     }, [getList, annotationList, dispatch])
 

@@ -1,31 +1,32 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { useSeasonForm } from '../../../Hooks/product'
+import {useDispatch} from 'react-redux'
+import {useSeasonForm} from '../../../Hooks/product'
 import {
     SectionForm, Grid, ButtonWrapper, GridItem
 } from '../../GlobalStyles'
 import {FileUploadInput, NormalInput, SelectInput} from '../../FormElements/Inputs'
 import Button from '../../FormElements/Button'
-import { hideModal } from '../../../Models/app'
-import { RuFormInput, UzFormInput } from '../../MultilangFormInput'
-import { Form } from '../../Form'
+import {hideModal} from '../../../Models/app'
+import {RuFormInput, UzFormInput} from '../../MultilangFormInput'
+import {Form} from '../../Form'
 import Tabs from '../../Tabs'
 import {yearOptions} from "../../../utils/yearUtils";
+import ImageUpload from "../../ImageIpload";
 
-export default ({ maxWidth, filmId, id }) => {
-    const { formik, error, submitDisabled } = useSeasonForm({ filmId, id })
+export default ({maxWidth, filmId, id}) => {
+    const {formik, error, submitDisabled} = useSeasonForm({filmId, id})
     const dispatch = useDispatch()
 
     const tabData = [
         {
             id: 'uz',
             title: "O'zbek",
-            components: [<UzFormInput formik={formik} />]
+            components: [<UzFormInput formik={formik}/>]
         },
         {
             id: 'ru',
             title: 'Русский',
-            components: [<RuFormInput formik={formik} />]
+            components: [<RuFormInput formik={formik}/>]
         }
     ]
 
@@ -33,7 +34,7 @@ export default ({ maxWidth, filmId, id }) => {
         <Form title="Sezon qo'shish" maxWidth={maxWidth}>
             <SectionForm onSubmit={formik.handleSubmit}>
                 <Tabs data={tabData} formError={error}>
-                    <Grid perColumn={2} style={{ marginTop: 16 }}>
+                    <Grid perColumn={2} style={{marginTop: 16}}>
                         <SelectInput
                             name="year"
                             label="Sezon ishlab chiqarilgan yil"
@@ -55,16 +56,26 @@ export default ({ maxWidth, filmId, id }) => {
                         />
                         {
                             !id && (
-                                <GridItem gridColumn="1/3">
-                                    <FileUploadInput
-                                        label="Rasm qo'shish"
-                                        value={formik.values.image}
-                                        name="image"
-                                        onChange={(e) => formik.setFieldValue('image', e)}
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.image && formik.errors.image}
-                                    />
-                                </GridItem>
+                                <>
+                                    <GridItem gridColumn="1/3">
+                                        <FileUploadInput
+                                            label="Rasm qo'shish"
+                                            value={formik.values.cover}
+                                            name="cover"
+                                            onChange={(e) => formik.setFieldValue('cover', e)}
+                                            onBlur={formik.handleBlur}
+                                            error={formik.touched.cover && formik.errors.cover}
+                                        />
+                                    </GridItem>
+                                    <GridItem gridColumn="1/3">
+                                        <ImageUpload
+                                            name='screens'
+                                            error={formik.errors.screens && formik.errors.screens}
+                                            value={formik.values.screens}
+                                            onChange={(e) => formik.setFieldValue('screens', e)}
+                                        />
+                                    </GridItem>
+                                </>
                             )
                         }
 

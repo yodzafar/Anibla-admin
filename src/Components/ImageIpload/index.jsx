@@ -12,8 +12,6 @@ import {
     ImageUploadWrapper,
     ImageWrapper
 } from './style';
-import FormHelperText from "@material-ui/core/FormHelperText";
-import {ErrorMessage} from "formik";
 
 export default ({onChange, value, error}) => {
     const [images, setImages] = useState([]);
@@ -28,18 +26,7 @@ export default ({onChange, value, error}) => {
     };
 
     useEffect(() => {
-        if (value && value.length > 0) {
-            const tmp = []
-            for (let i = 0; i < value.length; i++) {
-                if (typeof value[i] === 'string') {
-                    tmp.push({data_url: value[i]})
-                }
-            }
-
-            if (tmp.length > 0) {
-                setImages(tmp)
-            }
-        } else {
+        if(value && value.length === 0) {
             setImages([])
         }
     }, [value])

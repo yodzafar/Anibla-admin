@@ -47,6 +47,7 @@ export default (props) => {
                             <FirstStep
                                 formik={formik}
                                 id={id}
+                                type={type}
                                 step={step}
                                 {...otherProps}
                             />

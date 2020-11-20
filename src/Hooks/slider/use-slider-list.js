@@ -33,6 +33,7 @@ export const useSliderList = () => {
                     message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
                 }
                 dispatch(showSnackbar(payload))
+                dispatch(hideModal())
             })
 
     }, [getList, dispatch])

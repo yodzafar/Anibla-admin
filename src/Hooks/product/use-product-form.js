@@ -56,14 +56,19 @@ export const useProductForm = ({type, id}) => {
         nameru: '',
         descriptionuz: '',
         descriptionru: '',
-        video: '',
+        video: type === 'serial'? 'https://www.youtube.com/watch?v=CqODvF5itbQ' : '',
         category: '',
         translator: [],
         cover: undefined,
         sliderImg: undefined,
         screens: [],
+        length: type === 'serial' ? '00:00:00' : '',
         year: '',
         country: '',
+        tarjimon: [],
+        tayming: [],
+        rejissor: '',
+        studia: '',
         janr: [],
         status: '1',
         type,
@@ -76,14 +81,20 @@ export const useProductForm = ({type, id}) => {
         descriptionuz: Yup.string().required("Maydon to'ldirilishi shart"),
         descriptionru: Yup.string().required("Maydon to'ldirilishi shart"),
         video: Yup.string().test('url_test', 'URL xato kiritilgan', (video) => {
-            const regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
-            const without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+            const regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+            const without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
             return (regex.test(video) || without_regex.test(video))
         }),
+        length: Yup.string()
+            .matches(/^([0-1]?\d|2[0-3])(?::([0-5]?\d))?(?::([0-5]?\d))?$/, "Video davomiyligi 00:00:00 kabi bo'lishi talab qilinadi"),
         year: Yup.string().required("Maydon to'ldirilishi shart"),
         country: Yup.string().required("Maydon to'ldirilishi shart"),
         janr: Yup.array().required("Maydon to'ldirilishi shart"),
         translator: Yup.array().required("Maydon to'ldirilishi shart"),
+        tarjimon: Yup.array().required("Maydon to'ldirilishi shart"),
+        tayming: Yup.array().required("Maydon to'ldirilishi shart"),
+        rejissor: Yup.string().required("Maydon to'ldirilishi shart"),
+        studia: Yup.string().required("Maydon to'ldirilishi shart"),
         screens: Yup.array().required("Maydon to'ldirilishi shart")
             .test('fileType', 'Faqat jpeg yoki png turdagi rasmlarni yuklang', (files) => {
                 let isMatch = true
@@ -152,7 +163,7 @@ export const useProductForm = ({type, id}) => {
             setSubmitting(true)
             if (!id) {
                 const data = new FormData()
-                const {janr, translator, cover, sliderImg, screens} = values
+                const {janr, translator, cover, sliderImg, screens, tayming, tarjimon} = values
                 const images = [cover, sliderImg, ...screens]
 
                 data.append('nameuz', values.nameuz)
@@ -165,6 +176,8 @@ export const useProductForm = ({type, id}) => {
                 data.append('status', !!Number(values.status))
                 data.append('type', values.type)
                 data.append('price', values.price)
+                data.append('rejissor', values.rejissor)
+                data.append('studia', values.studia)
 
                 if (type !== 'serial') {
                     data.append('video', values.video)
@@ -183,6 +196,15 @@ export const useProductForm = ({type, id}) => {
                 for (let i = 0; i < translator.length; i++) {
                     data.append('translator[]', translator[i])
                 }
+
+                for (let i = 0; i < tarjimon.length; i++) {
+                    data.append('tarjimon[]', tarjimon[i])
+                }
+
+                for (let i = 0; i < tayming.length; i++) {
+                    data.append('tayming[]', tayming[i])
+                }
+
                 product.createProduct(data)
                     .then((res) => {
                         if (res.success) {
@@ -219,12 +241,17 @@ export const useProductForm = ({type, id}) => {
                     janr: values.janr,
                     status: !!Number(values.status),
                     type: values.type,
-                    price: values.price
+                    price: values.price,
+                    rejissor: values.rejissor,
+                    tarjimon: values.tarjimon,
+                    studia: values.studia,
+                    tayming: values.tayming
                 }
 
 
                 if (type !== 'serial') {
                     data.video = values.video
+                    data.length = values.length
                 }
 
                 product.updateProduct({id, data})
@@ -325,7 +352,7 @@ export const useProductForm = ({type, id}) => {
                         year: data.year,
                         country: data.country,
                         status: data.status === 'true' ? '1' : '0',
-                        video: data.video ? data.video : '',
+                        video: data.video ? data.video : 'https://google.com',
                         janr: data.janr,
                         translator: data.translator.map(item => item._id),
                         category: data.category._id,
@@ -333,7 +360,12 @@ export const useProductForm = ({type, id}) => {
                         sliderImg: data.screens.length > 0 && `${BASE_URL}/${data.screens[0]}`,
                         screens: data.screens.slice(1).map((item) => `${BASE_URL}/${item}`),
                         price: data.price,
-                        type
+                        type,
+                        studia: data.studia,
+                        length: data.video ? data.video : '00:00:00',
+                        rejissor: data.rejissor,
+                        tarjimon: data.tarjimon.map(item => item._id),
+                        tayming: data.tayming.map(item => item._id),
                     }
                     setInitialValues(values)
                 }).catch((e) => {
@@ -352,8 +384,8 @@ export const useProductForm = ({type, id}) => {
         || (formik.touched.year && !!formik.errors.year)
         || (formik.touched.janr && !!formik.errors.janr)
         || (formik.touched.translator && !!formik.errors.translator)
-        || (!!formik.errors.cover)
-        || (!!formik.errors.sliderImg)
+        || (formik.touched.cover && !!formik.errors.cover)
+        || (formik.touched.sliderImg && !!formik.errors.sliderImg)
         || (!!formik.errors.screens)
         || (formik.touched.status && !!formik.errors.status)
         || (formik.touched.price && !!formik.errors.price)
@@ -401,8 +433,12 @@ export const useProductForm = ({type, id}) => {
                 || formik.values.status.trim().length === 0
                 || formik.values.type.trim().length === 0
                 || formik.values.price.trim().length === 0
+                || formik.values.rejissor.trim().length === 0
+                || formik.values.studia.trim().length === 0
                 || formik.values.janr.length === 0
                 || formik.values.translator.length === 0
+                || formik.values.tarjimon.length === 0
+                || formik.values.tayming.length === 0
             )
         setAllowNextStep(status)
     }, [formik])

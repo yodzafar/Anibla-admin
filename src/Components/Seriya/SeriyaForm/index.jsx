@@ -2,15 +2,14 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useSeriyaForm } from '../../../Hooks/product'
 import {
-    SectionForm, Grid, ButtonWrapper, DisabledContainer
+    SectionForm, Grid, ButtonWrapper
 } from '../../GlobalStyles'
-import {FileUploadInput, NormalInput} from '../../FormElements/Inputs'
+import {NormalInput} from '../../FormElements/Inputs'
 import Button from '../../FormElements/Button'
 import { hideModal } from '../../../Models/app'
 import { RuFormInput, UzFormInput } from '../../MultilangFormInput'
 import { Form } from '../../Form'
 import Tabs from '../../Tabs'
-import ImageUpload from '../../ImageIpload'
 
 export default ({
     maxWidth, filmId, id, seasonId
@@ -53,28 +52,6 @@ export default ({
                             error={formik.touched.length && formik.errors.length}
                         />
                     </Grid>
-                    {
-                        !id && (
-                            <DisabledContainer disabled={!!id} style={{ marginTop: 16 }}>
-                                <Grid>
-                                    <FileUploadInput
-                                        label="Muqova rasmini yuklang"
-                                        value={formik.values.cover}
-                                        name="cover"
-                                        onChange={(e) => formik.setFieldValue('cover', e)}
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.cover && formik.errors.cover}
-                                    />
-                                    <ImageUpload
-                                        name='screens'
-                                        value={formik.values.images}
-                                        onChange={(e) => formik.setFieldValue('screens', e)}
-                                        error={formik.errors.screens}
-                                    />
-                                </Grid>
-                            </DisabledContainer>
-                        )
-                    }
                     <ButtonWrapper>
                         <Button
                             type="button"

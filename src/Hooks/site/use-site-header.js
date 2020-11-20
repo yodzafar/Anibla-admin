@@ -7,7 +7,8 @@ export const useSiteHeader = () => {
   const { location } = useHistory()
   const { editID, filmId, seasonId } = useParams()
   const [title, setTitle] = useState(null)
-  const { productInfo } = useSelector(({ product }) => product)
+  const { productInfo, seasonInfo } = useSelector(({ product }) => product)
+
   const getTitleFromURL = useCallback(() => {
     const originalPathname = location.pathname
     const pathname = originalPathname.match(/[^/]+(\w+)/) && originalPathname.match(/[^/]+(\w+)/)[0].toUpperCase()
@@ -25,16 +26,16 @@ export const useSiteHeader = () => {
   }, [editID, location.pathname])
 
   const getTitle = useCallback(() => {
-    if (filmId && productInfo.filmData) {
-      if (seasonId && productInfo.seasonInfo) {
-        setTitle(productInfo.seasonInfo.name.uz)
+    if (filmId && Object.values(productInfo).length > 0) {
+      if (seasonId && seasonInfo && seasonInfo.name) {
+        setTitle(seasonInfo.name.uz)
       } else {
-        setTitle(productInfo.filmData.name.uz)
+        setTitle(productInfo.name.uz)
       }
     } else {
       getTitleFromURL()
     }
-  }, [getTitleFromURL, filmId, productInfo.filmData, productInfo.seasonInfo, seasonId])
+  }, [getTitleFromURL, filmId, productInfo, seasonInfo, seasonId])
 
   useEffect(() => {
     getTitle()
