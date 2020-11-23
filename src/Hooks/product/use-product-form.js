@@ -119,7 +119,7 @@ export const useProductForm = ({type, id}) => {
                 if (file && typeof file !== 'string') {
                     const base64Url = await readFileAsDataURL(file)
                     const image = await imgObgj(base64Url)
-                    return image.naturalWidth === 1400 && image.naturalHeight === 600
+                    return image.naturalWidth === 1440 && image.naturalHeight === 600
                 }
                 return true
             }).required("Maydon to'ldirilishi shart"),
