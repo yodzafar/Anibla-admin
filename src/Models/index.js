@@ -9,6 +9,8 @@ import { productReducer } from './product';
 import {sliderReducer} from "./slider";
 import {newsReducer} from "./news";
 import {annotationReducer} from "./annotation";
+import {commentsReducer} from "./comments";
+import {userReducer} from "./users";
 
 export default (history) => combineReducers({
   router: connectRouter(history),
@@ -20,5 +22,7 @@ export default (history) => combineReducers({
   product: productReducer,
   slider: sliderReducer,
   news: newsReducer,
-  annotation: annotationReducer
+  annotation: annotationReducer,
+  comments: commentsReducer,
+  users: userReducer
 })

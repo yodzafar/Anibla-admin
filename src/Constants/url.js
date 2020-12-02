@@ -13,6 +13,8 @@ export const BASIC_URLS = {
   SEASON: '/serial/season',
   ANNOTATION: '/annotation',
   SERIYA: '/serial/season/series',
+  COMMENTS: '/comments',
+  USERS: '/users'
 }
 
 export const ROUTE_URL = {
@@ -27,7 +29,9 @@ export const ROUTE_URL = {
   GENERIC: generateUrl(BASIC_URLS.GENERIC),
   TRAILER: generateUrl(BASIC_URLS.TRAILER),
   CATEGORY: generateUrl(BASIC_URLS.CATEGORY),
-  ANNOTATION: generateUrl(BASIC_URLS.ANNOTATION)
+  ANNOTATION: generateUrl(BASIC_URLS.ANNOTATION),
+  COMMENTS: generateUrl(BASIC_URLS.COMMENTS),
+  USERS: generateUrl(BASIC_URLS.USERS),
 }
 
 export const URL_TITLE = {
@@ -42,7 +46,9 @@ export const URL_TITLE = {
   TRAILER: generateTitle('Trailer'),
   NEWS: generateTitle('Yangiliklar'),
   CATEGORY: generateTitle('Kategoriya'),
-  ANNOTATION: generateTitle('Annotatsiyalar')
+  ANNOTATION: generateTitle('Annotatsiya'),
+  COMMENTS: generateTitle('Muhokama'),
+  USERS: generateTitle('Foydalanuvchi')
 }
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL

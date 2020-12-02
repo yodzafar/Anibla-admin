@@ -10,7 +10,6 @@ import LogoBrand from "../Logo";
 import Avatar from './Avatar'
 
 export default () => {
-
   return (
     <NavbarWrapper>
       <LogoLink to='/'>

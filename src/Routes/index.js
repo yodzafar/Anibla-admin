@@ -1,7 +1,6 @@
 import {CategoryList} from '../Views/Category'
 import {GenreList} from '../Views/Genre';
 import {MemberList} from '../Views/Memeber';
-import {TrailerList} from '../Views/Trailer';
 import {FilmList} from '../Views/Film';
 import {SeasonList, SerialList, SeriyaList} from '../Views/Serial';
 import {SliderList} from "../Views/Slider";
@@ -11,12 +10,15 @@ import FilmIcon from 'mdi-react/FilmIcon';
 import ViewCarouselOutlineIcon from 'mdi-react/ViewCarouselOutlineIcon';
 import FormatListBulletedSquareIcon from 'mdi-react/FormatListBulletedSquareIcon';
 import AccountGroupOutlineIcon from 'mdi-react/AccountGroupOutlineIcon';
-import FilmstripBoxMultipleIcon from 'mdi-react/FilmstripBoxMultipleIcon';
 import FilmstripBoxIcon from 'mdi-react/FilmstripBoxIcon'
 import NewspaperVariantIcon from "mdi-react/NewspaperVariantIcon";
 import ImageSizeSelectActualIcon from "mdi-react/ImageSizeSelectActualIcon";
 import CardTextIcon from "mdi-react/CardTextIcon";
 import {URL_TITLE, ROUTE_URL} from '../Constants/url';
+import CommentIcon from "mdi-react/CommentIcon";
+import {CommentList} from "../Views/Comments";
+import AccountBoxMultipleIcon from "mdi-react/AccountBoxMultipleIcon";
+import {UserList} from "../Views/Users";
 
 const category = [
     {
@@ -45,16 +47,6 @@ const member = [
         path: ROUTE_URL.MEMBER.LIST,
         icon: AccountGroupOutlineIcon,
         component: MemberList
-    }
-]
-
-const trailer = [
-    {
-        id: 'trailerList',
-        title: URL_TITLE.TRAILER.TITLE_PLURAL,
-        path: ROUTE_URL.TRAILER.LIST,
-        icon: FilmstripBoxMultipleIcon,
-        component: TrailerList
     }
 ]
 
@@ -124,21 +116,35 @@ const annotation = [
     }
 ]
 
+const comments = [
+    {
+        id: 'commentList',
+        title: URL_TITLE.COMMENTS.TITLE_PLURAL,
+        path: ROUTE_URL.COMMENTS.LIST,
+        icon: CommentIcon,
+        component: CommentList
+    }
+]
+
+const users = [
+    {
+        id: 'userList',
+        title: URL_TITLE.USERS.TITLE_PLURAL,
+        path: ROUTE_URL.USERS.LIST,
+        icon: AccountBoxMultipleIcon,
+        component: UserList
+    }
+]
+
 export default [
     ...category,
     ...genre,
     ...member,
-    ...trailer,
     ...film,
     ...serial,
     ...slider,
     ...news,
-    ...annotation
-    // {
-    //   id: 'generic',
-    //   title: 'Generic',
-    //   path: '/generic',
-    //   icon: LayersOutlineIcon,
-    //   component: Generic
-    // }
+    ...annotation,
+    ...comments,
+    ...users,
 ]
