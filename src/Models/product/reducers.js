@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {PRODUCT_ACTION_TYPES} from '../../Constants/action-types/product'
 
 const defaultState = {
@@ -37,7 +36,6 @@ const map = {
         }
     },
     [PRODUCT_ACTION_TYPES.ADD_SEASON]: (state, {data}) => {
-
         const newData = {
             key: data._id,
             _id: data._id,

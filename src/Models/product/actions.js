@@ -9,7 +9,7 @@ export const getProductList = (params) => (dispatch) => {
         const data = res.data.map((item) => ({
           nameuz: item.name.uz,
           nameru: item.name.ru,
-          category: item.category.nameuz,
+          category: item.category.map(item => item.nameuz).join(', '),
           image: item.image,
           key: item._id,
           _id: item._id
