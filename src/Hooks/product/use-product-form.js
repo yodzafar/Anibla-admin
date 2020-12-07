@@ -57,7 +57,7 @@ export const useProductForm = ({type, id}) => {
         descriptionuz: '',
         descriptionru: '',
         video: type === 'serial'? 'https://www.youtube.com/watch?v=CqODvF5itbQ' : '',
-        category: '',
+        category: [],
         translator: [],
         cover: undefined,
         sliderImg: undefined,
@@ -138,7 +138,7 @@ export const useProductForm = ({type, id}) => {
                     }
                     return true
                 }).required("Maydon to'ldirilishi shart"),
-        category: Yup.string().required("Maydon to'ldirilishi shart"),
+        category: Yup.array().required("Maydon to'ldirilishi shart"),
         status: Yup.string().required("Maydon to'ldirilishi shart"),
         type: Yup.string().required("Maydon to'ldirilishi shart"),
         price: Yup.string().required("Maydon to'ldirilishi shart")
@@ -163,7 +163,7 @@ export const useProductForm = ({type, id}) => {
             setSubmitting(true)
             if (!id) {
                 const data = new FormData()
-                const {janr, translator, cover, sliderImg, screens, tayming, tarjimon} = values
+                const {janr, translator, cover, sliderImg, screens, tayming, tarjimon, category} = values
                 const images = [cover, sliderImg, ...screens]
 
                 data.append('nameuz', values.nameuz)
@@ -172,7 +172,6 @@ export const useProductForm = ({type, id}) => {
                 data.append('descriptionru', values.descriptionru)
                 data.append('year', values.year)
                 data.append('country', values.country)
-                data.append('category', values.category)
                 data.append('status', !!Number(values.status))
                 data.append('type', values.type)
                 data.append('price', values.price)
@@ -191,6 +190,10 @@ export const useProductForm = ({type, id}) => {
 
                 for (let i = 0; i < janr.length; i++) {
                     data.append('janr[]', janr[i])
+                }
+
+                for (let i = 0; i < category.length; i++) {
+                    data.append('category[]', category[i])
                 }
 
                 for (let i = 0; i < translator.length; i++) {
@@ -355,7 +358,7 @@ export const useProductForm = ({type, id}) => {
                         video: data.video ? data.video : 'https://google.com',
                         janr: data.janr,
                         translator: data.translator.map(item => item._id),
-                        category: data.category._id,
+                        category: data.category.map(item => item._id),
                         cover: data.image,
                         sliderImg: data.screens.length > 0 && `${BASE_URL}/${data.screens[0]}`,
                         screens: data.screens.slice(1).map((item) => `${BASE_URL}/${item}`),
@@ -427,7 +430,6 @@ export const useProductForm = ({type, id}) => {
                 || formik.values.nameru.trim().length === 0
                 || formik.values.descriptionuz.trim().length === 0
                 || formik.values.descriptionru.trim().length === 0
-                || formik.values.category.trim().length === 0
                 || formik.values.year.trim().length === 0
                 || formik.values.country.trim().length === 0
                 || formik.values.status.trim().length === 0
@@ -439,10 +441,10 @@ export const useProductForm = ({type, id}) => {
                 || formik.values.translator.length === 0
                 || formik.values.tarjimon.length === 0
                 || formik.values.tayming.length === 0
+                || formik.values.category.length === 0
             )
         setAllowNextStep(status)
     }, [formik])
-
 
     return {
         formik,

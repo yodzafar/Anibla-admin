@@ -98,6 +98,7 @@ export default (
                 label="Kategoriyani tanlang"
                 loading={categoryLoading}
                 options={categoryOptions}
+                multiple
                 value={formik.values.category}
                 onChange={(e) => formik.setFieldValue('category', e)}
                 onBlur={formik.handleBlur}
