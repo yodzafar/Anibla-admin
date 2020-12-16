@@ -38,7 +38,7 @@ export default (
         <Grid perColumn={2} style={{marginTop: 16}}>
             {
                 type !== 'serial'
-                && (
+                ? (
                     <>
                         <NormalInput
                             name="video"
@@ -57,7 +57,17 @@ export default (
                             error={formik.touched.length && formik.errors.length}
                         />
                     </>
-                )
+                ) : (
+                        <NormalInput
+                            type='number'
+                            name="num"
+                            label='Seriyalar soni'
+                            value={formik.values.num}
+                            onChange={(e) => formik.setFieldValue('num', e)}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.num && formik.errors.num}
+                        />
+                    )
             }
             <NormalInput
                 name="rejissor"

@@ -80,7 +80,7 @@ export default (props) => {
             render: (image, {nameuz, _id}) => (
                 <TableLink
                     link={type === 'serial'}
-                    onClick={() => type === 'serial' && push(`${ROUTE_URL.SEASON.LIST}/${_id}`)}
+                    onClick={() => type === 'serial' && push(`${ROUTE_URL.SERIAL.LIST}/${_id}`)}
                 >
                     <Avatar imgUrl={`${baseUrl}/${image}`} name={nameuz}/>
                 </TableLink>
@@ -93,7 +93,7 @@ export default (props) => {
             render: (nameuz, {_id}) => (
                 <TableLink
                     link={type === 'serial'}
-                    onClick={() => type === 'serial' && push(`${ROUTE_URL.SEASON.LIST}/${_id}`)}
+                    onClick={() => type === 'serial' && push(`${ROUTE_URL.SERIAL.LIST}/${_id}`)}
                 >
                     {nameuz}
                 </TableLink>
@@ -105,7 +105,7 @@ export default (props) => {
             render: (nameru, {_id}) => (
                 <TableLink
                     link={type === 'serial'}
-                    onClick={() => type === 'serial' && push(`${ROUTE_URL.SEASON.LIST}/${_id}`)}
+                    onClick={() => type === 'serial' && push(`${ROUTE_URL.SERIAL.LIST}/${_id}`)}
                 >
                     {nameru}
                 </TableLink>
@@ -117,7 +117,7 @@ export default (props) => {
             render: (category, {_id}) => (
                 <TableLink
                     link={type === 'serial'}
-                    onClick={() => type === 'serial' && push(`${ROUTE_URL.SEASON.LIST}/${_id}`)}
+                    onClick={() => type === 'serial' && push(`${ROUTE_URL.SERIAL.LIST}/${_id}`)}
                 >
                     {category}
                 </TableLink>

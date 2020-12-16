@@ -8,16 +8,17 @@ import Table from '../../Table'
 import Popover from '../../Popover'
 import {ConfirmBody} from '../../ConfirmModalBody'
 import {showModal} from '../../../Models/app'
-import {useSeriyaList} from '../../../Hooks/product'
-import SeriyaForm from '../SeriyaForm'
+import {useSeriesList} from '../../../Hooks/product'
+import SeriesForm from '../SeriesForm'
+import moment from "moment";
 
-export default ({filmId, seasonId}) => {
-    const {removeItem} = useSeriyaList({filmId, seasonId})
+export default ({filmId}) => {
+    const {removeItem} = useSeriesList({filmId})
     const product = useSelector(({product}) => product)
     const dispatch = useDispatch()
     const renderModal = (id) => ({
         open: true,
-        component: <SeriyaForm id={id} maxWidth="md" filmId={filmId} seasonId={seasonId}/>,
+        component: <SeriesForm id={id} maxWidth="md" filmId={filmId}/>,
         props: {maxWidth: 'md'}
     })
 
@@ -59,6 +60,15 @@ export default ({filmId, seasonId}) => {
             render: (num, {_id}) => (<TableLink>{num}</TableLink>)
         },
         {
+            title: 'Yaratilgan sana',
+            key: 'date',
+            render: (date, { _id }) => (
+                <TableLink>
+                    {moment(date).format('YYYY-MM-DD HH:mm')}
+                </TableLink>
+            )
+        },
+        {
             icon: <SettingsIcon/>,
             title: '',
             render: (props, {_id}) => (
@@ -75,7 +85,7 @@ export default ({filmId, seasonId}) => {
             <Table
                 columns={columns}
                 loading={product.loading}
-                dataSource={product.seriya}
+                dataSource={product.series}
             />
         </ContentContainerInner>
     )

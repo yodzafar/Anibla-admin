@@ -5,9 +5,9 @@ import { URL_TITLE } from '../../Constants/url';
 
 export const useSiteHeader = () => {
   const { location } = useHistory()
-  const { editID, filmId, seasonId } = useParams()
+  const { editID, filmId } = useParams()
   const [title, setTitle] = useState(null)
-  const { productInfo, seasonInfo } = useSelector(({ product }) => product)
+  const { seasonInfo } = useSelector(({ product }) => product)
 
   const getTitleFromURL = useCallback(() => {
     const originalPathname = location.pathname
@@ -26,16 +26,12 @@ export const useSiteHeader = () => {
   }, [editID, location.pathname])
 
   const getTitle = useCallback(() => {
-    if (filmId && Object.values(productInfo).length > 0) {
-      if (seasonId && seasonInfo && seasonInfo.name) {
-        setTitle(seasonInfo.name.uz)
-      } else {
-        setTitle(productInfo.name.uz)
-      }
+    if (filmId && Object.values(seasonInfo).length > 0) {
+      setTitle(seasonInfo.name.uz)
     } else {
       getTitleFromURL()
     }
-  }, [getTitleFromURL, filmId, productInfo, seasonInfo, seasonId])
+  }, [getTitleFromURL, filmId, seasonInfo])
 
   useEffect(() => {
     getTitle()

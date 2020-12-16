@@ -22,21 +22,45 @@ export const getProductList = (params) => (dispatch) => {
           }
         )
       }
-    }).finally(() => dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: false }))
+    })
+      .finally(() => dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: false }))
     .catch((e) => {
       console.log(e);
     })
 }
 
-export const getProductInfo = (id, seasonId) => (dispatch) => {
+export const getSeasonList = () => dispatch => {
+    dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: true })
+    product.getAllSeason()
+        .then(res => {
+            if (res.success) {
+                const data = res.data.map((item) => ({
+                    nameuz: item.name.uz,
+                    nameru: item.name.ru,
+                    category: item.category.map(item => item.nameuz).join(', '),
+                    image: item.image,
+                    key: item._id,
+                    _id: item._id
+                }))
+                dispatch({type: PRODUCT_ACTION_TYPES.SEASON_LOADED, season: data})
+            }
+
+        })
+        .finally(() => dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: false }))
+        .catch(() => {
+            dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: false })
+        })
+}
+
+export const getSeasonInfo = (id) => (dispatch) => {
   dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: true })
-  product.getProduct(id)
+  product.getSeason(id)
     .then((res) => {
       if (res.success) {
         dispatch(
           {
-            type: PRODUCT_ACTION_TYPES.PRODUCT_INFO,
-            data: { filmData: res.data, seasonId }
+            type: PRODUCT_ACTION_TYPES.SEASON_INFO,
+            data: res.data
           }
         )
       }
@@ -46,26 +70,3 @@ export const getProductInfo = (id, seasonId) => (dispatch) => {
     })
 }
 
-export const addSeason = (data) => ({
-    type: PRODUCT_ACTION_TYPES.ADD_SEASON,
-    data
-})
-
-export const updateSeason = (id, data) => ({
-    type: PRODUCT_ACTION_TYPES.UPDATE_SEASON,
-    payload: {
-        id, data
-    },
-})
-
-export const addSeriya = (data) => ({
-    type: PRODUCT_ACTION_TYPES.ADD_SERIYA,
-    data
-})
-
-export const updateSeriya = (id, data) => ({
-    type: PRODUCT_ACTION_TYPES.UPDATE_SERIYA,
-    payload: {
-        id, data
-    },
-})

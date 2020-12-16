@@ -2,22 +2,20 @@ import {useFormik} from 'formik'
 import {useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import * as Yup from 'yup'
-import {addSeriya, updateSeriya} from '../../Models/product'
 import product from '../../Service/product'
 import {hideModal, showSnackbar} from "../../Models/app/actions";
+import {getSeasonInfo} from "../../Models/product";
 
-export const useSeriyaForm = ({filmId, id, seasonId}) => {
+export const useSeriyaForm = ({filmId, id}) => {
     const [initialValues, setInitialValues] = useState({
         nameuz: '',
         nameru: '',
         video: '',
-        kinoId: filmId,
-        season: seasonId,
+        season: filmId,
         length: '',
-        screens: [],
-        cover: null
     })
-    const productInfo = useSelector(({product}) => product.productInfo)
+
+    const seasonInfo = useSelector(({product}) => product.seasonInfo)
     const dispatch = useDispatch()
     const [error, setError] = useState({})
 
@@ -29,18 +27,19 @@ export const useSeriyaForm = ({filmId, id, seasonId}) => {
             const without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
             return (regex.test(video) || without_regex.test(video))
         }),
-        kinoId: Yup.string().required("Maydon to'ldirilishi shart"),
         season: Yup.string().required("Maydon to'ldirilishi shart"),
         length: Yup.string().required("Maydon to'ldirilishi shart")
             .matches(/^([0-1]?\d|2[0-3])(?::([0-5]?\d))?(?::([0-5]?\d))?$/, "Video davomiyligi 00:00:00 kabi bo'lishi talab qilinadi")
     })
 
     const update = useCallback((id, data) => {
-        product.updateSeriya({id, data})
+        product.updateSeries({id, data})
             .then(res => {
-                console.log(res);
+                if (res.success) {
+                    dispatch(getSeasonInfo(filmId))
+                }
             })
-    }, [])
+    }, [dispatch, filmId])
 
     const formik = useFormik({
         initialValues,
@@ -55,11 +54,10 @@ export const useSeriyaForm = ({filmId, id, seasonId}) => {
                     nameuz: values.nameuz,
                     nameru: values.nameru,
                     video: values.video,
-                    kinoId: values.kinoId,
                     season: values.season,
                     length: values.length
                 }
-                product.createSeriya(data)
+                product.createSeries(data)
                     .then((res) => {
                         if (res.success) {
                             const payload = {
@@ -72,13 +70,11 @@ export const useSeriyaForm = ({filmId, id, seasonId}) => {
                                 nameuz: res.data.name.uz,
                                 nameru: res.data.name.ru,
                                 video: res.data.video,
-                                kino: res.data.kino,
                                 season: res.data.season,
                                 length: res.data.length
                             }
 
                             update(res.data._id, updateData)
-                            dispatch(addSeriya(res.data))
                             dispatch(showSnackbar(payload))
                             resetForm()
                         }
@@ -98,11 +94,10 @@ export const useSeriyaForm = ({filmId, id, seasonId}) => {
                     nameuz: values.nameuz,
                     nameru: values.nameru,
                     video: values.video,
-                    kino: values.kinoId,
                     season: values.season,
                     length: values.length
                 }
-                product.updateSeriya({id, data})
+                product.updateSeries({id, data})
                     .then((res) => {
                         if (res.success) {
                             resetForm()
@@ -111,9 +106,9 @@ export const useSeriyaForm = ({filmId, id, seasonId}) => {
                                 variant: 'success',
                                 message: `Seriya muvaffaqiyatli tahrirlandi`
                             }
+                            dispatch(getSeasonInfo(filmId))
                             dispatch(hideModal())
                             dispatch(showSnackbar(payload))
-                            dispatch(updateSeriya(id, res.data))
                         }
                     })
                     .finally(() => setSubmitting(false))
@@ -130,22 +125,18 @@ export const useSeriyaForm = ({filmId, id, seasonId}) => {
         }
     })
 
-    const getSeriya = useCallback(() => {
-        if (id && seasonId && productInfo.season) {
-            const seriya = productInfo.season.find((item) => item._id === seasonId).seriya
-                .find((item) => item._id === id)
-            if (seriya) {
-                setInitialValues({
-                    nameuz: seriya.name.uz,
-                    nameru: seriya.name.ru,
-                    video: seriya.video,
-                    kinoId: seriya.kino,
-                    season: seriya.season,
-                    length: seriya.length,
-                })
-            }
+    const getSeries = useCallback(() => {
+        if (id && filmId && Object.values(seasonInfo).length > 0) {
+            const data = seasonInfo.seriya.find(item => item._id === id)
+            setInitialValues({
+                nameuz: data.name.uz,
+                nameru: data.name.ru,
+                video: data.video,
+                season: filmId,
+                length: data.length,
+            })
         }
-    }, [id, seasonId, productInfo.season])
+    }, [id, filmId, seasonInfo])
 
     const submitDisabled = () => formik.isSubmitting
         || (formik.touched.nameru && !!formik.errors.nameru)
@@ -170,8 +161,9 @@ export const useSeriyaForm = ({filmId, id, seasonId}) => {
     }, [formik.errors, formik.touched])
 
     useEffect(() => {
-        getSeriya()
-    }, [getSeriya])
+        getSeries()
+    }, [getSeries])
+
 
     return {formik, submitDisabled, error}
 }

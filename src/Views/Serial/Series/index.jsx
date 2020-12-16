@@ -7,15 +7,15 @@ import { ContentContainer } from '../../../Components/GlobalStyles'
 import { URL_TITLE } from '../../../Constants/url'
 import { showModal } from '../../../Models/app'
 import Button from '../../../Components/FormElements/Button'
-import { SeriyaForm, SeriyaTable } from '../../../Components/Seriya'
+import { SeriesForm, SeriesTable } from '../../../Components/Series'
 
 export default () => {
-    const { filmId, seasonId } = useParams()
+    const { filmId } = useParams()
     const dispatch = useDispatch()
 
     const payload = {
         open: true,
-        component: <SeriyaForm maxWidth="md" seasonId={seasonId} filmId={filmId} />,
+        component: <SeriesForm maxWidth="md" filmId={filmId} />,
         props: { maxWidth: 'md' }
     }
     return (
@@ -33,7 +33,7 @@ export default () => {
                 </Button>
             </ContentHeader>
             <ContentContainer>
-                <SeriyaTable seasonId={seasonId} filmId={filmId} />
+                <SeriesTable filmId={filmId} />
             </ContentContainer>
         </>
     )

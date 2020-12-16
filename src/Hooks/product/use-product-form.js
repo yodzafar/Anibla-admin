@@ -8,7 +8,7 @@ import genre from '../../Service/genre'
 import member from '../../Service/member'
 import category from '../../Service/category'
 import product from '../../Service/product'
-import {getProductList} from '../../Models/product';
+import {getProductList, getSeasonList} from '../../Models/product';
 import {BASE_URL, URL_TITLE} from '../../Constants/url'
 import {hideModal} from '../../Models/app';
 import {showSnackbar} from "../../Models/app/actions";
@@ -56,7 +56,7 @@ export const useProductForm = ({type, id}) => {
         nameru: '',
         descriptionuz: '',
         descriptionru: '',
-        video: type === 'serial'? 'https://www.youtube.com/watch?v=CqODvF5itbQ' : '',
+        video: type === 'serial' ? 'https://www.youtube.com/watch?v=CqODvF5itbQ' : '',
         category: [],
         translator: [],
         cover: undefined,
@@ -71,8 +71,8 @@ export const useProductForm = ({type, id}) => {
         studia: '',
         janr: [],
         status: '1',
-        type,
-        price: 'free'
+        price: 'free',
+        num: type === 'serial' ? '' : '12'
     });
 
     const validationSchema = new Yup.object().shape({
@@ -140,8 +140,8 @@ export const useProductForm = ({type, id}) => {
                 }).required("Maydon to'ldirilishi shart"),
         category: Yup.array().required("Maydon to'ldirilishi shart"),
         status: Yup.string().required("Maydon to'ldirilishi shart"),
-        type: Yup.string().required("Maydon to'ldirilishi shart"),
-        price: Yup.string().required("Maydon to'ldirilishi shart")
+        price: Yup.string().required("Maydon to'ldirilishi shart"),
+        num: Yup.string().required("Maydon to'ldirilishi shart"),
     })
 
     const getTitle = (kinoType) => {
@@ -155,12 +155,105 @@ export const useProductForm = ({type, id}) => {
         }
     }
 
+    const createFilm = (data, {setSubmitting, resetForm}) => {
+        setSubmitting(true)
+        product.createProduct(data)
+            .then((res) => {
+                if (res.success) {
+                    const payload = {
+                        open: true,
+                        variant: 'success',
+                        message: `${getTitle()} muvaffaqiyatli qo'shildi`
+                    }
+                    resetForm()
+                    dispatch(showSnackbar(payload))
+                    dispatch(getProductList({type}))
+                    setStep(1)
+                }
+            }).finally(() => setSubmitting(false))
+            .catch(() => {
+                const payload = {
+                    open: true,
+                    variant: 'error',
+                    message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
+                }
+                setSubmitting(false)
+                dispatch(showSnackbar(payload))
+            })
+    }
+
+    const updateFilm = (data, {setSubmitting, resetForm}) => {
+        setSubmitting(true)
+        product.updateProduct({id, data})
+            .then((res) => {
+                if (res.success) {
+                    const payload = {
+                        open: true,
+                        variant: 'success',
+                        message: `${getTitle(type)} muvaffaqiyatli tahrirlandi`
+                    }
+                    resetForm()
+                    dispatch(showSnackbar(payload))
+                    dispatch(getProductList({type}))
+                    setStep(1)
+                    dispatch(hideModal())
+                }
+            })
+            .finally(() => setSubmitting(false))
+            .catch(() => {
+                const payload = {
+                    open: true,
+                    variant: 'error',
+                    message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
+                }
+                dispatch(showSnackbar(payload))
+                setSubmitting(false)
+            })
+    }
+
+    const createSerial = (data, {setSubmitting, resetForm}) => {
+        setSubmitting(true)
+        product.createSeason(data)
+            .then(res => {
+                if (res.success) {
+                    const payload = {
+                        open: true,
+                        variant: 'success',
+                        message: `${getTitle(type)} muvaffaqiyatli tahrirlandi`
+                    }
+                    resetForm()
+                    dispatch(showSnackbar(payload))
+                    dispatch(getSeasonList())
+                    setStep(1)
+                    dispatch(hideModal())
+                }
+            })
+            .finally(() => setSubmitting(false))
+            .catch(() => {
+                const payload = {
+                    open: true,
+                    variant: 'error',
+                    message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
+                }
+                dispatch(showSnackbar(payload))
+                setSubmitting(false)
+            })
+    }
+
+    const updateSeason = (data, {setSubmitting, resetForm}) => {
+        setSubmitting(true)
+        product.updateSeason({id, data})
+            .then(res => {
+                console.log(res);
+            })
+    }
+
+
     const formik = useFormik({
         initialValues,
         enableReinitialize: true,
         validationSchema,
-        onSubmit: (values, {setSubmitting, resetForm}) => {
-            setSubmitting(true)
+        onSubmit: (values, actions) => {
             if (!id) {
                 const data = new FormData()
                 const {janr, translator, cover, sliderImg, screens, tayming, tarjimon, category} = values
@@ -173,13 +266,15 @@ export const useProductForm = ({type, id}) => {
                 data.append('year', values.year)
                 data.append('country', values.country)
                 data.append('status', !!Number(values.status))
-                data.append('type', values.type)
                 data.append('price', values.price)
                 data.append('rejissor', values.rejissor)
                 data.append('studia', values.studia)
 
+
                 if (type !== 'serial') {
                     data.append('video', values.video)
+                } else {
+                    data.append('num', values.num)
                 }
 
                 if (!id) {
@@ -207,30 +302,12 @@ export const useProductForm = ({type, id}) => {
                 for (let i = 0; i < tayming.length; i++) {
                     data.append('tayming[]', tayming[i])
                 }
+                if (type === 'serial') {
+                    createSerial(data, actions)
+                } else {
+                    createFilm(data, actions)
+                }
 
-                product.createProduct(data)
-                    .then((res) => {
-                        if (res.success) {
-                            const payload = {
-                                open: true,
-                                variant: 'success',
-                                message: `${getTitle()} muvaffaqiyatli qo'shildi`
-                            }
-                            dispatch(showSnackbar(payload))
-                            dispatch(getProductList({type}))
-                            resetForm()
-                            setStep(1)
-                        }
-                    }).finally(() => setSubmitting(false))
-                    .catch(() => {
-                        const payload = {
-                            open: true,
-                            variant: 'error',
-                            message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
-                        }
-                        dispatch(showSnackbar(payload))
-                        setSubmitting(false)
-                    })
             } else {
                 const data = {
                     nameuz: values.nameuz,
@@ -243,7 +320,6 @@ export const useProductForm = ({type, id}) => {
                     country: values.country,
                     janr: values.janr,
                     status: !!Number(values.status),
-                    type: values.type,
                     price: values.price,
                     rejissor: values.rejissor,
                     tarjimon: values.tarjimon,
@@ -252,36 +328,16 @@ export const useProductForm = ({type, id}) => {
                 }
 
 
-                if (type !== 'serial') {
+                if (type === 'serial') {
+                    data.num = values.num
+                    updateSeason(data, actions)
+                }else {
                     data.video = values.video
                     data.length = values.length
+                    updateFilm(data, actions)
                 }
 
-                product.updateProduct({id, data})
-                    .then((res) => {
-                        if (res.success) {
-                            const payload = {
-                                open: true,
-                                variant: 'success',
-                                message: `${getTitle(type)} muvaffaqiyatli tahrirlandi`
-                            }
-                            dispatch(showSnackbar(payload))
-                            dispatch(getProductList({type}))
-                            resetForm()
-                            setStep(1)
-                            dispatch(hideModal())
-                        }
-                    })
-                    .finally(() => setSubmitting(false))
-                    .catch(() => {
-                        const payload = {
-                            open: true,
-                            variant: 'error',
-                            message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
-                        }
-                        dispatch(showSnackbar(payload))
-                        setSubmitting(false)
-                    })
+
             }
         }
     });
@@ -341,12 +397,11 @@ export const useProductForm = ({type, id}) => {
         }
     }, [id])
 
-    const getProduct = useCallback(() => {
+    const getFilm = useCallback(() => {
         if (id) {
             product.getProduct(id)
                 .then((res) => {
                     const {data} = res
-
                     const values = {
                         nameuz: data.name.uz,
                         nameru: data.name.ru,
@@ -355,15 +410,14 @@ export const useProductForm = ({type, id}) => {
                         year: data.year,
                         country: data.country,
                         status: data.status === 'true' ? '1' : '0',
-                        video: data.video ? data.video : 'https://google.com',
+                        video: data.video,
                         janr: data.janr.map(item => item._id),
                         translator: data.translator.map(item => item._id),
                         category: data.category.map(item => item._id),
                         cover: data.image,
-                        sliderImg: data.screens.length > 0 && `${BASE_URL}/${data.screens[0]}`,
-                        screens: data.screens.slice(1).map((item) => `${BASE_URL}/${item}`),
+                        sliderImg: data.screens.thumb.length > 0 && `${BASE_URL}/${data.screens[0].thumb}`,
+                        screens: data.screens.thumb.slice(1).map((item) => `${BASE_URL}/${item}`),
                         price: data.price,
-                        type,
                         studia: data.studia,
                         length: data.length ? data.length : '00:00:00',
                         rejissor: data.rejissor,
@@ -375,13 +429,59 @@ export const useProductForm = ({type, id}) => {
                 console.log(e);
             })
         }
-    }, [id, type])
+    }, [id]);
+
+    const getSerial = useCallback(() => {
+        product.getSeason(id)
+            .then(res => {
+                const {data} = res
+                const values = {
+                    nameuz: data.name.uz,
+                    nameru: data.name.ru,
+                    descriptionuz: data.description.uz,
+                    descriptionru: data.description.ru,
+                    year: data.year,
+                    country: data.country,
+                    status: data.status && data.status === 'true' ? '1' : '0',
+                    video: 'https://google.com',
+                    janr: data.janr.map(item => item._id),
+                    translator: data.translator.map(item => item._id),
+                    category: data.category.map(item => item._id),
+                    cover: data.image,
+                    sliderImg: data.screens.thumb.length > 0 && `${BASE_URL}/${data.screens.thumb[0]}`,
+                    screens: data.screens.thumb.slice(1).map((item) => `${BASE_URL}/${item}`),
+                    price: data.price,
+                    studia: data.studia,
+                    length: data.length ? data.length : '00:00:00',
+                    rejissor: data.rejissor,
+                    tarjimon: data.tarjimon.map(item => item._id),
+                    tayming: data.tayming.map(item => item._id),
+                    num: data.num
+                }
+                setInitialValues(values)
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    }, [id])
+
+
+    const getProduct = useCallback(() => {
+        if (id) {
+            if (type === 'serial') {
+                getSerial()
+            } else {
+                getFilm()
+            }
+        }
+    }, [type, getFilm, getSerial, id])
 
     const submitDisabled = () => formik.isSubmitting
         || (formik.touched.nameru && !!formik.errors.nameru)
         || (formik.touched.nameuz && !!formik.errors.nameuz)
         || (formik.touched.descriptionru && !!formik.errors.descriptionru)
         || (formik.touched.descriptionuz && !!formik.errors.descriptionuz)
+        || (formik.touched.num && !!formik.errors.num)
         || (formik.touched.video && !!formik.errors.video)
         || (formik.touched.category && !!formik.errors.category)
         || (formik.touched.year && !!formik.errors.year)
@@ -392,7 +492,6 @@ export const useProductForm = ({type, id}) => {
         || (!!formik.errors.screens)
         || (formik.touched.status && !!formik.errors.status)
         || (formik.touched.price && !!formik.errors.price)
-        || (formik.touched.type && !!formik.errors.type)
 
     useMemo(() => {
         getGenre()
@@ -432,11 +531,10 @@ export const useProductForm = ({type, id}) => {
                 || formik.values.descriptionru.trim().length === 0
                 || formik.values.year.trim().length === 0
                 || formik.values.country.trim().length === 0
-                || formik.values.status.trim().length === 0
-                || formik.values.type.trim().length === 0
                 || formik.values.price.trim().length === 0
                 || formik.values.rejissor.trim().length === 0
                 || formik.values.studia.trim().length === 0
+                || formik.values.num.trim().length === 0
                 || formik.values.janr.length === 0
                 || formik.values.translator.length === 0
                 || formik.values.tarjimon.length === 0
@@ -445,6 +543,8 @@ export const useProductForm = ({type, id}) => {
             )
         setAllowNextStep(status)
     }, [formik])
+
+    console.log(formik);
 
     return {
         formik,

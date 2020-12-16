@@ -2,7 +2,7 @@ import {CategoryList} from '../Views/Category'
 import {GenreList} from '../Views/Genre';
 import {MemberList} from '../Views/Memeber';
 import {FilmList} from '../Views/Film';
-import {SeasonList, SerialList, SeriyaList} from '../Views/Serial';
+import {SerialList, SeriesList} from '../Views/Serial';
 import {SliderList} from "../Views/Slider";
 import {NewsList} from "../Views/News";
 import {AnnotationList} from "../Views/Annotation";
@@ -69,19 +69,11 @@ const serial = [
         component: SerialList
     },
     {
-        id: 'seasonList',
-        title: URL_TITLE.SEASON.TITLE_PLURAL,
-        path: `${ROUTE_URL.SEASON.LIST}/:filmId`,
-        icon: FilmIcon,
-        component: SeasonList,
-        hidden: true
-    },
-    {
         id: 'seriyaList',
         title: URL_TITLE.SERIYA.TITLE_PLURAL,
-        path: `${ROUTE_URL.SEASON.LIST}/:filmId/seriya/:seasonId`,
+        path: `${ROUTE_URL.SERIAL.LIST}/:filmId`,
         icon: FilmIcon,
-        component: SeriyaList,
+        component: SeriesList,
         hidden: true
     }
 ]

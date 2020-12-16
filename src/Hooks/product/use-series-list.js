@@ -1,24 +1,23 @@
 import {useCallback, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
-import {getProductInfo} from '../../Models/product'
 import {hideModal} from '../../Models/app'
 import product from '../../Service/product'
 import {showSnackbar} from "../../Models/app/actions";
+import {getSeasonInfo} from "../../Models/product";
 
-export const useSeasonList = ({filmId}) => {
+export const useSeriesList = ({filmId}) => {
     const dispatch = useDispatch()
 
     const getList = useCallback(() => {
-        if (filmId) {
-            dispatch(getProductInfo(filmId))
+        if(filmId) {
+            dispatch(getSeasonInfo(filmId))
         }
     }, [dispatch, filmId])
 
     const removeItem = useCallback((id) => {
-        product.removeSeason(id)
+        product.removeSeries(id)
             .then((res) => {
                 if (res.success) {
-                    getList()
                     dispatch(hideModal())
                     const payload = {
                         open: true,
@@ -26,6 +25,7 @@ export const useSeasonList = ({filmId}) => {
                         message: 'Ma\'lumot muvvaffaqiyatli o\'chirildi'
                     }
                     dispatch(showSnackbar(payload))
+                    getList()
                 }
             }).catch(() => {
             const payload = {
@@ -36,7 +36,7 @@ export const useSeasonList = ({filmId}) => {
             dispatch(hideModal())
             dispatch(showSnackbar(payload))
         })
-    }, [getList, dispatch])
+    }, [dispatch, getList])
 
     useEffect(() => {
         getList()
