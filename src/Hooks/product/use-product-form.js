@@ -70,7 +70,6 @@ export const useProductForm = ({type, id}) => {
         rejissor: '',
         studia: '',
         janr: [],
-        status: '1',
         price: 'free',
         num: type === 'serial' ? '' : '12'
     });
@@ -139,7 +138,6 @@ export const useProductForm = ({type, id}) => {
                     return true
                 }).required("Maydon to'ldirilishi shart"),
         category: Yup.array().required("Maydon to'ldirilishi shart"),
-        status: Yup.string().required("Maydon to'ldirilishi shart"),
         price: Yup.string().required("Maydon to'ldirilishi shart"),
         num: Yup.string().required("Maydon to'ldirilishi shart"),
     })
@@ -225,7 +223,6 @@ export const useProductForm = ({type, id}) => {
                     dispatch(showSnackbar(payload))
                     dispatch(getSeasonList())
                     setStep(1)
-                    dispatch(hideModal())
                 }
             })
             .finally(() => setSubmitting(false))
@@ -265,7 +262,6 @@ export const useProductForm = ({type, id}) => {
                 data.append('descriptionru', values.descriptionru)
                 data.append('year', values.year)
                 data.append('country', values.country)
-                data.append('status', !!Number(values.status))
                 data.append('price', values.price)
                 data.append('rejissor', values.rejissor)
                 data.append('studia', values.studia)
@@ -273,6 +269,7 @@ export const useProductForm = ({type, id}) => {
 
                 if (type !== 'serial') {
                     data.append('video', values.video)
+                    data.append('length', values.length)
                 } else {
                     data.append('num', values.num)
                 }
@@ -319,7 +316,6 @@ export const useProductForm = ({type, id}) => {
                     year: values.year,
                     country: values.country,
                     janr: values.janr,
-                    status: !!Number(values.status),
                     price: values.price,
                     rejissor: values.rejissor,
                     tarjimon: values.tarjimon,
@@ -402,6 +398,7 @@ export const useProductForm = ({type, id}) => {
             product.getProduct(id)
                 .then((res) => {
                     const {data} = res
+                    console.log(data);
                     const values = {
                         nameuz: data.name.uz,
                         nameru: data.name.ru,
@@ -409,13 +406,12 @@ export const useProductForm = ({type, id}) => {
                         descriptionru: data.description.ru,
                         year: data.year,
                         country: data.country,
-                        status: data.status === 'true' ? '1' : '0',
                         video: data.video,
                         janr: data.janr.map(item => item._id),
                         translator: data.translator.map(item => item._id),
                         category: data.category.map(item => item._id),
                         cover: data.image,
-                        sliderImg: data.screens.thumb.length > 0 && `${BASE_URL}/${data.screens[0].thumb}`,
+                        sliderImg: data.screens.thumb.length > 0 && `${BASE_URL}/${data.screens.thumb[0]}`,
                         screens: data.screens.thumb.slice(1).map((item) => `${BASE_URL}/${item}`),
                         price: data.price,
                         studia: data.studia,
@@ -423,6 +419,7 @@ export const useProductForm = ({type, id}) => {
                         rejissor: data.rejissor,
                         tarjimon: data.tarjimon.map(item => item._id),
                         tayming: data.tayming.map(item => item._id),
+                        num: '0'
                     }
                     setInitialValues(values)
                 }).catch((e) => {
@@ -430,6 +427,7 @@ export const useProductForm = ({type, id}) => {
             })
         }
     }, [id]);
+
 
     const getSerial = useCallback(() => {
         product.getSeason(id)
@@ -442,7 +440,6 @@ export const useProductForm = ({type, id}) => {
                     descriptionru: data.description.ru,
                     year: data.year,
                     country: data.country,
-                    status: data.status && data.status === 'true' ? '1' : '0',
                     video: 'https://google.com',
                     janr: data.janr.map(item => item._id),
                     translator: data.translator.map(item => item._id),
@@ -490,7 +487,6 @@ export const useProductForm = ({type, id}) => {
         || (formik.touched.cover && !!formik.errors.cover)
         || (formik.touched.sliderImg && !!formik.errors.sliderImg)
         || (!!formik.errors.screens)
-        || (formik.touched.status && !!formik.errors.status)
         || (formik.touched.price && !!formik.errors.price)
 
     useMemo(() => {
@@ -543,8 +539,6 @@ export const useProductForm = ({type, id}) => {
             )
         setAllowNextStep(status)
     }, [formik])
-
-    console.log(formik);
 
     return {
         formik,

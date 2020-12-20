@@ -9,7 +9,7 @@ export default () => {
     const product = useSelector(({product}) => product)
     return (
         <ProductTable
-            data={product.season}
+            data={product.data}
             loading={product.loading}
             type="serial"
             Form={TrailerForm}

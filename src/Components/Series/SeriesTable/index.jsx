@@ -3,7 +3,7 @@ import SettingsIcon from 'mdi-react/SettingsIcon'
 import {useDispatch, useSelector} from 'react-redux'
 import PencilIcon from 'mdi-react/PencilIcon'
 import DeleteIcon from 'mdi-react/DeleteIcon'
-import {ContentContainerInner, MoreIcon, TableLink} from '../../GlobalStyles'
+import {ContentContainerInner, MoreIcon, ShowVideo, TableLink} from '../../GlobalStyles'
 import Table from '../../Table'
 import Popover from '../../Popover'
 import {ConfirmBody} from '../../ConfirmModalBody'
@@ -11,6 +11,8 @@ import {showModal} from '../../../Models/app'
 import {useSeriesList} from '../../../Hooks/product'
 import SeriesForm from '../SeriesForm'
 import moment from "moment";
+import {VideoPreview} from "../../VideoPreview";
+import VideoIcon from "mdi-react/VideoIcon";
 
 export default ({filmId}) => {
     const {removeItem} = useSeriesList({filmId})
@@ -26,6 +28,12 @@ export default ({filmId}) => {
         open: true,
         component: <ConfirmBody maxWidth="sm" onAction={() => removeItem(id)}/>,
         props: {maxWidth: 'sm'}
+    })
+
+    const renderVideo = (video, title) => ({
+        open: true,
+        component: <VideoPreview title={title} maxWidth={'md'} src={video}/>,
+        props: {maxWidth: 'md'}
     })
 
     const popoverData = [
@@ -45,19 +53,29 @@ export default ({filmId}) => {
 
     const columns = [
         {
+            title: 'Video',
+            key: 'video',
+            render: (video, {nameuz}) => (<TableLink>
+                <ShowVideo onClick={() => dispatch(showModal(renderVideo(video, nameuz)))}>
+                    <VideoIcon size={48} />
+                </ShowVideo>
+            </TableLink>),
+            width: '1%'
+        },
+        {
             title: 'Seriya nomi(uz)',
             key: 'nameuz',
-            render: (nameuz, {_id}) => (<TableLink>{nameuz}</TableLink>)
+            render: (nameuz) => (<TableLink>{nameuz}</TableLink>)
         },
         {
             title: 'Seriya nomi(ru)',
             key: 'nameru',
-            render: (nameru, {_id}) => (<TableLink>{nameru}</TableLink>)
+            render: (nameru) => (<TableLink>{nameru}</TableLink>)
         },
         {
             title: 'Davomiyligi',
             key: 'length',
-            render: (num, {_id}) => (<TableLink>{num}</TableLink>)
+            render: (num) => (<TableLink>{num}</TableLink>)
         },
         {
             title: 'Yaratilgan sana',

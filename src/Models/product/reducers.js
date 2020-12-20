@@ -9,8 +9,10 @@ const defaultState = {
 
 const map = {
     [PRODUCT_ACTION_TYPES.PRODUCT_LOADING]: (state, {pending}) => ({...state, loading: pending}),
-    [PRODUCT_ACTION_TYPES.PRODUCT_LOADED]: (state, {data}) => ({...state, data}),
-    [PRODUCT_ACTION_TYPES.SEASON_LOADED]: (state, {season}) => ({...state, season}),
+    [PRODUCT_ACTION_TYPES.PRODUCT_LOADED]: (state, {data}) => {
+        return {...state, data}
+    },
+    [PRODUCT_ACTION_TYPES.SEASON_LOADED]: (state, {data}) => ({...state, data}),
     [PRODUCT_ACTION_TYPES.SEASON_INFO]: (state, {data}) => {
         const series = data.seriya.map(item => ({
             _id: item._id,
@@ -18,7 +20,8 @@ const map = {
             nameuz: item.name.uz,
             nameru: item.name.ru,
             length: item.length,
-            date: item.date
+            date: item.date,
+            video: item.video,
         }))
         return {
             ...state,

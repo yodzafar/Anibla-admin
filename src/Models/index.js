@@ -11,6 +11,7 @@ import {newsReducer} from "./news";
 import {annotationReducer} from "./annotation";
 import {commentsReducer} from "./comments";
 import {userReducer} from "./users";
+import {priceReducer} from "./price";
 
 export default (history) => combineReducers({
   router: connectRouter(history),
@@ -24,5 +25,6 @@ export default (history) => combineReducers({
   news: newsReducer,
   annotation: annotationReducer,
   comments: commentsReducer,
-  users: userReducer
+  users: userReducer,
+  price: priceReducer
 })

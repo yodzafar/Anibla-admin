@@ -85,3 +85,10 @@ export const StatusBadge = styled.span`
   border-radius: 3px;
   text-transform: lowercase;
 `
+
+export const ShowVideo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`

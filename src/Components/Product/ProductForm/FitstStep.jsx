@@ -15,7 +15,6 @@ export default (
         memberLoading,
         memberOptions,
         priceOptions,
-        statusOptions,
         error,
         type,
         getTitle
@@ -166,15 +165,6 @@ export default (
                 onChange={(e) => formik.setFieldValue('price', e)}
                 onBlur={formik.handleBlur}
                 error={formik.touched.price && formik.errors.price}
-            />
-            <SelectInput
-                name="status"
-                label="Status"
-                options={statusOptions}
-                value={formik.values.status}
-                onChange={(e) => formik.setFieldValue('status', e)}
-                onBlur={formik.handleBlur}
-                error={formik.touched.status && formik.errors.status}
             />
         </Grid>
     </Tabs>

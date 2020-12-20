@@ -19,6 +19,8 @@ import CommentIcon from "mdi-react/CommentIcon";
 import {CommentList} from "../Views/Comments";
 import AccountBoxMultipleIcon from "mdi-react/AccountBoxMultipleIcon";
 import {UserList} from "../Views/Users";
+import {PriceList} from "../Views/Price";
+import CashMultipleIcon from "mdi-react/CashMultipleIcon";
 
 const category = [
     {
@@ -128,6 +130,16 @@ const users = [
     }
 ]
 
+const price = [
+    {
+        id: 'priceList',
+        title: URL_TITLE.PRICE.TITLE_PLURAL,
+        path: ROUTE_URL.PRICE.LIST,
+        icon: CashMultipleIcon,
+        component: PriceList
+    }
+]
+
 export default [
     ...category,
     ...genre,
@@ -139,4 +151,5 @@ export default [
     ...annotation,
     ...comments,
     ...users,
+    ...price
 ]

@@ -1,9 +1,9 @@
 import product from '../../Service/product'
 import { PRODUCT_ACTION_TYPES } from '../../Constants/action-types/product'
 
-export const getProductList = (params) => (dispatch) => {
+export const getProductList = () => dispatch => {
   dispatch({ type: PRODUCT_ACTION_TYPES.PRODUCT_LOADING, pending: true })
-  product.getAllProduct(params)
+  product.getAllProduct()
     .then((res) => {
       if (res.success) {
         const data = res.data.map((item) => ({
@@ -14,12 +14,7 @@ export const getProductList = (params) => (dispatch) => {
           key: item._id,
           _id: item._id
         }))
-
-        dispatch(
-          {
-            type: PRODUCT_ACTION_TYPES.PRODUCT_LOADED,
-            data
-          }
+          dispatch({type: PRODUCT_ACTION_TYPES.PRODUCT_LOADED, data}
         )
       }
     })
@@ -42,7 +37,7 @@ export const getSeasonList = () => dispatch => {
                     key: item._id,
                     _id: item._id
                 }))
-                dispatch({type: PRODUCT_ACTION_TYPES.SEASON_LOADED, season: data})
+                dispatch({type: PRODUCT_ACTION_TYPES.SEASON_LOADED, data})
             }
 
         })

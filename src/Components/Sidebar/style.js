@@ -10,11 +10,30 @@ export const SidebarContainer = styled.div`
   position: fixed;
   top: var(--navbar-height);
   box-shadow: 0 2px 4px rgba(0,0,0,.08);
+  height: calc(100vh - var(--navbar-height));
+  display: flex;
+  flex-direction: column;
 `
 
 export const Menu = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--navbar-height));
+  scrollbar-color: #d3d3d3 #fff;
+  scrollbar-width: thin;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+    
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #d3d3d3;
+    border-radius: 4px;
+  }
 `
 
 export const MenuItem = styled(NavLink)`

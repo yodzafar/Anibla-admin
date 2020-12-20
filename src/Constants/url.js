@@ -14,7 +14,8 @@ export const BASIC_URLS = {
   ANNOTATION: '/annotation',
   SERIYA: '/serial/season/series',
   COMMENTS: '/comments',
-  USERS: '/users'
+  USERS: '/users',
+  PRICE:'/price'
 }
 
 export const ROUTE_URL = {
@@ -32,6 +33,7 @@ export const ROUTE_URL = {
   ANNOTATION: generateUrl(BASIC_URLS.ANNOTATION),
   COMMENTS: generateUrl(BASIC_URLS.COMMENTS),
   USERS: generateUrl(BASIC_URLS.USERS),
+  PRICE:generateUrl(BASIC_URLS.PRICE)
 }
 
 export const URL_TITLE = {
@@ -48,7 +50,8 @@ export const URL_TITLE = {
   CATEGORY: generateTitle('Kategoriya'),
   ANNOTATION: generateTitle('Annotatsiya'),
   COMMENTS: generateTitle('Muhokama'),
-  USERS: generateTitle('Foydalanuvchi')
+  USERS: generateTitle('Foydalanuvchi'),
+  PRICE: generateTitle('Narx')
 }
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL
