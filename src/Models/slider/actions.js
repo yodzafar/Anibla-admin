@@ -10,9 +10,9 @@ export const getSliderList = () => dispatch => {
                 dispatch({type: SLIDER_ACTION_TYPES.SLIDER_LOADED, data: res.data.map(item => ({
                         key: item._id,
                         _id: item._id,
-                        nameuz: item.kino.name.uz,
-                        nameru: item.kino.name.ru,
-                        image: `${BASE_URL}/${item.kino.image}`
+                        nameuz: item.kino ?  item.kino.name.uz : 'нет данных',
+                        nameru: item.kino ? item.kino.name.ru : 'нет данных',
+                        image: item.kino ? `${BASE_URL}/${item.kino.image}` : null
                     }))})
             }
         }).finally(() => dispatch({type: SLIDER_ACTION_TYPES.SLIDER_LOADING, pending: false}))

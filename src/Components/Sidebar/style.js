@@ -39,7 +39,7 @@ export const Menu = styled.div`
 export const MenuItem = styled(NavLink)`
   display: flex;
   align-items: center;
-  padding: 20px 24px;
+  padding: 12px 24px;
   color: #383c40;
   border-left: 2px solid transparent;
   transition: .2s ease;
@@ -52,7 +52,7 @@ export const MenuItem = styled(NavLink)`
 `
 
 MenuItem.Title = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   margin-left: 16px;
   transition: .2s ease;
   font-weight: 600;

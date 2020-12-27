@@ -398,7 +398,6 @@ export const useProductForm = ({type, id}) => {
             product.getProduct(id)
                 .then((res) => {
                     const {data} = res
-                    console.log(data);
                     const values = {
                         nameuz: data.name.uz,
                         nameru: data.name.ru,

@@ -19,8 +19,8 @@ Axios.instance.interceptors.response.use(
   (res) => res,
   (error) => {
     if (error && error.response && error.response.status === 401) {
-      window.location.replace('/sign-in');
-      localStorage.removeItem('token')
+      // window.location.replace('/sign-in');
+      // localStorage.removeItem('token')
     }
     return Promise.reject(error);
   }

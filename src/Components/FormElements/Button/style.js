@@ -6,9 +6,9 @@ import {
 
 const common = css`
   font-weight: 700;
-  padding: 11px 22px;
+  padding: 8px 18px;
   text-transform: unset;
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'Nunito', sans-serif;
   border: 1px solid transparent;
 `
