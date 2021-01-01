@@ -10,6 +10,10 @@ import { useMemberList } from '../../../Hooks/member';
 import Avatar from '../../AvatarImg'
 import { ConfirmBody } from '../../ConfirmModalBody';
 import { showModal } from '../../../Models/app';
+import PencilIcon from "mdi-react/PencilIcon";
+import {MemberForm} from "../index";
+import {EditAvatar} from "./EditiAvatar";
+import AccountBoxIcon from "mdi-react/AccountBoxIcon";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
@@ -23,7 +27,32 @@ export default () => {
     component: <ConfirmBody maxWidth="sm" onAction={() => removeItem(id)} />,
     props: { maxWidth: 'sm' }
   })
+
+  const renderModal = (id) => ({
+    open: true,
+    component: <MemberForm id={id} />,
+    props: null
+  })
+
+  const renderEditAvatarModal = (id) => ({
+    open: true,
+    component: <EditAvatar id={id} />,
+    props: null
+  })
+
   const popoverData = [
+    {
+      id: 'edit',
+      title: 'Tahrirlash',
+      icon: <PencilIcon size={16} />,
+      onClick: (id) => dispatch(showModal(renderModal(id)))
+    },
+    {
+      id: 'editAvatar',
+      title: 'Avatarni almashtirish',
+      icon: <AccountBoxIcon size={16} />,
+      onClick: (id) => dispatch(showModal(renderEditAvatarModal(id)))
+    },
     {
       id: 'delete',
       title: "O'chirish",

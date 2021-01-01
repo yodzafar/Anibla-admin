@@ -83,7 +83,14 @@ export const useProductList = ({type}) => {
     }, [removeSerial, removeFilm, type])
 
     const addToSlider = useCallback((id) => {
-        slider.createSlider({kino: id})
+
+        const params = {}
+        if(type === 'serial') {
+            params['serial'] = id
+        }else {
+            params['kino'] = id
+        }
+        slider.createSlider(params)
             .then((res) => {
                 if (res.success) {
                     const payload = {
@@ -102,7 +109,7 @@ export const useProductList = ({type}) => {
                 }
                 dispatch(showSnackbar(payload))
             })
-    }, [dispatch])
+    }, [dispatch, type])
 
     return {removeItem, addToSlider}
 }

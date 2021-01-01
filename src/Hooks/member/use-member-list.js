@@ -22,6 +22,7 @@ export const useMemberList = () => {
                         variant: 'success',
                         message: 'Ma\'lumot muvvaffaqiyatli o\'chirildi'
                     }
+                    getList()
                     dispatch(showSnackbar(payload))
                     dispatch(hideModal())
                 }

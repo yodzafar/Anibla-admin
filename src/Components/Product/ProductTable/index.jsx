@@ -12,6 +12,10 @@ import {ROUTE_URL} from '../../../Constants/url';
 import {ConfirmBody} from '../../ConfirmModalBody';
 import {ContentContainerInner, MoreIcon, TableLink} from '../../GlobalStyles';
 import ImagesIcon from "mdi-react/ImagesIcon"
+import FileImageIcon from "mdi-react/FileImageIcon";
+import FolderImageIcon from "mdi-react/FolderImageIcon";
+import {EditPoster} from "./EditPoster";
+import {EditScreens} from "./EditScreens";
 
 const nameType = {
     film: {
@@ -52,6 +56,18 @@ export default (props) => {
         props: {maxWidth: 'sm'}
     })
 
+    const renderChangePosterModal = (id) => ({
+        open: true,
+        component: <EditPoster type={type} id={id}/>,
+        props: null
+    })
+
+    const renderChangeScreensModal = (id) => ({
+        open: true,
+        component: <EditScreens maxWidth='md' type={type} id={id}/>,
+        props: {maxWidth: 'md'}
+    })
+
     const popoverData = [
         {
             id: 'edit',
@@ -64,6 +80,18 @@ export default (props) => {
             title: 'Sliderga qo\'shih',
             icon: <ImagesIcon size={16}/>,
             onClick: (id) => addToSlider(id)
+        },
+        {
+            id: 'edit_cover',
+            title: 'Muqovani alamashitirish',
+            icon: <FileImageIcon size={16}/>,
+            onClick: (id) => dispatch(showModal(renderChangePosterModal(id)))
+        },
+        {
+            id: 'edit_screens',
+            title: 'Skreenshotlarni alamshtirish',
+            icon: <FolderImageIcon size={16}/>,
+            onClick: (id) => dispatch(showModal(renderChangeScreensModal(id)))
         },
         {
             id: 'delete',

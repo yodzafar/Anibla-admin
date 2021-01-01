@@ -165,7 +165,7 @@ export const useProductForm = ({type, id}) => {
                     }
                     resetForm()
                     dispatch(showSnackbar(payload))
-                    dispatch(getProductList({type}))
+                    dispatch(getProductList())
                     setStep(1)
                 }
             }).finally(() => setSubmitting(false))
@@ -192,7 +192,7 @@ export const useProductForm = ({type, id}) => {
                     }
                     resetForm()
                     dispatch(showSnackbar(payload))
-                    dispatch(getProductList({type}))
+                    dispatch(getProductList())
                     setStep(1)
                     dispatch(hideModal())
                 }
@@ -241,7 +241,28 @@ export const useProductForm = ({type, id}) => {
         setSubmitting(true)
         product.updateSeason({id, data})
             .then(res => {
-                console.log(res);
+                if (res.success) {
+                    const payload = {
+                        open: true,
+                        variant: 'success',
+                        message: `${getTitle(type)} muvaffaqiyatli tahrirlandi`
+                    }
+                    resetForm()
+                    dispatch(showSnackbar(payload))
+                    dispatch(getSeasonList())
+                    setStep(1)
+                    dispatch(hideModal())
+                }
+            })
+            .finally(() => setSubmitting(false))
+            .catch(() => {
+                const payload = {
+                    open: true,
+                    variant: 'error',
+                    message: 'Amaliyot vaqtida xatolik, iltimos qayta urunib ko\'ring!'
+                }
+                dispatch(showSnackbar(payload))
+                setSubmitting(false)
             })
     }
 
@@ -326,6 +347,7 @@ export const useProductForm = ({type, id}) => {
 
                 if (type === 'serial') {
                     data.num = values.num
+                    console.log(1);
                     updateSeason(data, actions)
                 }else {
                     data.video = values.video
@@ -337,6 +359,7 @@ export const useProductForm = ({type, id}) => {
             }
         }
     });
+
 
     const getGenre = useCallback(() => {
         setGenreLoading(true)
@@ -448,7 +471,7 @@ export const useProductForm = ({type, id}) => {
                     screens: data.screens.thumb.slice(1).map((item) => `${BASE_URL}/${item}`),
                     price: data.price,
                     studia: data.studia,
-                    length: data.length ? data.length : '00:00:00',
+                    length: '00:00:00',
                     rejissor: data.rejissor,
                     tarjimon: data.tarjimon.map(item => item._id),
                     tayming: data.tayming.map(item => item._id),

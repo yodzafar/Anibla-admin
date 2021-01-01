@@ -3,7 +3,7 @@ import bg_pattern from "../../Assets/images/bg-pattern.png";
 import {Button} from "@material-ui/core";
 
 export const ContentHeader = styled.div`
-  padding: 24px 24px 65px 24px;
+  padding: 24px;
   background-color: #3051d3;
   background-image: url('${bg_pattern}');
   background-size: cover;
