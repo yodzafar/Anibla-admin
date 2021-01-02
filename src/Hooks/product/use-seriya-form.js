@@ -13,6 +13,7 @@ export const useSeriyaForm = ({filmId, id}) => {
         video: '',
         season: filmId,
         length: '',
+        url: '',
     })
 
     const seasonInfo = useSelector(({product}) => product.seasonInfo)
@@ -26,6 +27,11 @@ export const useSeriyaForm = ({filmId, id}) => {
             const regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
             const without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
             return (regex.test(video) || without_regex.test(video))
+        }),
+        url: Yup.string().required("Maydon to'ldirilishi shart").test('url_test', 'URL xato kiritilgan', (url) => {
+            const regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+            const without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+            return (regex.test(url) || without_regex.test(url))
         }),
         season: Yup.string().required("Maydon to'ldirilishi shart"),
         length: Yup.string().required("Maydon to'ldirilishi shart")
@@ -47,16 +53,16 @@ export const useSeriyaForm = ({filmId, id}) => {
         validationSchema,
         onSubmit: (values, {setSubmitting, resetForm}) => {
             setSubmitting(true)
-
+            const data = {
+                nameuz: values.nameuz,
+                nameru: values.nameru,
+                video: values.video,
+                season: values.season,
+                length: values.length,
+                url: values.url
+            }
 
             if (!id) {
-                const data = {
-                    nameuz: values.nameuz,
-                    nameru: values.nameru,
-                    video: values.video,
-                    season: values.season,
-                    length: values.length
-                }
                 product.createSeries(data)
                     .then((res) => {
                         if (res.success) {
@@ -71,7 +77,8 @@ export const useSeriyaForm = ({filmId, id}) => {
                                 nameru: res.data.name.ru,
                                 video: res.data.video,
                                 season: res.data.season,
-                                length: res.data.length
+                                length: res.data.length,
+                                url: res.data.url
                             }
 
                             update(res.data._id, updateData)
@@ -90,13 +97,6 @@ export const useSeriyaForm = ({filmId, id}) => {
                         setSubmitting(false)
                     })
             } else {
-                const data = {
-                    nameuz: values.nameuz,
-                    nameru: values.nameru,
-                    video: values.video,
-                    season: values.season,
-                    length: values.length
-                }
                 product.updateSeries({id, data})
                     .then((res) => {
                         if (res.success) {
@@ -134,6 +134,7 @@ export const useSeriyaForm = ({filmId, id}) => {
                 video: data.video,
                 season: filmId,
                 length: data.length,
+                url: data.url
             })
         }
     }, [id, filmId, seasonInfo])
@@ -143,6 +144,7 @@ export const useSeriyaForm = ({filmId, id}) => {
         || (formik.touched.nameuz && !!formik.errors.nameuz)
         || (formik.touched.video && !!formik.errors.video)
         || (formik.touched.length && !!formik.errors.length)
+        || (formik.touched.url && !!formik.errors.url)
 
     useEffect(() => {
         const errData = Object.keys(formik.errors)

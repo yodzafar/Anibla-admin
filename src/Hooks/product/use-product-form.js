@@ -71,7 +71,8 @@ export const useProductForm = ({type, id}) => {
         studia: '',
         janr: [],
         price: 'free',
-        num: type === 'serial' ? '' : '12'
+        num: type === 'serial' ? '' : '12',
+        url: ''
     });
 
     const validationSchema = new Yup.object().shape({
@@ -80,6 +81,11 @@ export const useProductForm = ({type, id}) => {
         descriptionuz: Yup.string().required("Maydon to'ldirilishi shart"),
         descriptionru: Yup.string().required("Maydon to'ldirilishi shart"),
         video: Yup.string().test('url_test', 'URL xato kiritilgan', (video) => {
+            const regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+            const without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+            return (regex.test(video) || without_regex.test(video))
+        }),
+        url: Yup.string().test('url_test', 'URL xato kiritilgan', (video) => {
             const regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
             const without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
             return (regex.test(video) || without_regex.test(video))
@@ -290,6 +296,7 @@ export const useProductForm = ({type, id}) => {
 
                 if (type !== 'serial') {
                     data.append('video', values.video)
+                    data.append('url', values.url)
                     data.append('length', values.length)
                 } else {
                     data.append('num', values.num)
@@ -347,11 +354,11 @@ export const useProductForm = ({type, id}) => {
 
                 if (type === 'serial') {
                     data.num = values.num
-                    console.log(1);
                     updateSeason(data, actions)
                 }else {
                     data.video = values.video
                     data.length = values.length
+                    data.url = values.url
                     updateFilm(data, actions)
                 }
 
@@ -441,7 +448,8 @@ export const useProductForm = ({type, id}) => {
                         rejissor: data.rejissor,
                         tarjimon: data.tarjimon.map(item => item._id),
                         tayming: data.tayming.map(item => item._id),
-                        num: '0'
+                        num: '0',
+                        url: data.url
                     }
                     setInitialValues(values)
                 }).catch((e) => {
@@ -475,7 +483,8 @@ export const useProductForm = ({type, id}) => {
                     rejissor: data.rejissor,
                     tarjimon: data.tarjimon.map(item => item._id),
                     tayming: data.tayming.map(item => item._id),
-                    num: data.num
+                    num: data.num,
+                    url: 'https://google.com'
                 }
                 setInitialValues(values)
             })

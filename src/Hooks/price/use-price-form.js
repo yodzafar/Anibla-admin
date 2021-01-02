@@ -31,8 +31,8 @@ export const usePriceForm = ({id}) => {
             name: "Olti oylik"
         },
         {
-            id: '12',
-            name: "O'n ikki oylik"
+            id: '10',
+            name: "Bir Yillik"
         }
 
     ])

@@ -48,6 +48,14 @@ export default (
                             error={formik.touched.video && formik.errors.video}
                         />
                         <NormalInput
+                            name="url"
+                            label="Ko'chirish uchun havola"
+                            value={formik.values.url}
+                            onChange={(e) => formik.setFieldValue('url', e)}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.url && formik.errors.url}
+                        />
+                        <NormalInput
                             name="length"
                             label={`Video davomiyligi`}
                             value={formik.values.length}
