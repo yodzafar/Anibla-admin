@@ -72,7 +72,7 @@ export const useProductForm = ({type, id}) => {
         janr: [],
         price: 'free',
         num: type === 'serial' ? '' : '12',
-        url: ''
+        url: type === 'serial' ? 'https://www.youtube.com/watch?v=CqODvF5itbQ' : '',
     });
 
     const validationSchema = new Yup.object().shape({
