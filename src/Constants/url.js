@@ -15,7 +15,9 @@ export const BASIC_URLS = {
   SERIYA: '/serial/season/series',
   COMMENTS: '/comments',
   USERS: '/users',
-  PRICE:'/price'
+  PRICE:'/price',
+  PAYMENT: '/payment',
+  SOLD: '/sold'
 }
 
 export const ROUTE_URL = {
@@ -33,7 +35,9 @@ export const ROUTE_URL = {
   ANNOTATION: generateUrl(BASIC_URLS.ANNOTATION),
   COMMENTS: generateUrl(BASIC_URLS.COMMENTS),
   USERS: generateUrl(BASIC_URLS.USERS),
-  PRICE:generateUrl(BASIC_URLS.PRICE)
+  PRICE:generateUrl(BASIC_URLS.PRICE),
+  PAYMENT: generateUrl(BASIC_URLS.PAYMENT),
+  SOLD: generateUrl(BASIC_URLS.SOLD)
 }
 
 export const URL_TITLE = {
@@ -51,7 +55,9 @@ export const URL_TITLE = {
   ANNOTATION: generateTitle('Annotatsiya'),
   COMMENTS: generateTitle('Muhokama'),
   USERS: generateTitle('Foydalanuvchi'),
-  PRICE: generateTitle('Narx')
+  PRICE: generateTitle('Narx'),
+  PAYMENT: generateTitle("To'lov"),
+  SOLD: generateTitle("Sotilgan")
 }
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL

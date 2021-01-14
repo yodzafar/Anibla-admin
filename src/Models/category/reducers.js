@@ -13,3 +13,4 @@ const map = {
 export default (state = defaultState, action) => {
   return (map[action.type] && map[action.type](state, action)) || state
 };
+

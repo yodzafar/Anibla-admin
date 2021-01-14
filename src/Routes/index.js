@@ -21,6 +21,10 @@ import AccountBoxMultipleIcon from "mdi-react/AccountBoxMultipleIcon";
 import {UserList} from "../Views/Users";
 import {PriceList} from "../Views/Price";
 import CashMultipleIcon from "mdi-react/CashMultipleIcon";
+import {PaymentList} from "../Views/Payment";
+import CashPlusIcon from "mdi-react/CashPlusIcon";
+import {SoldList} from "../Views/Sold";
+import PackageDownIcon from "mdi-react/PackageDownIcon";
 
 const category = [
     {
@@ -110,6 +114,16 @@ const annotation = [
     }
 ]
 
+const payment = [
+    {
+        id: 'paymentList',
+        title: URL_TITLE.PAYMENT.TITLE_PLURAL,
+        path: ROUTE_URL.PAYMENT.LIST,
+        icon: CashPlusIcon,
+        component: PaymentList
+    }
+]
+
 const comments = [
     {
         id: 'commentList',
@@ -140,6 +154,16 @@ const price = [
     }
 ]
 
+const sold = [
+    {
+        id: 'soldList',
+        title: URL_TITLE.SOLD.TITLE_PLURAL,
+        path: ROUTE_URL.SOLD.LIST,
+        icon: PackageDownIcon,
+        component: SoldList
+    }
+]
+
 export default [
     ...category,
     ...genre,
@@ -151,5 +175,7 @@ export default [
     ...annotation,
     ...comments,
     ...users,
-    ...price
+    ...price,
+    ...payment,
+    ...sold
 ]

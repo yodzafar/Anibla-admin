@@ -18,3 +18,4 @@ export const getCategoryList = () => (dispatch) => {
       console.log(e);
     })
 }
+
