@@ -17,6 +17,7 @@ export const TheadInner = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+  white-space: nowrap;
 `
 
 export const TableContainer = styled.div`

@@ -13,9 +13,9 @@ export default () => {
 
     const columns = [
         {
-            title: 'Foydalanuvchi ID',
+            title: 'Foydalanuvchi nomi',
             key: 'userID',
-            render: (userID) => (<TableLink>{userID}</TableLink>)
+            render: (userID) => (<TableLink>{userID.name}</TableLink>)
         },
         {
             title: 'Summa',

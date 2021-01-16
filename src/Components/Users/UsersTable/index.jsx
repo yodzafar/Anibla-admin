@@ -11,6 +11,8 @@ import { ConfirmBody } from '../../ConfirmModalBody';
 import {useUserList} from "../../../Hooks/users";
 import UserForm from '../UserFom'
 import AccountDetailsIcon from "mdi-react/AccountDetailsIcon";
+import Avatar from "../../AvatarImg";
+import {BASE_URL} from "../../../Constants/url";
 
 export default () => {
     const dispatch = useDispatch()
@@ -46,6 +48,19 @@ export default () => {
     ]
 
     const columns = [
+        {
+            title: 'Rasm',
+            key: 'photo',
+            render: (nameuz, { photo, name }) => (
+                <TableLink>
+                    <Avatar
+                        imgUrl={photo ? `${BASE_URL}/public/uploads/avatar/${photo}` : undefined}
+                        name={name}
+                    />
+                </TableLink>
+            ),
+            width: '1%'
+        },
         {
             title: 'Foydalanuvchi nomi',
             key: 'name',

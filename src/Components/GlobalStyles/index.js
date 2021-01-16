@@ -36,7 +36,7 @@ export const MoreIcon = styled(MoreVertIcon)`
 
 export const TableLink = styled.div`
   color: #333;
-  font-weight: 600;
+  font-weight: 550;
   font-size: 15px;
   padding: 16px;
   cursor: ${({ link }) => (link ? 'pointer' : 'unset')};

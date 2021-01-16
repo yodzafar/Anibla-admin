@@ -59,7 +59,7 @@ export default () => {
         {
             title: "To'lov muddati",
             key: 'type',
-            render: (type) => (<TableLink>{type} oylik</TableLink>)
+            render: (type) => (<TableLink>{type === '10' ? '1 yillik' : `${type} oylik`}</TableLink>)
         },
         {
             title: 'Yaratilgan sana',
