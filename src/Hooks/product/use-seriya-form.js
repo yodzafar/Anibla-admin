@@ -3,7 +3,7 @@ import {useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import * as Yup from 'yup'
 import product from '../../Service/product'
-import {hideModal, showSnackbar} from "../../Models/app/actions";
+import {hideModal, showSnackbar} from "../../Models/app";
 import {getSeasonInfo} from "../../Models/product";
 
 export const useSeriyaForm = ({filmId, id}) => {
@@ -16,7 +16,7 @@ export const useSeriyaForm = ({filmId, id}) => {
         url: '',
     })
 
-    const seasonInfo = useSelector(({product}) => product.seasonInfo)
+    const series = useSelector(({product}) => product.series)
     const dispatch = useDispatch()
     const [error, setError] = useState({})
 
@@ -37,15 +37,6 @@ export const useSeriyaForm = ({filmId, id}) => {
         length: Yup.string().required("Maydon to'ldirilishi shart")
             .matches(/^([0-1]?\d|2[0-3])(?::([0-5]?\d))?(?::([0-5]?\d))?$/, "Video davomiyligi 00:00:00 kabi bo'lishi talab qilinadi")
     })
-
-    const update = useCallback((id, data) => {
-        product.updateSeries({id, data})
-            .then(res => {
-                if (res.success) {
-                    dispatch(getSeasonInfo(filmId))
-                }
-            })
-    }, [dispatch, filmId])
 
     const formik = useFormik({
         initialValues,
@@ -72,16 +63,7 @@ export const useSeriyaForm = ({filmId, id}) => {
                                 message: `Seriya muvaffaqiyatli qo'shildi`
                             }
 
-                            const updateData = {
-                                nameuz: res.data.name.uz,
-                                nameru: res.data.name.ru,
-                                video: res.data.video,
-                                season: res.data.season,
-                                length: res.data.length,
-                                url: res.data.url
-                            }
-
-                            update(res.data._id, updateData)
+                            dispatch(getSeasonInfo(filmId))
                             dispatch(showSnackbar(payload))
                             resetForm()
                         }
@@ -126,8 +108,8 @@ export const useSeriyaForm = ({filmId, id}) => {
     })
 
     const getSeries = useCallback(() => {
-        if (id && filmId && Object.values(seasonInfo).length > 0) {
-            const data = seasonInfo.seriya.find(item => item._id === id)
+        if (id && filmId && series.length > 0) {
+            const data = series.find(item => item._id === id)
             setInitialValues({
                 nameuz: data.name.uz,
                 nameru: data.name.ru,
@@ -137,7 +119,7 @@ export const useSeriyaForm = ({filmId, id}) => {
                 url: data.url
             })
         }
-    }, [id, filmId, seasonInfo])
+    }, [id, filmId, series])
 
     const submitDisabled = () => formik.isSubmitting
         || (formik.touched.nameru && !!formik.errors.nameru)

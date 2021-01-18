@@ -1,2 +1,2 @@
 export {default as appReducer} from './reducers'
-export {showModal, hideModal} from './actions'
+export {showModal, hideModal, changeMiniSidebarStatus, hideSnackbar, showSnackbar} from './actions'

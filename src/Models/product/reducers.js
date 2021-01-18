@@ -13,16 +13,17 @@ const map = {
         return {...state, data}
     },
     [PRODUCT_ACTION_TYPES.SEASON_LOADED]: (state, {data}) => ({...state, data}),
-    [PRODUCT_ACTION_TYPES.SEASON_INFO]: (state, {data}) => {
-        const series = data.seriya.map(item => ({
-            _id: item._id,
+    [PRODUCT_ACTION_TYPES.SEASON_INFO]: (state, {data, seria}) => {
+        const series = seria.map(item => ({
             key:item._id,
             nameuz: item.name.uz,
             nameru: item.name.ru,
             length: item.length,
             date: item.date,
             video: item.video,
-        }))
+            ...item
+        })).sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
         return {
             ...state,
             seasonInfo: data,

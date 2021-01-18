@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {NavLink} from "react-router-dom";
 
 export const SidebarContainer = styled.div`
-  width: var(--sidebar-width);
+  width: var(${({minisidebar}) => Boolean(minisidebar) ? '--mini-sidebar-width' : '--sidebar-width'});
   z-index: 99;
   background: #fff;
   bottom: 0;
@@ -13,6 +13,7 @@ export const SidebarContainer = styled.div`
   height: calc(100vh - var(--navbar-height));
   display: flex;
   flex-direction: column;
+  transition: .2s ease all;
 `
 
 export const Menu = styled.div`
@@ -39,7 +40,8 @@ export const Menu = styled.div`
 export const MenuItem = styled(NavLink)`
   display: flex;
   align-items: center;
-  padding: 12px 24px;
+  justify-content: ${({minisidebar}) => Boolean(minisidebar) ? 'center' : 'flex-start'};
+  padding: ${({minisidebar}) => Boolean(minisidebar) ? '12px' : '12px 24px'};
   color: #383c40;
   border-left: 2px solid transparent;
   transition: .2s ease;

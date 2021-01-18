@@ -16,7 +16,8 @@ export const NavbarWrapper = styled.div`
 `
 
 export const LogoLink = styled(Link)`
-  width: var(--sidebar-width);
+  transition: .2s ease all;
+  width: var(${({minisidebar}) => Boolean(minisidebar) ? '--mini-sidebar-width' : '--sidebar-width'});
   background-color: #fff;
   height: 100%;
   display: flex;
@@ -41,6 +42,7 @@ export const BurgerButton = styled(Button)`
     min-width: 56px;
     height: 100%;
     text-transform: unset;
+    transform: scaleX(${({minisidebar}) => Boolean(minisidebar) ? -1 : 1});
   }
 `
 

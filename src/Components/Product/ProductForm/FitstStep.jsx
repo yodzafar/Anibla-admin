@@ -66,7 +66,7 @@ export default (
                     </>
                 ) : (
                         <NormalInput
-                            type='number'
+                            type='text'
                             name="num"
                             label='Seriyalar soni'
                             value={formik.values.num}
